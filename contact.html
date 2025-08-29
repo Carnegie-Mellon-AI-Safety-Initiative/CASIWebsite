@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - CASI</title>
+    <link rel="icon" href="assets/CASI Logo white circle.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="assets/CASI Logo transperent.png" alt="CASI Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-main">CASI</span>
+                    <span class="logo-sub">AI Safety Initiative</span>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="team.html" class="nav-link">Team</a>
+                <a href="events.html" class="nav-link">Events</a>
+                <a href="contact.html" class="nav-link active">Contact</a>
+                <a href="https://discord.gg/t9VyYhNQzb" class="nav-link discord-btn" target="_blank">
+                    <span>Discord</span>
+                </a>
+            </div>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-nav">
+            <a href="index.html" class="mobile-nav-link">Home</a>
+            <a href="about.html" class="mobile-nav-link">About</a>
+            <a href="team.html" class="mobile-nav-link">Team</a>
+            <a href="events.html" class="mobile-nav-link">Events</a>
+            <a href="contact.html" class="mobile-nav-link active">Contact</a>
+            <a href="https://discord.gg/t9VyYhNQzb" class="mobile-nav-link discord-mobile" target="_blank">Discord</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="page-title">Get in Touch</h1>
+                <p class="page-subtitle">Join our community or reach out with questions</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Content -->
+    <section class="contact-main">
+        <div class="container">
+            <div class="contact-grid">
+                <!-- Contact Info -->
+                <div class="contact-info">
+                    <h2>Contact Information</h2>
+                    
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <div class="contact-icon">📧</div>
+                            <div class="contact-details">
+                                <h4>Email</h4>
+                                <a href="mailto:casi@andrew.cmu.edu">casi@andrew.cmu.edu</a>
+                                <p>For general inquiries, membership questions, and collaboration opportunities.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-method">
+                            <div class="contact-icon">💬</div>
+                            <div class="contact-details">
+                                <h4>Discord</h4>
+                                <a href="https://discord.gg/t9VyYhNQzb" target="_blank">Join our server</a>
+                                <p>Real-time discussions, event updates, and community interaction.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-method">
+                            <div class="contact-icon">📍</div>
+                            <div class="contact-details">
+                                <h4>Location</h4>
+                                <p>Carnegie Mellon University<br>
+                                5000 Forbes Avenue<br>
+                                Pittsburgh, PA 15213<br>
+                                United States</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Form -->
+                <div class="contact-form-section">
+                    <h2>Send us a Message</h2>
+                    <form class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Your Name *</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <select id="subject" name="subject">
+                                <option value="">Select a topic...</option>
+                                <option value="membership">Membership Inquiry</option>
+                                <option value="events">Event Information</option>
+                                <option value="research">Research Collaboration</option>
+                                <option value="speaking">Speaking Opportunity</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" rows="6" placeholder="Tell us about your interest in AI safety, questions you have, or how you'd like to get involved..." required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="cta-btn primary">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join CTA -->
+    <section class="join-cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Join?</h2>
+                <p>Become part of our vibrant community working to ensure AI systems remain beneficial and aligned with human values.</p>
+                <div class="cta-stats">
+                    <div class="cta-stat">
+                        <span class="stat-num">380</span>
+                        <span class="stat-text">Members Strong</span>
+                    </div>
+                    <div class="cta-stat">
+                        <span class="stat-num">43</span>
+                        <span class="stat-text">Newsletters Sent</span>
+                    </div>
+                    <div class="cta-stat">
+                        <span class="stat-num">4</span>
+                        <span class="stat-text">Leadership Team</span>
+                    </div>
+                </div>
+                <div class="cta-actions">
+                    <a href="https://discord.gg/t9VyYhNQzb" class="cta-btn primary" target="_blank">Join Discord Community</a>
+                    <a href="about.html" class="cta-btn secondary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="assets/CASI Logo white circle.ico" alt="CASI Logo" class="footer-logo">
+                    <div class="footer-info">
+                        <h4>Carnegie Mellon AI Safety Initiative</h4>
+                        <p>Building safer AI for everyone</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h5>Navigation</h5>
+                        <a href="about.html">About</a>
+                        <a href="team.html">Team</a>
+                        <a href="events.html">Events</a>
+                        <a href="contact.html">Contact</a>
+                    </div>
+                    <div class="footer-section">
+                        <h5>Connect</h5>
+                        <a href="https://discord.gg/t9VyYhNQzb" target="_blank">Discord Server</a>
+                        <a href="mailto:casi@andrew.cmu.edu">Email Us</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Carnegie Mellon AI Safety Initiative</p>
+                <p class="cmu-address">5000 Forbes Avenue, Pittsburgh PA 15213</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
