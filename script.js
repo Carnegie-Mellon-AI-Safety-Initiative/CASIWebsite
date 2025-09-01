@@ -349,4 +349,132 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Make the notification function globally available
     window.showNotification = showNotification;
+
+    // Google Calendar Integration
+    loadGoogleCalendarEvents();
 });
+
+// Google Calendar API Integration
+async function loadGoogleCalendarEvents() {
+    // Only run on events page
+    if (!document.querySelector('.events-list')) return;
+    
+    const CALENDAR_ID = 'c_30fd9569f750ccfb1d8fcacd354e814213f016626f94a1848b8dee1a07e06513@group.calendar.google.com';
+    const API_KEY = 'AIzaSyDGfj3imYMjLOqwluYgOCjTbCUfyGYKk9M';
+    
+    const now = new Date().toISOString();
+    const maxTime = new Date();
+    maxTime.setMonth(maxTime.getMonth() + 3); // Get events for next 3 months
+    
+    console.log(`Searching for events from ${now} to ${maxTime.toISOString()}`);
+    
+    const url = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?` +
+        `key=${API_KEY}&timeMin=${now}&timeMax=${maxTime.toISOString()}&` +
+        `singleEvents=true&orderBy=startTime&maxResults=5`;
+    
+    try {
+        console.log('Fetching calendar events from:', url);
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        console.log('Calendar API response:', data);
+        
+        if (data.error) {
+            console.error('Calendar API error:', data.error);
+            showNoEventsMessage();
+            return;
+        }
+        
+        if (data.items && data.items.length > 0) {
+            console.log(`Found ${data.items.length} events:`, data.items);
+            renderCalendarEvents(data.items);
+        } else {
+            console.log('No events found in calendar');
+            showNoEventsMessage();
+        }
+    } catch (error) {
+        console.error('Error fetching calendar events:', error);
+        showNoEventsMessage();
+    }
+}
+
+function renderCalendarEvents(events) {
+    const eventsContainer = document.querySelector('.events-list');
+    if (!eventsContainer) return;
+    
+    eventsContainer.innerHTML = ''; // Clear existing content
+    
+    events.forEach(event => {
+        const startTime = new Date(event.start.dateTime || event.start.date);
+        const endTime = new Date(event.end.dateTime || event.end.date);
+        
+        const eventCard = createEventCard({
+            title: event.summary,
+            description: event.description || 'No description available.',
+            startTime: startTime,
+            endTime: endTime,
+            location: event.location || 'Location TBD'
+        });
+        
+        eventsContainer.appendChild(eventCard);
+    });
+}
+
+function createEventCard(eventData) {
+    const card = document.createElement('div');
+    card.className = 'event-card';
+    
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    const month = monthNames[eventData.startTime.getMonth()];
+    const day = eventData.startTime.getDate();
+    
+    const timeOptions = { 
+        hour: 'numeric', 
+        minute: '2-digit', 
+        hour12: true 
+    };
+    const dateOptions = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    };
+    
+    const startTimeStr = eventData.startTime.toLocaleTimeString('en-US', timeOptions);
+    const endTimeStr = eventData.endTime.toLocaleTimeString('en-US', timeOptions);
+    const dateStr = eventData.startTime.toLocaleDateString('en-US', dateOptions);
+    
+    card.innerHTML = `
+        <div class="event-date">
+            <div class="event-month">${month}</div>
+            <div class="event-day">${day}</div>
+        </div>
+        <div class="event-details">
+            <h3 class="event-title">${eventData.title}</h3>
+            <div class="event-info">
+                <div class="event-time">📅 ${dateStr} • ${startTimeStr} - ${endTimeStr}</div>
+                <div class="event-location">📍 ${eventData.location}</div>
+                <div class="event-description">
+                    <p>${eventData.description}</p>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    return card;
+}
+
+function showNoEventsMessage() {
+    const eventsContainer = document.querySelector('.events-list');
+    if (!eventsContainer) return;
+    
+    eventsContainer.innerHTML = `
+        <div class="no-events-state">
+            <div class="no-events-icon">📅</div>
+            <h3>No Upcoming Events</h3>
+            <p>We're currently planning our next set of events. Stay tuned for updates!</p>
+        </div>
+    `;
+}

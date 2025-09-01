@@ -76,7 +76,22 @@ Currently, navigation dropdowns are duplicated across all 8 HTML files. This cau
 - Build process to generate navigation from single source
 
 ### Event Management
-Events are currently static HTML in `get-involved.html`. Consider:
-- Google Calendar API integration for dynamic events
-- Admin interface for event management
-- Automated event updates
+Events system includes both static fallback and Google Calendar API integration:
+
+**Current Setup:**
+- Static events shown as fallback in `get-involved.html` 
+- Google Calendar API integration implemented in `script.js`
+- Calendar ID: `c_30fd9569f750ccfb1d8fcacd354e814213f016626f94a1848b8dee1a07e06513@group.calendar.google.com`
+- **Note: Calendar is hard-coded and is a personal calendar owned by Lawrence Feng**
+
+**To Enable Live Calendar:**
+1. Get Google Calendar API key from Google Cloud Console
+2. Replace `YOUR_API_KEY` in `script.js` line 363
+3. Enable Calendar API in Google Cloud Console
+4. Set up API key restrictions for security
+
+**Event Display:**
+- Automatically fetches upcoming events from Google Calendar
+- Displays in custom-styled event cards matching site design
+- Falls back to "No events" message if API fails or no events exist
+- Shows events for next 3 months, maximum 5 events
