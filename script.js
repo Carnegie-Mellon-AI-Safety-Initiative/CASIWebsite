@@ -157,10 +157,10 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isScrolled !== scrolled) {
             scrolled = isScrolled;
             if (scrolled) {
-                navbar.style.background = 'rgba(10, 10, 11, 0.95)';
-                navbar.style.borderBottom = '1px solid rgba(42, 42, 47, 0.8)';
+                navbar.style.background = 'rgba(245, 241, 235, 0.95)';
+                navbar.style.borderBottom = '1px solid rgba(221, 212, 199, 0.8)';
             } else {
-                navbar.style.background = 'rgba(10, 10, 11, 0.8)';
+                navbar.style.background = 'rgba(245, 241, 235, 0.9)';
                 navbar.style.borderBottom = '1px solid var(--border-subtle)';
             }
         }

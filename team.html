@@ -13,21 +13,33 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="assets/CASI Logo transperent.png" alt="CASI Logo" class="logo-img">
-                <div class="logo-text">
-                    <span class="logo-main">CASI</span>
-                    <span class="logo-sub">AI Safety Initiative</span>
-                </div>
+                <a href="index.html" class="logo-link">
+                    <img src="assets/CASI Logo transperent.png" alt="CASI Logo" class="logo-img">
+                    <div class="logo-text">
+                        <span class="logo-main">CASI</span>
+                        <span class="logo-sub">AI Safety Initiative</span>
+                    </div>
+                </a>
             </div>
             <div class="nav-links">
                 <a href="index.html" class="nav-link">Home</a>
-                <a href="about.html" class="nav-link">About</a>
-                <a href="team.html" class="nav-link active">Team</a>
-                <a href="events.html" class="nav-link">Events</a>
-                <a href="contact.html" class="nav-link">Contact</a>
-                <a href="https://discord.gg/t9VyYhNQzb" class="nav-link discord-btn" target="_blank">
-                    <span>Discord</span>
-                </a>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link dropdown-toggle active">About <span class="dropdown-arrow">▼</span></a>
+                    <div class="dropdown-menu">
+                        <a href="about.html" class="dropdown-link">Mission</a>
+                        <a href="team.html" class="dropdown-link active">Team</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">Get Involved <span class="dropdown-arrow">▼</span></a>
+                    <div class="dropdown-menu">
+                        <a href="technical-reading-group.html" class="dropdown-link">Technical Reading Group</a>
+                        <a href="policy-reading-group.html" class="dropdown-link">Policy Reading Group</a>
+                        <a href="research-fellowship.html" class="dropdown-link">Research Fellowship</a>
+                        <a href="get-involved.html" class="dropdown-link">Events</a>
+                    </div>
+                </div>
+                <a href="contact.html" class="nav-link">Join Us!</a>
             </div>
             <div class="mobile-menu-toggle">
                 <span></span>
@@ -37,11 +49,13 @@
         </div>
         <div class="mobile-nav">
             <a href="index.html" class="mobile-nav-link">Home</a>
-            <a href="about.html" class="mobile-nav-link">About</a>
+            <a href="about.html" class="mobile-nav-link">Mission</a>
             <a href="team.html" class="mobile-nav-link active">Team</a>
-            <a href="events.html" class="mobile-nav-link">Events</a>
-            <a href="contact.html" class="mobile-nav-link">Contact</a>
-            <a href="https://discord.gg/t9VyYhNQzb" class="mobile-nav-link discord-mobile" target="_blank">Discord</a>
+            <a href="technical-reading-group.html" class="mobile-nav-link">Technical Reading Group</a>
+            <a href="policy-reading-group.html" class="mobile-nav-link">Policy Reading Group</a>
+            <a href="research-fellowship.html" class="mobile-nav-link">Research Fellowship</a>
+            <a href="get-involved.html" class="mobile-nav-link">Events</a>
+            <a href="contact.html" class="mobile-nav-link">Join Us!</a>
         </div>
     </nav>
 
@@ -87,8 +101,53 @@
                     </div>
                     <div class="member-info">
                         <h3 class="member-name">Aditi Ashok Kurutala</h3>
-                        <p class="member-role">Officer</p>
+                        <p class="member-role">General Officer</p>
                         <p class="member-description">Contributing to event planning and community outreach efforts.</p>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="member-image">
+                        <div class="placeholder-avatar">PS</div>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Prakash Shekar</h3>
+                        <p class="member-role">General Officer</p>
+                        <p class="member-description">Manages community engagement and organizes outreach activities to grow our AI safety network.</p>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="member-image">
+                        <div class="placeholder-avatar">JE</div>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Jennifer Evans</h3>
+                        <p class="member-role">Policy and Governance Lead</p>
+                        <p class="member-description">Coordinates research initiatives and facilitates collaboration between team members on AI safety projects.</p>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="member-image">
+                        <div class="placeholder-avatar">ML</div>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Michael Li</h3>
+                        <p class="member-role">Technical Reading Group Co-Lead</p>
+                        <p class="member-description">Leads technical development efforts and provides expertise in AI safety research methodologies.</p>
+                    </div>
+                </div>
+
+
+                <div class="team-member">
+                    <div class="member-image">
+                        <div class="placeholder-avatar">LS</div>
+                    </div>
+                    <div class="member-info">
+                        <h3 class="member-name">Louis Sloot</h3>
+                        <p class="member-role">Finance</p>
+                        <p class="member-description">Manages financial operations and ensures fiscal responsibility for the organization.</p>
                     </div>
                 </div>
 
@@ -106,36 +165,6 @@
         </div>
     </section>
 
-    <!-- Join Team Section -->
-    <section class="join-team">
-        <div class="container">
-            <div class="join-content">
-                <h2 class="section-heading">Join Our Team</h2>
-                <p class="join-text">
-                    Interested in getting more involved with CASI? We're always looking for passionate students 
-                    who want to contribute to AI safety research and community building.
-                </p>
-                <div class="join-opportunities">
-                    <div class="opportunity-card">
-                        <h3>Research Roles</h3>
-                        <p>Work on cutting-edge AI safety projects</p>
-                    </div>
-                    <div class="opportunity-card">
-                        <h3>Event Coordination</h3>
-                        <p>Help organize workshops and talks</p>
-                    </div>
-                    <div class="opportunity-card">
-                        <h3>Outreach</h3>
-                        <p>Grow our community and spread awareness</p>
-                    </div>
-                </div>
-                <div class="join-actions">
-                    <a href="contact.html" class="cta-btn primary">Get Involved</a>
-                    <a href="https://discord.gg/t9VyYhNQzb" class="cta-btn secondary" target="_blank">Join Discord</a>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Footer -->
     <footer class="footer">
@@ -153,13 +182,14 @@
                         <h5>Navigation</h5>
                         <a href="about.html">About</a>
                         <a href="team.html">Team</a>
-                        <a href="events.html">Events</a>
-                        <a href="contact.html">Contact</a>
+                        <a href="get-involved.html">Get Involved</a>
+                        <a href="contact.html">Join Us!</a>
                     </div>
                     <div class="footer-section">
                         <h5>Connect</h5>
                         <a href="https://discord.gg/t9VyYhNQzb" target="_blank">Discord Server</a>
                         <a href="mailto:casi@andrew.cmu.edu">Email Us</a>
+                        <a href="https://tartanconnect.cmu.edu/CASI/club_signup" target="_blank">Mailing List</a>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact - CASI</title>
+    <title>Join Us! - CASI</title>
     <link rel="icon" href="assets/CASI Logo white circle.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -13,21 +13,33 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <img src="assets/CASI Logo transperent.png" alt="CASI Logo" class="logo-img">
-                <div class="logo-text">
-                    <span class="logo-main">CASI</span>
-                    <span class="logo-sub">AI Safety Initiative</span>
-                </div>
+                <a href="index.html" class="logo-link">
+                    <img src="assets/CASI Logo transperent.png" alt="CASI Logo" class="logo-img">
+                    <div class="logo-text">
+                        <span class="logo-main">CASI</span>
+                        <span class="logo-sub">AI Safety Initiative</span>
+                    </div>
+                </a>
             </div>
             <div class="nav-links">
                 <a href="index.html" class="nav-link">Home</a>
-                <a href="about.html" class="nav-link">About</a>
-                <a href="team.html" class="nav-link">Team</a>
-                <a href="events.html" class="nav-link">Events</a>
-                <a href="contact.html" class="nav-link active">Contact</a>
-                <a href="https://discord.gg/t9VyYhNQzb" class="nav-link discord-btn" target="_blank">
-                    <span>Discord</span>
-                </a>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">About <span class="dropdown-arrow">▼</span></a>
+                    <div class="dropdown-menu">
+                        <a href="about.html" class="dropdown-link">Mission</a>
+                        <a href="team.html" class="dropdown-link">Team</a>
+                    </div>
+                </div>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">Get Involved <span class="dropdown-arrow">▼</span></a>
+                    <div class="dropdown-menu">
+                        <a href="technical-reading-group.html" class="dropdown-link">Technical Reading Group</a>
+                        <a href="policy-reading-group.html" class="dropdown-link">Policy Reading Group</a>
+                        <a href="research-fellowship.html" class="dropdown-link">Research Fellowship</a>
+                        <a href="get-involved.html" class="dropdown-link">Events</a>
+                    </div>
+                </div>
+                <a href="contact.html" class="nav-link active">Join Us!</a>
             </div>
             <div class="mobile-menu-toggle">
                 <span></span>
@@ -37,11 +49,13 @@
         </div>
         <div class="mobile-nav">
             <a href="index.html" class="mobile-nav-link">Home</a>
-            <a href="about.html" class="mobile-nav-link">About</a>
+            <a href="about.html" class="mobile-nav-link">Mission</a>
             <a href="team.html" class="mobile-nav-link">Team</a>
-            <a href="events.html" class="mobile-nav-link">Events</a>
-            <a href="contact.html" class="mobile-nav-link active">Contact</a>
-            <a href="https://discord.gg/t9VyYhNQzb" class="mobile-nav-link discord-mobile" target="_blank">Discord</a>
+            <a href="technical-reading-group.html" class="mobile-nav-link">Technical Reading Group</a>
+            <a href="policy-reading-group.html" class="mobile-nav-link">Policy Reading Group</a>
+            <a href="research-fellowship.html" class="mobile-nav-link">Research Fellowship</a>
+            <a href="get-involved.html" class="mobile-nav-link">Events</a>
+            <a href="contact.html" class="mobile-nav-link active">Join Us!</a>
         </div>
     </nav>
 
@@ -49,8 +63,8 @@
     <section class="page-header">
         <div class="container">
             <div class="header-content">
-                <h1 class="page-title">Get in Touch</h1>
-                <p class="page-subtitle">Join our community or reach out with questions</p>
+                <h1 class="page-title">Join Us!</h1>
+                <p class="page-subtitle">Become part of Carnegie Mellon's only AI safety community</p>
             </div>
         </div>
     </section>
@@ -77,8 +91,8 @@
                             <div class="contact-icon">💬</div>
                             <div class="contact-details">
                                 <h4>Discord</h4>
-                                <a href="https://discord.gg/t9VyYhNQzb" target="_blank">Join our server</a>
                                 <p>Real-time discussions, event updates, and community interaction.</p>
+                                <a href="https://discord.gg/t9VyYhNQzb" class="method-link" target="_blank">Join Server →</a>
                             </div>
                         </div>
                         
@@ -95,72 +109,28 @@
                     </div>
                 </div>
                 
-                <!-- Contact Form -->
-                <div class="contact-form-section">
-                    <h2>Send us a Message</h2>
-                    <form class="contact-form">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="name">Your Name *</label>
-                                <input type="text" id="name" name="name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email Address *</label>
-                                <input type="email" id="email" name="email" required>
-                            </div>
-                        </div>
+                <!-- Mailing List Signup -->
+                <div class="mailing-list-section">
+                    <h2>Join Our Mailing List</h2>
+                    <div class="mailing-list-content">
+                        <p class="mailing-list-description">
+                            Stay updated with the latest AI safety research, upcoming events, and community news. 
+                            Get exclusive access to our research insights and be the first to know about workshops, 
+                            speaker events, and collaboration opportunities.
+                        </p>
                         
-                        <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <select id="subject" name="subject">
-                                <option value="">Select a topic...</option>
-                                <option value="membership">Membership Inquiry</option>
-                                <option value="events">Event Information</option>
-                                <option value="research">Research Collaboration</option>
-                                <option value="speaking">Speaking Opportunity</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
                         
-                        <div class="form-group">
-                            <label for="message">Message *</label>
-                            <textarea id="message" name="message" rows="6" placeholder="Tell us about your interest in AI safety, questions you have, or how you'd like to get involved..." required></textarea>
+                        <div class="mailing-list-cta">
+                            <a href="https://tartanconnect.cmu.edu/CASI/club_signup" class="cta-btn primary large" target="_blank">
+                                Join Our Mailing List
+                            </a>
                         </div>
-                        
-                        <button type="submit" class="cta-btn primary">Send Message</button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Join CTA -->
-    <section class="join-cta">
-        <div class="container">
-            <div class="cta-content">
-                <h2>Ready to Join?</h2>
-                <p>Become part of our vibrant community working to ensure AI systems remain beneficial and aligned with human values.</p>
-                <div class="cta-stats">
-                    <div class="cta-stat">
-                        <span class="stat-num">380</span>
-                        <span class="stat-text">Members Strong</span>
-                    </div>
-                    <div class="cta-stat">
-                        <span class="stat-num">43</span>
-                        <span class="stat-text">Newsletters Sent</span>
-                    </div>
-                    <div class="cta-stat">
-                        <span class="stat-num">4</span>
-                        <span class="stat-text">Leadership Team</span>
-                    </div>
-                </div>
-                <div class="cta-actions">
-                    <a href="https://discord.gg/t9VyYhNQzb" class="cta-btn primary" target="_blank">Join Discord Community</a>
-                    <a href="about.html" class="cta-btn secondary">Learn More</a>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Footer -->
     <footer class="footer">
@@ -178,13 +148,14 @@
                         <h5>Navigation</h5>
                         <a href="about.html">About</a>
                         <a href="team.html">Team</a>
-                        <a href="events.html">Events</a>
-                        <a href="contact.html">Contact</a>
+                        <a href="get-involved.html">Get Involved</a>
+                        <a href="contact.html">Join Us!</a>
                     </div>
                     <div class="footer-section">
                         <h5>Connect</h5>
                         <a href="https://discord.gg/t9VyYhNQzb" target="_blank">Discord Server</a>
                         <a href="mailto:casi@andrew.cmu.edu">Email Us</a>
+                        <a href="https://tartanconnect.cmu.edu/CASI/club_signup" target="_blank">Mailing List</a>
                     </div>
                 </div>
             </div>
