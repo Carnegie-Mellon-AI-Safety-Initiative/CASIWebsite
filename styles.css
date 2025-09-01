@@ -1597,6 +1597,71 @@ body {
     align-items: center;
 }
 
+/* Company Logos Section */
+.company-logos {
+    padding: 48px 0;
+    background: var(--bg-tertiary);
+    border-top: 1px solid var(--border-subtle);
+}
+
+.logos-heading {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    letter-spacing: 0.5px;
+}
+
+.logos-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+    flex-wrap: wrap;
+}
+
+.company-logo {
+    height: 40px;
+    width: auto;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    filter: grayscale(100%);
+}
+
+.company-logo[alt="Anthropic"] {
+    height: 29px;
+}
+
+.company-logo:hover {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: grayscale(0%);
+}
+
+@media (max-width: 768px) {
+    .company-logos {
+        padding: 32px 0;
+    }
+    
+    .logos-grid {
+        gap: 32px;
+    }
+    
+    .company-logo {
+        height: 32px;
+    }
+    
+    .company-logo[alt="Anthropic"] {
+        height: 24px;
+    }
+    
+    .logos-heading {
+        font-size: 16px;
+        margin-bottom: 24px;
+    }
+}
+
 /* Event Cards */
 .events-list {
     display: flex;
