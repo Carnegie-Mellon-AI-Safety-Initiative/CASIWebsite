@@ -66,3 +66,17 @@ When editing:
 3. Ensure mobile responsiveness for any new components
 4. Test contact form functionality (mailto links)
 5. Verify logo and asset paths remain correct
+
+## Known Issues / Future Improvements
+
+### Navigation Centralization
+Currently, navigation dropdowns are duplicated across all 8 HTML files. This causes sync issues when updating menus. Consider implementing:
+- JavaScript-based navigation generation (`nav.js`)
+- Template system for navigation HTML
+- Build process to generate navigation from single source
+
+### Event Management
+Events are currently static HTML in `get-involved.html`. Consider:
+- Google Calendar API integration for dynamic events
+- Admin interface for event management
+- Automated event updates
