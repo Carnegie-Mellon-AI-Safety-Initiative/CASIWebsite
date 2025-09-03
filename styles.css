@@ -1035,6 +1035,20 @@ body {
     font-size: 36px;
 }
 
+.member-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 24px;
+    display: block;
+}
+
+.member-photo.large {
+    width: 120px;
+    height: 120px;
+}
+
 .member-name {
     font-size: 24px;
     font-weight: 600;
