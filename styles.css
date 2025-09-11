@@ -1739,10 +1739,15 @@ body {
     gap: 8px;
 }
 
-.event-time, .event-location {
+.event-time, .event-location, .event-recurrence {
     font-size: 14px;
     color: var(--text-secondary);
     font-weight: 500;
+}
+
+.event-recurrence {
+    color: var(--accent-green);
+    font-style: italic;
 }
 
 .event-description {

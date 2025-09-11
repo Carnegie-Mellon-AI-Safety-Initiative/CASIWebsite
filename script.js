@@ -370,7 +370,7 @@ async function loadGoogleCalendarEvents() {
     
     const url = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?` +
         `key=${API_KEY}&timeMin=${now}&timeMax=${maxTime.toISOString()}&` +
-        `singleEvents=true&orderBy=startTime&maxResults=5`;
+        `singleEvents=true&orderBy=startTime&maxResults=20`;
     
     try {
         console.log('Fetching calendar events from:', url);
@@ -387,7 +387,9 @@ async function loadGoogleCalendarEvents() {
         
         if (data.items && data.items.length > 0) {
             console.log(`Found ${data.items.length} events:`, data.items);
-            renderCalendarEvents(data.items);
+            const deduplicatedEvents = deduplicateRecurringEvents(data.items);
+            console.log(`After deduplication: ${deduplicatedEvents.length} unique events`);
+            renderCalendarEvents(deduplicatedEvents);
         } else {
             console.log('No events found in calendar');
             showNoEventsMessage();
@@ -396,6 +398,41 @@ async function loadGoogleCalendarEvents() {
         console.error('Error fetching calendar events:', error);
         showNoEventsMessage();
     }
+}
+
+function deduplicateRecurringEvents(events) {
+    console.log('Deduplicating events:', events.map(e => ({ title: e.summary, date: e.start.dateTime || e.start.date })));
+    
+    const uniqueEvents = new Map();
+    
+    // First pass: identify all recurring events
+    const eventTitles = events.map(e => e.summary?.toLowerCase().trim() || 'untitled');
+    const duplicateTitles = eventTitles.filter((title, index) => eventTitles.indexOf(title) !== index);
+    
+    events.forEach(event => {
+        const eventKey = event.summary?.toLowerCase().trim() || 'untitled';
+        const eventDate = new Date(event.start.dateTime || event.start.date);
+        
+        // No need to mark recurring events - just deduplicate
+        
+        // Keep only the earliest occurrence of each event
+        if (!uniqueEvents.has(eventKey) || 
+            eventDate < new Date(uniqueEvents.get(eventKey).start.dateTime || uniqueEvents.get(eventKey).start.date)) {
+            uniqueEvents.set(eventKey, event);
+        }
+    });
+    
+    const result = Array.from(uniqueEvents.values())
+        .sort((a, b) => new Date(a.start.dateTime || a.start.date) - new Date(b.start.dateTime || b.start.date))
+        .slice(0, 5);
+        
+    console.log('After deduplication:', result.map(e => ({ title: e.summary, date: e.start.dateTime || e.start.date })));
+    return result;
+}
+
+function detectRecurrencePattern(similarEvents) {
+    if (similarEvents.length < 2) return null;
+    return 'Next Occurrence';
 }
 
 function renderCalendarEvents(events) {
@@ -445,6 +482,8 @@ function createEventCard(eventData) {
     const startTimeStr = eventData.startTime.toLocaleTimeString('en-US', timeOptions);
     const endTimeStr = eventData.endTime.toLocaleTimeString('en-US', timeOptions);
     const dateStr = eventData.startTime.toLocaleDateString('en-US', dateOptions);
+    
+    // No recurrence info needed
     
     card.innerHTML = `
         <div class="event-date">
