@@ -57,28 +57,28 @@ document.addEventListener('DOMContentLoaded', function() {
         animateShapes();
     }
 
-    // Intersection Observer for animations
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+    // Intersection Observer for animations - DISABLED
+    // const observerOptions = {
+    //     threshold: 0.1,
+    //     rootMargin: '0px 0px -50px 0px'
+    // };
 
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-            }
-        });
-    }, observerOptions);
+    // const observer = new IntersectionObserver(function(entries) {
+    //     entries.forEach(entry => {
+    //         if (entry.isIntersecting) {
+    //             entry.target.classList.add('animate-in');
+    //         }
+    //     });
+    // }, observerOptions);
 
-    // Observe elements for animation
-    const animateElements = document.querySelectorAll(
-        '.hero-content, .mission-highlights, .highlight-item, .link-card, .team-member, .benefit-card, .event-type-card'
-    );
+    // Observe elements for animation - DISABLED
+    // const animateElements = document.querySelectorAll(
+    //     '.hero-content, .mission-highlights, .highlight-item, .link-card, .team-member, .benefit-card, .event-type-card'
+    // );
     
-    animateElements.forEach(el => {
-        observer.observe(el);
-    });
+    // animateElements.forEach(el => {
+    //     observer.observe(el);
+    // });
 
     // Counter animation for stats
     function animateCounter(element) {
@@ -271,20 +271,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add CSS for animations and error states
     const style = document.createElement('style');
     style.textContent = `
-        .animate-in {
-            animation: fadeInUp 0.8s ease forwards;
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        /* Animation removed */
         
         .mobile-nav.active {
             display: flex !important;
