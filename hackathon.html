@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CASI - Carnegie Mellon AI Safety Initiative</title>
+    <title>CASI x Gray Swan Jailbreaking Hackathon - CASI</title>
     <link rel="icon" href="assets/CASI Logo white circle.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -22,7 +22,7 @@
                 </a>
             </div>
             <div class="nav-links">
-                <a href="index.html" class="nav-link active">Home</a>
+                <a href="index.html" class="nav-link">Home</a>
                 <div class="nav-dropdown">
                     <a href="#" class="nav-link dropdown-toggle">About <span class="dropdown-arrow">▼</span></a>
                     <div class="dropdown-menu">
@@ -48,7 +48,7 @@
             </div>
         </div>
         <div class="mobile-nav">
-            <a href="index.html" class="mobile-nav-link active">Home</a>
+            <a href="index.html" class="mobile-nav-link">Home</a>
             <a href="about.html" class="mobile-nav-link">Mission</a>
             <a href="team.html" class="mobile-nav-link">Team</a>
             <a href="technical-reading-group.html" class="mobile-nav-link">AI Alignment Fundamentals</a>
@@ -59,69 +59,54 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-bg">
-            <div class="grid-overlay"></div>
-            <div class="floating-shapes">
-                <div class="shape shape-1"></div>
-                <div class="shape shape-2"></div>
-                <div class="shape shape-3"></div>
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="page-title">CASI x Gray Swan Jailbreaking Hackathon</h1>
+                <p class="page-subtitle">Sunday, November 23, 2025 | 12-7PM EST</p>
             </div>
         </div>
-        
-        <div class="hero-container">
-            <div class="hero-content">
-                <h1 class="hero-title">
-                    <span class="title-line-1">Carnegie Mellon</span>
-                    <span class="title-line-2">AI Safety Initiative</span>
-                </h1>
-                <p class="hero-subtitle">
-                    Working towards a safer future in the presence of powerful artificial intelligence
-                </p>
-                <div class="hero-actions">
-                    <a href="hackathon.html" class="cta-btn hackathon-btn">Upcoming CASI x Gray Swan Jailbreaking Hackathon</a>
+    </section>
+
+    <!-- Hackathon Content -->
+    <section class="hackathon-main">
+        <div class="container">
+            <div class="hackathon-hero">
+                <img src="assets/random/casi-x-grayswan.png" alt="CASI x Gray Swan" class="hackathon-banner">
+            </div>
+
+            <div class="hackathon-content">
+                <div class="hackathon-section">
+                    <h2>About Gray Swan</h2>
+                    <p>
+                        <a href="https://www.grayswan.ai/" target="_blank" class="text-link">Gray Swan</a> is an established AI safety and security company, founded by CMU professors and PhD student <a href="https://andyzoujm.github.io/" target="_blank" class="text-link">Andy Zou</a>. Gray Swan hosts arenas: competitions to see who can achieve the most successful attacks across different environments in a set period of time. Right now, Gray Swan is hosting an (1) <strong><a href="https://app.grayswan.ai/arena/challenge/indirect-prompt-injection/rules" target="_blank" class="text-link">Indirect Prompt Injection arena</a></strong> and (2) <strong><a href="https://app.grayswan.ai/arena/challenge/machine-in-the-middle/rules" target="_blank" class="text-link">Machine-in-the-Middle arena</a></strong>.
+                    </p>
                 </div>
-            </div>
-        </div>
-    </section>
 
+                <div class="hackathon-section">
+                    <h2>What's jailbreaking?</h2>
+                    <p>
+                        To jailbreak a model is to elicit from it behavior that is otherwise restricted/unintended by its servicer's guardrails. In an indirect prompt injection scenario, this could look like inserting malicious content (e.g. instructions to edit a user's files) into a webpage. Now, when a model using web-search scrapes the page for context at inference-time, it might behave adversarially toward the user that gave it a simple, benign prompt. Your task in the <strong>Indirect Prompt Injection arena</strong> is to sneakily elicit these malicious behaviors via prompts.
+                    </p>
+                    <p>
+                        The <strong>Machine-in-the-Middle arena</strong> is not a jailbreaking arena. It is a more traditional CTF/cybersecurity competition in which you will use AI to assist you to break into computer systems. Gray Swan is interested in measuring capability uplift: how AI changes offensive security operations in practice.
+                    </p>
+                </div>
 
-    <!-- Full Width Text Section -->
-    <section class="full-width-text">
-        <div class="container">
-            <div class="text-content">
-                <p>
-                    AI safety is one of the most critical challenges of our time. 
-                </p>
-                <p>
-                    As artificial intelligence systems become more capable and ubiquitous, ensuring they remain aligned with human values and beneficial to society becomes increasingly important. Our community brings together researchers, students, and enthusiasts who are passionate about addressing these challenges through rigorous research, meaningful collaboration, and thoughtful education. 
-                </p>
-                <p>
-                    Join our <a href="technical-reading-group.html" class="text-link">AI Alignment Fundamentals</a> program to get a fast-paced look at the problems at the heart of technical AI safety.
-                </p>
-                <p>
-                    We believe that solving AI safety requires diverse perspectives and interdisciplinary approaches. Whether you're interested in research through our <a href="research-fellowship.html" class="text-link">research fellowship program</a>, policy implications via our <a href="policy-reading-group.html" class="text-link">AI Governance Fundamentals</a>, or simply learning more about this fascinating field, there's a place for you in our community. 
-                </p>
-                <p>
-                    Join us as we work together to build a future where AI systems remain beneficial, controllable, and aligned with human flourishing.
-                </p>
-                <p>
-                    Join our <a href="https://tartanconnect.cmu.edu/CASI/club_signup" class="text-link" target="_blank">mailing list</a>.
-                </p>
-            </div>
-        </div>
-    </section>
+                <div class="hackathon-section">
+                    <h2>So what's the event?</h2>
+                    <p>
+                        Next <strong>Sunday, 11/23, 12-7PM EST</strong>, CASI is hosting a hackathon for these two arenas. This is dedicated time for you or your team to attack! Gray Swan is offering <strong>$140,000 in prizes</strong> across the two arenas; in addition, CASI is providing a guaranteed pool of <strong>$3,000</strong> to be awarded at the end of the day based on total successful attacks. In addition, Gray Swan offers red-team contracting opportunities and fast-tracked interviews for top arena performers. We will also be hosting a talk from Gray Swan AI Safety and Security researcher <a href="https://eliotkjones.me/" target="_blank" class="text-link">Eliot Jones</a>.
+                    </p>
+                    <p>
+                        <strong>Lunch, dinner, and snacks will be provided.</strong>
+                    </p>
+                </div>
 
-    <!-- Company Logos Section -->
-    <section class="company-logos">
-        <div class="container">
-            <h3 class="logos-heading">Our members have worked with:</h3>
-            <div class="logos-grid">
-                <img src="assets/logos/OpenAI_Logo.png" alt="OpenAI" class="company-logo">
-                <img src="assets/logos/Anthropic_logo.png" alt="Anthropic" class="company-logo">
-                <img src="assets/logos/Inflection_Logo_cropped.png" alt="Inflection AI" class="company-logo">
-                <img src="assets/logos/Gray_Swan_logo.png" alt="Gray Swan" class="company-logo">
+                <div class="hackathon-cta">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSftixq2A_P11qzzorUS7xa7ypHG_8QQTPkDYO1K13BBiyMQTQ/viewform?usp=dialog" target="_blank" class="cta-btn hackathon-register-btn">Register Now</a>
+                </div>
             </div>
         </div>
     </section>
