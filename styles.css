@@ -1946,6 +1946,10 @@ body {
     margin-bottom: 48px;
 }
 
+.hackathon-section[id] {
+    scroll-margin-top: 100px;
+}
+
 .hackathon-section h2 {
     font-size: 32px;
     font-weight: 700;
