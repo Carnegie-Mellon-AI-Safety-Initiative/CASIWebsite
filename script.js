@@ -337,6 +337,25 @@ document.addEventListener('DOMContentLoaded', function() {
     // Make the notification function globally available
     window.showNotification = showNotification;
 
+    // FAQ Accordion
+    const faqQuestions = document.querySelectorAll('.faq-question');
+    faqQuestions.forEach(question => {
+        question.addEventListener('click', function() {
+            const faqItem = this.parentElement;
+            const isActive = faqItem.classList.contains('active');
+
+            // Close all other FAQ items (optional: remove these lines for independent toggles)
+            // faqQuestions.forEach(q => q.parentElement.classList.remove('active'));
+
+            // Toggle current FAQ item
+            if (isActive) {
+                faqItem.classList.remove('active');
+            } else {
+                faqItem.classList.add('active');
+            }
+        });
+    });
+
     // Google Calendar Integration
     loadGoogleCalendarEvents();
 });
