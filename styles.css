@@ -2248,7 +2248,8 @@ body {
 }
 
 .discord-announcements-btn,
-.team-registration-btn {
+.team-registration-btn,
+.submission-form-btn {
     background: var(--accent-purple);
     color: #ffffff;
     font-size: 16px;
@@ -2257,7 +2258,8 @@ body {
 }
 
 .discord-announcements-btn:hover,
-.team-registration-btn:hover {
+.team-registration-btn:hover,
+.submission-form-btn:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }
