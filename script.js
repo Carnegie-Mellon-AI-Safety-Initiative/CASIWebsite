@@ -356,6 +356,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Research Projects Accordion
+    const projectToggles = document.querySelectorAll('.project-toggle');
+    projectToggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            const projectItem = this.parentElement;
+            const isActive = projectItem.classList.contains('active');
+
+            // Toggle current project item
+            if (isActive) {
+                projectItem.classList.remove('active');
+            } else {
+                projectItem.classList.add('active');
+            }
+        });
+    });
+
     // Google Calendar Integration
     loadGoogleCalendarEvents();
 });

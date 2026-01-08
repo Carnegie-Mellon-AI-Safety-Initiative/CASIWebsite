@@ -396,9 +396,96 @@ body {
 .hero-subtitle {
     font-size: 20px;
     color: var(--text-secondary);
-    margin-bottom: 16px;
+    margin-bottom: 32px;
     font-weight: 400;
     line-height: 1.5;
+}
+
+.hero-cta-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: center;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.cta-card {
+    background: var(--accent-purple);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid var(--accent-purple);
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+}
+
+.cta-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    background: rgba(107, 89, 112, 0.95);
+    border-color: #ffffff;
+}
+
+.cta-card:hover .card-arrow {
+    transform: translateX(4px);
+}
+
+.card-content {
+    text-align: left;
+}
+
+.card-content h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    color: #ffffff;
+    line-height: 1.2;
+}
+
+.card-content p {
+    font-size: 14px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+}
+
+.card-arrow {
+    font-size: 24px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .hero-cta-buttons {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        max-width: 100%;
+    }
+
+    .cta-card {
+        padding: 20px;
+    }
+
+    .card-icon {
+        font-size: 28px;
+    }
+
+    .card-content h3 {
+        font-size: 16px;
+    }
+
+    .card-content p {
+        font-size: 13px;
+    }
 }
 
 .hero-actions {
@@ -2098,7 +2185,7 @@ body {
 
 .faq-question {
     width: 100%;
-    padding: 20px 24px;
+    padding: 12px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -2138,7 +2225,7 @@ body {
 
 .faq-item.active .faq-answer {
     max-height: 1000px;
-    padding: 0 24px 20px 24px;
+    padding: 12px 24px 20px 24px;
 }
 
 .faq-answer p {
@@ -2232,6 +2319,152 @@ body {
 
     .faq-answer p,
     .faq-answer li {
+        font-size: 14px;
+    }
+}
+
+/* Research Projects Dropdown */
+.research-projects {
+    margin: 32px 0;
+}
+
+.project-item {
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    overflow: hidden;
+}
+
+.project-toggle {
+    width: 100%;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-secondary);
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-align: left;
+    transition: background 0.2s ease;
+}
+
+.project-toggle:hover {
+    background: var(--bg-tertiary);
+}
+
+.project-title {
+    flex: 1;
+}
+
+.toggle-icon {
+    font-size: 24px;
+    font-weight: 300;
+    color: var(--accent-blue);
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 16px;
+}
+
+.project-item.active .toggle-icon {
+    transform: rotate(45deg);
+}
+
+.project-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.project-item.active .project-details {
+    max-height: 1000px;
+    padding: 20px 24px 20px 24px;
+}
+
+.project-details p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+.project-details p:last-child {
+    margin-bottom: 0;
+}
+
+/* Benefits and Next Steps Lists */
+.benefits-list,
+.next-steps-list {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+}
+
+.benefits-list li,
+.next-steps-list li {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    padding: 8px 0 8px 24px;
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.benefits-list li::before,
+.next-steps-list li::before {
+    content: "•";
+    color: var(--accent-blue);
+    position: absolute;
+    left: 8px;
+}
+
+.benefits-list li strong,
+.next-steps-list li strong {
+    color: var(--text-primary);
+}
+
+.benefits-list li:last-child,
+.next-steps-list li:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .project-toggle {
+        padding: 16px 20px;
+        font-size: 16px;
+    }
+
+    .project-item.active .project-details {
+        padding: 0 20px 16px 20px;
+    }
+
+    .project-details p,
+    .benefits-list li,
+    .next-steps-list li {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .project-toggle {
+        padding: 14px 16px;
+        font-size: 15px;
+    }
+
+    .toggle-icon {
+        font-size: 20px;
+    }
+
+    .project-item.active .project-details {
+        padding: 0 16px 14px 16px;
+    }
+
+    .project-details p,
+    .benefits-list li,
+    .next-steps-list li {
         font-size: 14px;
     }
 }
