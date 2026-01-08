@@ -517,6 +517,7 @@ body {
 .cta-btn.primary:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
+    text-decoration: underline;
 }
 
 .cta-btn.secondary {
@@ -2189,19 +2190,21 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: transparent;
+    background: var(--bg-secondary);
     border: none;
+    border-bottom: 2px solid transparent;
     cursor: pointer;
     font-family: inherit;
     font-size: 17px;
     font-weight: 500;
     color: var(--text-primary);
     text-align: left;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, border-bottom-color 0.2s ease;
 }
 
 .faq-question:hover {
     background: var(--bg-tertiary);
+    border-bottom-color: var(--accent-blue);
 }
 
 .faq-icon {
@@ -2343,17 +2346,19 @@ body {
     align-items: center;
     background: var(--bg-secondary);
     border: none;
+    border-bottom: 2px solid transparent;
     cursor: pointer;
     font-family: inherit;
     font-size: 17px;
     font-weight: 500;
     color: var(--text-primary);
     text-align: left;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, border-bottom-color 0.2s ease;
 }
 
 .project-toggle:hover {
     background: var(--bg-tertiary);
+    border-bottom-color: var(--accent-blue);
 }
 
 .project-title {
