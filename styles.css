@@ -919,36 +919,46 @@ body {
     }
 }
 
+@media (max-width: 768px) {
+    .hero {
+        padding-top: 100px;
+    }
+}
+
 @media (max-width: 480px) {
     .container {
         padding: 0 16px;
     }
-    
+
     .nav-container {
         padding: 12px 16px;
     }
-    
+
     .logo-img {
         width: 40px;
         height: 40px;
     }
-    
+
     .logo-main {
         font-size: 20px;
     }
-    
+
+    .hero {
+        padding-top: 90px;
+    }
+
     .hero-title {
         font-size: 32px;
     }
-    
+
     .hero-subtitle {
         font-size: 18px;
     }
-    
+
     .section-heading {
         font-size: 28px;
     }
-    
+
     .mission, .quick-links {
         padding: 80px 0;
     }
