@@ -374,6 +374,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Google Calendar Integration
     loadGoogleCalendarEvents();
+    loadSeminarEvents();
+    loadPastSeminarEvents();
 });
 
 // Google Calendar API Integration
@@ -536,6 +538,151 @@ function showNoEventsMessage() {
             <div class="no-events-icon">📅</div>
             <h3>No Upcoming Events</h3>
             <p>We're currently planning our next set of events. Stay tuned for updates!</p>
+        </div>
+    `;
+}
+
+// Seminar Calendar Integration - filters for events with "Seminar" in title
+async function loadSeminarEvents() {
+    const container = document.querySelector('.seminar-events-list');
+    if (!container) return;
+
+    const CALENDAR_ID = 'c_30fd9569f750ccfb1d8fcacd354e814213f016626f94a1848b8dee1a07e06513@group.calendar.google.com';
+    const API_KEY = 'AIzaSyDGfj3imYMjLOqwluYgOCjTbCUfyGYKk9M';
+
+    const now = new Date().toISOString();
+    const maxTime = new Date();
+    maxTime.setMonth(maxTime.getMonth() + 3);
+
+    const url = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?` +
+        `key=${API_KEY}&timeMin=${now}&timeMax=${maxTime.toISOString()}&` +
+        `singleEvents=true&orderBy=startTime&maxResults=250`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.error) {
+            showNoSeminarsMessage(container);
+            return;
+        }
+
+        if (data.items && data.items.length > 0) {
+            const seminarEvents = data.items.filter(event =>
+                event.summary && event.summary.toLowerCase().includes('seminar')
+            );
+
+            if (seminarEvents.length > 0) {
+                renderSeminarEvents(container, seminarEvents);
+            } else {
+                showNoSeminarsMessage(container);
+            }
+        } else {
+            showNoSeminarsMessage(container);
+        }
+    } catch (error) {
+        console.error('Error fetching seminar events:', error);
+        showNoSeminarsMessage(container);
+    }
+}
+
+function renderSeminarEvents(container, events) {
+    container.innerHTML = '';
+
+    events.forEach(event => {
+        const startTime = new Date(event.start.dateTime || event.start.date);
+        const endTime = new Date(event.end.dateTime || event.end.date);
+
+        const eventCard = createEventCard({
+            title: event.summary,
+            description: event.description || 'Details coming soon.',
+            startTime: startTime,
+            endTime: endTime,
+            location: event.location || 'Location TBD'
+        });
+
+        container.appendChild(eventCard);
+    });
+}
+
+function showNoSeminarsMessage(container) {
+    container.innerHTML = `
+        <div class="no-events-state">
+            <div class="no-events-icon">📅</div>
+            <h3>No Upcoming Seminars</h3>
+            <p>Check back soon or <a href="https://lists.andrew.cmu.edu/mailman/listinfo/casi-safety-seminar" class="text-link">join the mailing list</a> to get notified.</p>
+        </div>
+    `;
+}
+
+// Past Seminar Events - fetches past calendar events with "Seminar" in the title
+async function loadPastSeminarEvents() {
+    const container = document.querySelector('.past-seminar-events-list');
+    if (!container) return;
+
+    const CALENDAR_ID = 'c_30fd9569f750ccfb1d8fcacd354e814213f016626f94a1848b8dee1a07e06513@group.calendar.google.com';
+    const API_KEY = 'AIzaSyDGfj3imYMjLOqwluYgOCjTbCUfyGYKk9M';
+
+    const now = new Date().toISOString();
+    const minTime = new Date();
+    minTime.setFullYear(minTime.getFullYear() - 1);
+
+    const url = `https://www.googleapis.com/calendar/v3/calendars/${CALENDAR_ID}/events?` +
+        `key=${API_KEY}&timeMin=${minTime.toISOString()}&timeMax=${now}&` +
+        `singleEvents=true&orderBy=startTime&maxResults=250`;
+
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.error) {
+            showNoPastSeminarsMessage(container);
+            return;
+        }
+
+        if (data.items && data.items.length > 0) {
+            const pastSeminars = data.items
+                .filter(event => event.summary && event.summary.toLowerCase().includes('seminar'))
+                .reverse();
+
+            if (pastSeminars.length > 0) {
+                renderPastSeminars(container, pastSeminars);
+            } else {
+                showNoPastSeminarsMessage(container);
+            }
+        } else {
+            showNoPastSeminarsMessage(container);
+        }
+    } catch (error) {
+        console.error('Error fetching past seminar events:', error);
+        showNoPastSeminarsMessage(container);
+    }
+}
+
+function renderPastSeminars(container, events) {
+    container.innerHTML = '';
+
+    events.forEach(event => {
+        const startTime = new Date(event.start.dateTime || event.start.date);
+
+        const eventCard = createEventCard({
+            title: event.summary,
+            description: event.description || '',
+            startTime: startTime,
+            endTime: new Date(event.end.dateTime || event.end.date),
+            location: event.location || 'Location TBD'
+        });
+
+        container.appendChild(eventCard);
+    });
+}
+
+function showNoPastSeminarsMessage(container) {
+    container.innerHTML = `
+        <div class="no-events-state">
+            <div class="no-events-icon">📅</div>
+            <h3>No Past Seminars Found</h3>
+            <p>This is a new seminar series. Check back after our first session!</p>
         </div>
     `;
 }
