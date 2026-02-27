@@ -206,6 +206,22 @@ body {
     color: #ffffff !important;
 }
 
+.hackathon-nav-btn {
+    background: var(--accent-green) !important;
+    color: #ffffff !important;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hackathon-nav-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(212, 165, 116, 0.3);
+    color: #ffffff !important;
+}
+
 .discord-btn {
     background: var(--gradient-accent);
     color: #ffffff !important;
@@ -403,10 +419,10 @@ body {
 
 .hero-cta-buttons {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
-    align-items: center;
-    justify-items: center;
+    align-items: stretch;
+    justify-items: stretch;
     width: 100%;
     max-width: 700px;
     margin: 0 auto;
@@ -858,6 +874,16 @@ body {
         text-align: center;
         border: none !important;
         margin-top: 8px;
+        padding: 12px 20px;
+    }
+
+    .mobile-nav .hackathon-nav-btn {
+        background: var(--accent-green) !important;
+        color: #ffffff !important;
+        border-radius: 20px;
+        text-align: center;
+        border: none !important;
+        margin-top: 4px;
         padding: 12px 20px;
     }
     
@@ -2072,6 +2098,18 @@ body {
     font-weight: 600;
 }
 
+.hackathon-section ul {
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    padding-left: 24px;
+}
+
+.hackathon-section li {
+    margin-bottom: 8px;
+}
+
 .hackathon-cta {
     text-align: center;
     margin-top: 64px;
@@ -2104,6 +2142,10 @@ body {
         font-size: 16px;
     }
 
+    .hackathon-section ul {
+        font-size: 16px;
+    }
+
     .cta-btn.hackathon-register-btn {
         font-size: 18px;
         padding: 16px 32px;
@@ -2118,6 +2160,10 @@ body {
     }
 
     .hackathon-section p {
+        font-size: 15px;
+    }
+
+    .hackathon-section ul {
         font-size: 15px;
     }
 }
@@ -2304,7 +2350,7 @@ body {
     }
 
     .faq-item.active .faq-answer {
-        padding: 0 20px 16px 20px;
+        padding: 12px 20px 16px 20px;
     }
 
     .faq-answer p,
@@ -2328,7 +2374,7 @@ body {
     }
 
     .faq-item.active .faq-answer {
-        padding: 0 16px 14px 16px;
+        padding: 12px 16px 14px 16px;
     }
 
     .faq-answer p,
