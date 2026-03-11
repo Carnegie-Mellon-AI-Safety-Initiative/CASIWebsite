@@ -2129,7 +2129,134 @@ body {
     box-shadow: var(--shadow-lg);
 }
 
+/* Hackathon Hero Register Button */
+.hackathon-hero-btn {
+    display: inline-block;
+    padding: 16px 48px;
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+    color: #ffffff;
+    background: var(--gradient-primary);
+    border-radius: 50px;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.hackathon-hero-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Event Details Two-Panel Layout */
+.event-details-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-bottom: 24px;
+}
+
+.event-details-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.event-info-card {
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    padding: 16px 20px;
+    border-left: 3px solid var(--accent-purple);
+}
+
+.event-info-label {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent-purple);
+    margin-bottom: 4px;
+}
+
+.event-info-value {
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--text-secondary);
+}
+
+.event-details-schedule {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 24px 28px;
+}
+
+.schedule-heading {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+}
+
+.schedule-timeline {
+    position: relative;
+    padding-left: 20px;
+    border-left: 2px solid var(--accent-purple);
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 24px;
+    padding-left: 20px;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -27px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--accent-purple);
+    border: 2px solid var(--bg-secondary);
+}
+
+.timeline-time {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent-purple);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 4px;
+}
+
+.timeline-desc {
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.event-details-footer {
+    background: var(--bg-tertiary);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 8px;
+}
+
+.event-details-footer p {
+    margin-bottom: 0;
+}
+
 @media (max-width: 768px) {
+    .event-details-panels {
+        grid-template-columns: 1fr;
+    }
+
     .hackathon-banner {
         width: 100%;
     }
