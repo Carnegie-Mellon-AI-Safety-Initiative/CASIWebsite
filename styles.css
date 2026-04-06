@@ -2137,7 +2137,7 @@ body {
     font-weight: 600;
     font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
     color: #ffffff;
-    background: var(--gradient-primary);
+    background: var(--accent-purple);
     border-radius: 50px;
     text-decoration: none;
     letter-spacing: 0.02em;
@@ -2411,7 +2411,7 @@ body {
 }
 
 .faq-item.active .faq-answer {
-    max-height: 1000px;
+    max-height: 5000px;
     padding: 12px 24px 20px 24px;
 }
 
