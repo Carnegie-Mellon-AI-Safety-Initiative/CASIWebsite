@@ -8,11 +8,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Header and Layout Fixes */
-        .page-title { white-space: nowrap; }
-        .page-subtitle { white-space: nowrap; }
+        /* Visual Hierarchy and Alignment */
+        .page-header {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .page-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 32px;
+        }
 
-        /* Header Buttons Layout: 2 Top, 1 Bottom */
+        /* 2 Top, 1 Bottom Button Configuration */
         .hackathon-hero-container {
             display: flex;
             flex-direction: column;
@@ -30,14 +41,22 @@
             padding: 10px 16px;
             font-size: 14px;
             white-space: nowrap;
+            text-decoration: none;
         }
 
-        /* Standardized Box Layout for Event Details */
+        /* Restoring Sidebar Layout (Matches Screenshot 1) */
         .event-details-panels {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 24px;
+            align-items: start;
+            text-align: left;
+        }
+        .event-details-info {
             display: flex;
             flex-direction: column;
             gap: 12px;
-            margin-top: 24px;
         }
         .event-info-card {
             background: #f4f1ee;
@@ -54,26 +73,64 @@
         }
         .event-info-value { font-weight: 500; line-height: 1.5; }
 
-        /* Accordion Functionality Fixes */
+        /* Key Dates Timeline Visual */
+        .timeline-graphic {
+            background: #f4f1ee;
+            padding: 30px;
+            border-radius: 12px;
+            position: relative;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 40px;
+            top: 80px;
+            bottom: 40px;
+            width: 2px;
+            background: #7b6d8d;
+        }
+        .timeline-entry {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 24px;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -31px;
+            top: 4px;
+            width: 10px;
+            height: 10px;
+            background: #7b6d8d;
+            border-radius: 50%;
+        }
+
+        /* Ensuring Accordion Tabs do not cut off text */
         .faq-answer {
             display: none;
+            overflow: visible !important;
+            height: auto !important;
             padding: 24px;
             background: #fafafa;
             border-radius: 0 0 12px 12px;
             line-height: 1.6;
+            text-align: left;
         }
         .faq-answer.active {
             display: block;
         }
-        .faq-question {
-            width: 100%;
+
+        .submission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
             text-align: left;
-            cursor: pointer;
+            margin-top: 20px;
         }
 
         @media (max-width: 900px) {
-            .page-title, .page-subtitle { white-space: normal; }
+            .page-title { font-size: 2.5rem; }
+            .event-details-panels { grid-template-columns: 1fr; }
             .hero-row-top { flex-wrap: wrap; }
+            .submission-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -112,7 +169,7 @@
 
     <section class="page-header">
         <div class="container">
-            <div class="header-content" style="text-align: center;">
+            <div class="header-content">
                 <h1 class="page-title">Pittsburgh AI Policy Hackathon</h1>
                 <p class="page-subtitle">April 6&ndash;15, 2026 (Remote) &nbsp;&bull;&nbsp; Sunday, April 19, 2026 (In-person, invite-only)</p>
                 <div class="hackathon-hero-container">
@@ -127,7 +184,7 @@
     </section>
 
     <section class="hackathon-main">
-        <div class="container">
+        <div class="container" style="text-align: center;">
             <div class="hackathon-content">
 
                 <div class="hackathon-section">
@@ -138,22 +195,40 @@
                 <div class="hackathon-section" id="event-details">
                     <h2>Event Details</h2>
                     <div class="event-details-panels">
-                        <div class="event-info-card">
-                            <div class="event-info-label">Key Dates</div>
-                            <div class="event-info-value">
-                                <strong>April 6 (today):</strong> Prompts released<br>
-                                <strong>April 15:</strong> Brief due. <a href="https://forms.gle/usuVJaLyUqnPMaaZ8" target="_blank">Submit via this form</a>. Find <a href="#submission-guidelines">submission guidelines here</a>.<br>
-                                <strong>April 17:</strong> Finalist notifications<br>
-                                <strong>April 19:</strong> Final round (invite-only) in Posner Hall at CMU. Logistics shared in notifications.
+                        <div class="event-details-info">
+                            <div class="event-info-card">
+                                <div class="event-info-label">Prize Pool</div>
+                                <div class="event-info-value">$4,000+ across three brackets. Each track will have its own winners. Prize breakdown to be announced closer to finals.</div>
+                            </div>
+                            <div class="event-info-card">
+                                <div class="event-info-label">Eligibility</div>
+                                <div class="event-info-value">Undergraduate and graduate students at any Pittsburgh-area university (CMU, Pitt, Duquesne, Chatham, Point Park, Carlow, and others).</div>
+                            </div>
+                            <div class="event-info-card">
+                                <div class="event-info-label">Final Round</div>
+                                <div class="event-info-value">Held in-person at Posner Hall at CMU. Logistics will be shared in the finalist notifications.</div>
                             </div>
                         </div>
-                        <div class="event-info-card">
-                            <div class="event-info-label">Prize Pool</div>
-                            <div class="event-info-value">$4,000+ across three brackets. Each track will have its own winners. Prize breakdown to be announced closer to finals.</div>
-                        </div>
-                        <div class="event-info-card">
-                            <div class="event-info-label">Eligibility</div>
-                            <div class="event-info-value">Undergraduate and graduate students at any Pittsburgh-area university (CMU, Pitt, Duquesne, Chatham, Point Park, Carlow, and others).</div>
+                        
+                        <div class="timeline-graphic">
+                            <h3 style="margin-top: 0;">Key Dates</h3>
+                            <div class="timeline-line"></div>
+                            <div class="timeline-entry">
+                                <div class="timeline-dot"></div>
+                                <strong>April 6</strong><br>Monday (today): Prompts released
+                            </div>
+                            <div class="timeline-entry">
+                                <div class="timeline-dot"></div>
+                                <strong>April 15</strong><br>Wednesday: Brief due. <a href="https://forms.gle/usuVJaLyUqnPMaaZ8" target="_blank" class="text-link">Submit via this form</a>. Find <a href="#submission-guidelines" class="text-link">submission guidelines here</a>.
+                            </div>
+                            <div class="timeline-entry">
+                                <div class="timeline-dot"></div>
+                                <strong>April 17</strong><br>Friday: Finalist notifications
+                            </div>
+                            <div class="timeline-entry">
+                                <div class="timeline-dot"></div>
+                                <strong>April 19</strong><br>Sunday: Final round (invite-only) in Posner Hall at CMU.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -161,15 +236,15 @@
                 <div class="hackathon-section">
                     <h2>Office Hours</h2>
                     <p>Drop by our office (<strong>Unit 1E of 201 S Craig St</strong>) if you want to talk through the prompts, get feedback on your approach, or ask logistical questions.</p>
-                    <ul>
+                    <ul style="display: inline-block; text-align: left; padding-left: 20px;">
                         <li><strong>Week 1:</strong> Wednesday, April 8, 4:00&ndash;6:00 PM</li>
                         <li><strong>Week 2:</strong> Wednesday, April 15, 4:00&ndash;6:00 PM</li>
                     </ul>
                 </div>
 
-                <div class="hackathon-section">
-                    <h2>Brackets &amp; Prompts</h2>
-                    <p>Teams choose one of the three brackets below. Click each bracket to see the full prompt and resources. Your bracket choice is made at registration and is final.</p>
+                <div class="hackathon-section" style="text-align: left;">
+                    <h2 style="text-align: center;">Brackets &amp; Prompts</h2>
+                    <p style="text-align: center;">Teams choose one of the three brackets below. Click each bracket to see the full prompt and resources. Your bracket choice is made at registration and is final.</p>
                     <div class="faq-section" style="margin-top: 24px;">
 
                         <div class="faq-item" id="bracket-1">
@@ -178,71 +253,175 @@
                                 <h4>Central Question</h4>
                                 <p>How should the federal government assign legal responsibility for AI-enabled consumer fraud across a multi-party deployment chain, and what enforcement mechanism can operate at the speed and scale of autonomous agents rather than human investigators?</p>
                                 <h4>Background and Context</h4>
-                                <p>Consider a scenario drawn from documented fraud patterns. An elderly woman receives a call from someone who sounds exactly like her grandson. He is stranded and needs $40,000 wired immediately. The voice is a clone, generated by an AI model, deployed by a fraud ring using a commercial agentic AI platform, configured by an operator who has since disappeared. She transfers the money. Law enforcement identifies the agentic system and traces the deployment chain, but no single actor clearly violated an existing criminal statute.</p>
+                                <p>Consider a scenario drawn from documented fraud patterns. An elderly woman receives a call from someone who sounds exactly like her grandson. He is stranded and needs $40,000 wired immediately. The voice is a clone, generated by an AI model, deployed by a fraud ring using a commercial agentic AI platform, configured by an operator who has since disappeared. She transfers the money. Law enforcement identifies the agentic system and traces the deployment chain, but no single actor clearly violated an existing criminal statute. The model developer did not know about the fraud. The platform marketed its tools for legitimate sales use. The operator is unreachable. Nobody is prosecuted. The woman has no civil recourse.</p>
+                                <p>This is not a hypothetical edge case. AI-powered voice cloning is being used to run grandparent scams, impersonate bank representatives, and conduct fraud at a scale no human operation could match. A single agentic call system can place thousands of simultaneous calls, adapting scripts in real time, at a cost approaching zero per call.</p>
+                                <p>The FTC has made clear that using AI tools to deceive or defraud people is illegal under existing law. Its enforcement action against Air AI, which marketed agentic tools capable of autonomously conducting sales calls without disclosing the AI nature of interactions, may be the first consumer protection case to allege deception specifically in the marketing of agentic AI capabilities. But enforcement keeps running into the same structural wall.</p>
+                                <p>The agentic AI deployment ecosystem involves at least four distinct commercial actors: AI model and voice cloning developers building and licensing underlying systems; platform companies packaging capabilities into deployable products; businesses and operators configuring agent behavior; and consumers who often have no way to verify system autonomy. No existing federal statute cleanly assigns liability across this chain.</p>
                                 <h4>Your Task</h4>
-                                <p>Advisor to the FTC Bureau of Consumer Protection...</p>
+                                <p>Your team is jointly advising the FTC Bureau of Consumer Protection and the Senate Commerce Committee's consumer protection staff. Develop a federal policy proposal that does one or more of the following:</p>
+                                <ul>
+                                    <li>Establishes a liability allocation framework that assigns responsibility across the agentic AI deployment chain under a coherent legal theory</li>
+                                    <li>Modifies existing statutes (FTC Act, wire fraud, or TCPA) to address agentic AI fraud without requiring entirely new legislation</li>
+                                    <li>Proposes disclosure and audit requirements for businesses deploying agentic AI in consumer contexts, including what meaningful disclosure looks like at deployment scale</li>
+                                    <li>Creates a victim redress mechanism that gives consumers practical recourse when agentic AI fraud causes financial harm</li>
+                                </ul>
                                 <h4>Narrowing Questions</h4>
                                 <ul>
-                                    <li>In the Pittsburgh grandmother scenario, who do you name as the liable party, under what legal theory, and what does she actually recover?</li>
-                                    <li>Should liability be strict, negligence-based, or tied to specific knowledge of misuse?</li>
-                                    <li>Which existing statute provides the most viable enforcement hook?</li>
+                                    <li>In the Pittsburgh grandmother scenario described above, who do you name as the liable party, under what legal theory, and what does she actually recover? Walk through the chain and explain where liability attaches and where it does not.</li>
+                                    <li>Should liability be strict (no intent required), negligence-based (what a reasonable deployer should have known), or tied to specific knowledge of misuse? What are the deterrence and innovation tradeoffs of each standard?</li>
+                                    <li>Your framework must be implementable under existing congressional authority. Assume Congress will not pass entirely new AI-specific legislation in the current session. Which existing statute provides the most viable enforcement hook?</li>
+                                    <li>A small business using an off-the-shelf agentic AI platform for customer service faces the same liability ambiguity as a bad actor using the same platform for fraud. How does your framework distinguish between them, and what compliance pathway does the legitimate small business have?</li>
+                                    <li>Existing enforcement tools operate at human speed. AI-enabled fraud operates at machine speed. What mechanism closes this gap?</li>
+                                    <li>How do you design victim redress that is practically accessible to the populations most harmed, including elderly consumers and low-income users?</li>
+                                </ul>
+                                <h4>Relevant Regulations and Resources</h4>
+                                <ul>
+                                    <li>FTC Act Section 5; Wire Fraud Statute (18 U.S.C. Section 1343); TCPA (1991); Section 230</li>
+                                    <li>FTC v. Air AI (2024–2025); FTC Voice Cloning Challenge (2023); FTC Impersonation Rule (2024)</li>
+                                    <li>Brookings: "Governing AI Agents" (2024); Stanford HAI: "Generative AI and Consumer Fraud" (2024)</li>
                                 </ul>
                             </div>
                         </div>
 
                         <div class="faq-item" id="bracket-2">
-                            <button class="faq-question">AI-Powered Mass Surveillance and Civil Liberties <span class="faq-icon">+</span></button>
+                            <button class="faq-question">AI Training Data and Independent Creator Rights <span class="faq-icon">+</span></button>
                             <div class="faq-answer">
                                 <h4>Central Question</h4>
-                                <p>How should the federal government limit the use of AI-powered surveillance tools by law enforcement while establishing an oversight mechanism that prevents mission creep and preserves civil liberties?</p>
+                                <p>Now that training AI models on existing creative work is an established practice, legally contested but commercially entrenched, how should the United States design a prospective licensing framework that compensates creators for future use of their work, without creating transaction costs that slow AI development or systematically exclude independent creators in favor of institutional rights holders who have the leverage to negotiate private deals?</p>
+                                <h4>Background and Context</h4>
+                                <p>This prompt is not about the legal battles over past training. A legislative framework designed primarily to resolve retroactive liability would be hostage to litigation outcomes that may take years to settle. This prompt asks a different and more urgent question: what framework should govern AI training going forward?</p>
+                                <p>Modern foundation models are trained on datasets containing hundreds of billions of tokens from millions of individual creators. The copyright question at the center of this prompt is whether AI training on existing works constitutes fair use under 17 U.S.C. Section 107. The U.S. Copyright Office's May 2025 report concluded that some training uses fall outside fair use and explicitly deferred to Congress for a legislative solution.</p>
+                                <p>Congress has a relevant precedent: the Copyright Act of 1909 established a compulsory licensing regime for mechanical reproduction. Whether a similar structure is appropriate for AI training data, and how to design it so that independent creators can actually participate, is a central question your brief should address. The private licensing market forming in the absence of legislation establishes compensation rates for institutional rights holders but creates a two-tier system where independent creators have no equivalent pathway.</p>
+                                <h4>Your Task</h4>
+                                <p>Your team is advising the Senate Judiciary Subcommittee on Intellectual Property. Develop a federal policy proposal that does one or more of the following:</p>
+                                <ul>
+                                    <li>Designs a prospective licensing framework specifying the default rule (opt-in vs. opt-out), the rate-setting mechanism, and the administrative body responsible for royalty distribution</li>
+                                    <li>Proposes a technical standard for training data provenance and disclosure that is feasible at scale and meaningful for creators</li>
+                                    <li>Creates a mechanism specifically designed to reach independent creators, including how they register, how they receive payment, and what the barrier to participation looks like</li>
+                                    <li>Proposes a compulsory licensing regime analogous to Section 115, specifying what it permits, what it prohibits, and how it handles creators who affirmatively opt out</li>
+                                </ul>
+                                <h4>Narrowing Questions</h4>
+                                <ul>
+                                    <li>Should a prospective licensing regime be opt-in or opt-out? What are the equity implications for independent creators without administrative resources?</li>
+                                    <li>Modern training datasets contain hundreds of billions of tokens. What does meaningful disclosure look like at this scale, and what is technically feasible?</li>
+                                    <li>How do you set a statutory royalty rate for AI training use when the market for that use is still forming? What equivalent mechanism to the Copyright Royalty Board applies here?</li>
+                                    <li>An independent musician has no label to negotiate on her behalf. What is the maximum friction your framework can impose while remaining genuinely accessible?</li>
+                                    <li>How does your framework handle AI systems that generate outputs in the style of a specific artist without reproducing their work verbatim?</li>
+                                </ul>
+                                <h4>Relevant Regulations and Resources</h4>
+                                <ul>
+                                    <li>Copyright Act Section 107 (Fair Use); Copyright Act Section 115 (Compulsory Licensing); DMCA; Music Modernization Act (2018)</li>
+                                    <li>U.S. Copyright Office Report on AI and Copyright (May 2025); Bartz v. Anthropic (2025); Thomson Reuters v. Ross Intelligence (2025)</li>
+                                    <li>C2PA / Content Credentials Standard; Mechanical Licensing Collective (MLC)</li>
+                                    <li>Copyright Alliance: "AI Training and Creator Compensation" (2024); EFF: "Fair Use and AI Training" (2024); EU DSM Directive Article 4</li>
+                                </ul>
                             </div>
                         </div>
 
                         <div class="faq-item" id="bracket-3">
-                            <button class="faq-question">AI Training Data and Independent Creator Rights <span class="faq-icon">+</span></button>
+                            <button class="faq-question">AI-Powered Mass Surveillance and Civil Liberties <span class="faq-icon">+</span></button>
                             <div class="faq-answer">
                                 <h4>Central Question</h4>
-                                <p>How should the United States design a prospective licensing framework that compensates creators for future use of their work, without creating transaction costs that slow AI development or systematically exclude independent creators?</p>
+                                <p>How should the federal government limit the use of AI-powered surveillance tools by law enforcement and intelligence agencies, defining with operational specificity which uses are permissible and which are prohibited, and establishing an institutional mechanism that enforces that boundary and prevents exceptions from expanding over time, while preserving legitimate national security applications?</p>
+                                <h4>Background and Context</h4>
+                                <p>U.S. Customs and Border Protection currently deploys facial recognition technology without individualized suspicion. Under the border search exception to the Fourth Amendment, courts have permitted warrantless searches, but whether this exception extends to AI-powered mass biometric surveillance remains constitutionally unsettled.</p>
+                                <p>Technical limitations are central: independent audits documented facial recognition error rates for darker-skinned women up to 35 percentage points higher than for lighter-skinned men. History shows patterns of surveillance mission creep, from COINTELPRO targeting civil rights leaders to AI surveillance documents targeting advocacy communities far from any port of entry. AI surveillance is qualitatively different: a single system can process biometric data for every person in a major airport and flag individuals without human involvement.</p>
+                                <h4>Your Task</h4>
+                                <p>Your team is advising the Senate Judiciary Committee's Subcommittee on Privacy, Technology, and the Law. Develop a federal policy proposal that does one or more of the following:</p>
+                                <ul>
+                                    <li>Defines with operational specificity which AI surveillance uses are permissible and which are prohibited, including at the border</li>
+                                    <li>Establishes an oversight mechanism with a structural design that resists historical patterns of exception creep</li>
+                                    <li>Proposes technical standards, including accuracy, demographic parity, and audit requirements, that systems must meet before deployment</li>
+                                    <li>Creates a community accountability mechanism for affected populations</li>
+                                </ul>
+                                <h4>Narrowing Questions</h4>
+                                <ul>
+                                    <li>Does the border search exception extend to AI-powered mass biometric surveillance of every person at a port of entry? What standard should Congress establish?</li>
+                                    <li>Define the national security exception your framework permits as a specific, bounded category. What institutional mechanism prevents it from expanding?</li>
+                                    <li>Does technical inaccuracy alone, without discriminatory intent, create a constitutional equal protection problem?</li>
+                                    <li>How does your framework prevent surveillance tools built for counterterrorism from migrating to target political organizers?</li>
+                                    <li>Should a federal framework preempt more protective municipal bans (San Francisco, Boston, Portland) or set a floor?</li>
+                                </ul>
+                                <h4>Relevant Regulations and Resources</h4>
+                                <ul>
+                                    <li>Fourth Amendment; FISA and Section 702; Executive Order 12333</li>
+                                    <li>EU AI Act Article 5 (2024): prohibition on real-time biometric surveillance</li>
+                                    <li>Church Committee Final Report (1975–76); MIT Media Lab: "Gender Shades" (2018); Georgetown Law: "The Perpetual Line-Up" (2016)</li>
+                                    <li>Brennan Center: "AI and Government Surveillance" (2024); ACLU: "Face Recognition Technology and CBP" (2023)</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="hackathon-section" id="submission-guidelines">
-                    <h2>Submission Guidelines</h2>
-                    <p>Your submission is a policy brief responding to one of the three prompts. You will choose one track when you register, and this choice is final.</p>
-                    <div class="submission-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                <div class="hackathon-section" id="submission-guidelines" style="text-align: left;">
+                    <h2 style="text-align: center;">Submission Guidelines</h2>
+                    <p style="text-align: center;">Your submission is a policy brief responding to one of the three prompts. You will choose one track when you register, and this choice is final.</p>
+
+                    <div class="submission-grid">
                         <div>
                             <h3>What to Submit</h3>
+                            <p>A policy brief of under 1,500 words (excluding references). Your brief should include:</p>
                             <ul>
                                 <li>An executive summary</li>
                                 <li>A clear statement of the problem</li>
                                 <li>Your proposed policy solution</li>
-                                <li>Implementation considerations</li>
-                                <li>Anticipated objections or tradeoffs</li>
+                                <li>Implementation considerations (who implements it, how, what it costs, what the timeline looks like)</li>
+                                <li>Anticipated objections or tradeoffs, and how you’d address them</li>
                             </ul>
                         </div>
-                        <div>
+                        <div style="background: #f4f1ee; padding: 24px; border-radius: 12px;">
                             <h3 style="margin-top: 0;">Formatting</h3>
-                            <ul>
+                            <ul style="margin-bottom: 0;">
                                 <li>PDF format; 1-inch margins</li>
                                 <li>12pt Times New Roman; 1.15 line spacing</li>
                                 <li>Under 1,500 words (references not counted)</li>
-                                <li>Include your name(s) in header ONLY (Anonymized review)</li>
+                                <li>Include your name(s) and bracket number in the header. <strong>Do not include names in the document itself</strong> for anonymous review.</li>
+                                <li>File name: Member1FullName_Member2FullName_Bracket1.pdf</li>
                             </ul>
                         </div>
                     </div>
+
+                    <h3 style="margin-top: 24px;">Citations &amp; AI Tool Use</h3>
+                    <p>Please cite your sources in any standard format (APA, Chicago, etc.). References do not count toward the word limit. You may use AI tools for research and editing assistance, but the ideas and arguments must be your own. Include a brief disclosure at the end of your brief noting any AI tools used.</p>
+
+                    <h3 style="margin-top: 24px;">How to Submit</h3>
+                    <p>Submit your policy brief as a PDF through the <a href="https://forms.gle/usuVJaLyUqnPMaaZ8" target="_blank" style="color: #7b6d8d; text-decoration: underline;">submission form here</a>. Only one person per team needs to submit. Deadline: <strong>Wednesday, April 15 at 11:59 PM ET</strong>. Only the most recent version will be reviewed.</p>
+
+                    <h3 style="margin-top: 24px;">Judging Rubric</h3>
+                    <ul>
+                        <li><strong>Problem analysis:</strong> Do you demonstrate a clear understanding of the issue?</li>
+                        <li><strong>Policy solution:</strong> Is your proposal specific, well-designed, and actionable?</li>
+                        <li><strong>Feasibility:</strong> Is it politically, legally, and practically viable?</li>
+                        <li><strong>Anticipation of objections:</strong> Do you address counterarguments and tradeoffs?</li>
+                        <li><strong>Clarity and persuasiveness:</strong> Is the brief well-written and well-organized?</li>
+                    </ul>
                 </div>
 
-                <div class="hackathon-section faq-section" id="faq">
-                    <h2>Frequently Asked Questions</h2>
+                <div class="hackathon-section">
+                    <h2>Agenda for Final Competition Day (April 19)</h2>
+                    <p>The final round will be held in-person at Posner Hall of CMU. Detailed agenda and logistics will be shared with finalists in the notification email. Please check back later for the finalized agenda.</p>
+                </div>
+
+                <div class="hackathon-section faq-section" id="faq" style="text-align: left;">
+                    <h2 style="text-align: center;">Frequently Asked Questions</h2>
                     <div class="faq-item">
                         <button class="faq-question">Who can participate? <span class="faq-icon">+</span></button>
-                        <div class="faq-answer"><p>Any undergraduate or graduate student currently enrolled at a college or university in the greater Pittsburgh area. Free to enter!</p></div>
+                        <div class="faq-answer">
+                            <p>Any undergraduate or graduate student currently enrolled at a college or university in the greater Pittsburgh area. No prior experience in policy or AI is needed. Free to enter!</p>
+                        </div>
                     </div>
                     <div class="faq-item">
                         <button class="faq-question">Do I need a team? <span class="faq-icon">+</span></button>
-                        <div class="faq-answer"><p>You can compete solo or in teams of 1-2. Check the partner-finding sheet if you need a teammate.</p></div>
+                        <div class="faq-answer">
+                            <p>You can compete solo or in teams of 1-2. Check the partner-finding sheet if you need a teammate.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <button class="faq-question">Since this is a hackathon, will we be writing code? <span class="faq-icon">+</span></button>
+                        <div class="faq-answer">
+                            <p>No; you’ll write policy briefs. The hackathon takes its name from the style of competition where people solve problems collaboratively under a deadline.</p>
+                        </div>
                     </div>
                 </div>
 
@@ -252,7 +431,7 @@
 
     <footer class="footer">
         <div class="container">
-            <div class="footer-bottom">
+            <div class="footer-bottom" style="text-align: center;">
                 <p>&copy; 2026 Carnegie Mellon AI Safety Initiative</p>
                 <p class="cmu-address">Unit 1E, 201 South Craig Street, Pittsburgh, PA 15213</p>
             </div>
@@ -266,11 +445,10 @@
                 const icon = button.querySelector('.faq-icon');
                 const isActive = answer.classList.contains('active');
                 
-                // Toggle active class
-                if (isActive) {
-                    answer.classList.remove('active');
-                    icon.textContent = '+';
-                } else {
+                document.querySelectorAll('.faq-answer').forEach(el => el.classList.remove('active'));
+                document.querySelectorAll('.faq-icon').forEach(el => el.textContent = '+');
+
+                if (!isActive) {
                     answer.classList.add('active');
                     icon.textContent = '−';
                 }
