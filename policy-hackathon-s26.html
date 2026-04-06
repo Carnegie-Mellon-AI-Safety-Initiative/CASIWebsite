@@ -64,10 +64,10 @@
             <div class="header-content">
                 <h1 class="page-title">Pittsburgh AI<br>Policy Hackathon</h1>
                 <p class="page-subtitle">April 6&ndash;15, 2026 (Remote) &bull; Sunday, April 19, 2026 (In-person, invite-only)</p>
-                <div style="margin-top: 32px; display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
+                <div style="margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 600px; margin-left: auto; margin-right: auto;">
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSfVESPWbAy8kJuGQ-Lpp7YaWDaIBoohSviODxxs-4Gxocx7kA/viewform" target="_blank" class="hackathon-hero-btn">Registration &amp; Bracket Selection</a>
                     <a href="https://docs.google.com/forms/d/e/1FAIpQLSdbJeapNWCWYqXJgCz7G-ytGyl_itk6lVLbPfBfaVzPFPhUJA/viewform?usp=dialog" target="_blank" class="hackathon-hero-btn">Submit Your Brief by 4/15</a>
-                    <a href="https://docs.google.com/spreadsheets/d/1-VnAdMSJ2bFwiw6wDJUXOHzM9XejfzX7N2LEkUwNg2g/edit?usp=sharing" target="_blank" class="hackathon-hero-btn">Looking for a Partner?</a>
+                    <a href="https://docs.google.com/spreadsheets/d/1-VnAdMSJ2bFwiw6wDJUXOHzM9XejfzX7N2LEkUwNg2g/edit?usp=sharing" target="_blank" class="hackathon-hero-btn" style="grid-column: 1 / -1;">Looking for a Partner?</a>
                 </div>
             </div>
         </div>
@@ -444,7 +444,7 @@
                     <div class="footer-section">
                         <h5>Connect</h5>
                         <a href="https://discord.gg/t9VyYhNQzb" target="_blank">Discord Server</a>
-                        <a href="mailto:casi@andrew.cmu.edu">Email Us</a>
+                        <a href="/cdn-cgi/l/email-protection#610200120821000f051304164f020c144f040514">Email Us</a>
                         <a href="https://tartanconnect.cmu.edu/CASI/club_signup" target="_blank">Mailing List</a>
                     </div>
                 </div>
@@ -456,7 +456,7 @@
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Mobile menu toggle
         const menuToggle = document.querySelector('.mobile-menu-toggle');
         const mobileNav = document.querySelector('.mobile-nav');
@@ -482,22 +482,37 @@
             });
         }
 
-        // FAQ accordion
+        // FAQ accordion — use scrollHeight so long bracket content is never clipped
+        document.querySelectorAll('.faq-answer').forEach(a => {
+            a.style.overflow = 'hidden';
+            a.style.transition = 'max-height 0.35s ease, padding 0.35s ease';
+            a.style.maxHeight = '0px';
+            a.style.padding = '0 24px';
+        });
+
         document.querySelectorAll('.faq-question').forEach(button => {
             button.addEventListener('click', () => {
                 const answer = button.nextElementSibling;
                 const icon = button.querySelector('.faq-icon');
-                const isOpen = answer.classList.contains('active');
+                const isOpen = answer.dataset.open === 'true';
+
                 // Close all
-                document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('active'));
+                document.querySelectorAll('.faq-answer').forEach(a => {
+                    a.style.maxHeight = '0px';
+                    a.style.padding = '0 24px';
+                    a.dataset.open = 'false';
+                    a.classList.remove('active');
+                });
                 document.querySelectorAll('.faq-icon').forEach(i => i.textContent = '+');
+
                 // Open clicked if it was closed
                 if (!isOpen) {
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                    answer.style.padding = '20px 24px';
+                    answer.dataset.open = 'true';
                     answer.classList.add('active');
                     if (icon) icon.textContent = '×';
                 }
             });
         });
-    </script>
-</body>
-</html>
+        // end accordion
