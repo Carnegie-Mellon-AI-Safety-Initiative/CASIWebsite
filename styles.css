@@ -2129,11 +2129,20 @@ body {
     box-shadow: var(--shadow-lg);
 }
 
+/* Hackathon Hero Button Group */
+.hackathon-hero-btns {
+    margin-top: 32px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
 /* Hackathon Hero Register Button */
 .hackathon-hero-btn {
     display: inline-block;
-    padding: 16px 48px;
-    font-size: 18px;
+    padding: 12px 28px;
+    font-size: 15px;
     font-weight: 600;
     font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
     color: #ffffff;
@@ -2143,11 +2152,38 @@ body {
     letter-spacing: 0.02em;
     box-shadow: var(--shadow-md);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-align: center;
 }
 
 .hackathon-hero-btn:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
+}
+
+@media (max-width: 768px) {
+    .hackathon-hero-btns {
+        flex-wrap: wrap;
+    }
+
+    .hackathon-hero-btn {
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hackathon-hero-btns {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .hackathon-hero-btn {
+        padding: 10px 20px;
+        font-size: 13px;
+        width: 100%;
+        max-width: 280px;
+    }
 }
 
 /* Event Details Two-Panel Layout */
