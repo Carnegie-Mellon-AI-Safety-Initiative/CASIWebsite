@@ -1313,6 +1313,45 @@ body {
     color: var(--text-primary);
 }
 
+.events-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+}
+
+.events-header .events-heading {
+    margin-bottom: 0;
+}
+
+.add-calendar-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: var(--gradient-accent);
+    color: #ffffff !important;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    white-space: nowrap;
+}
+
+.add-calendar-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+    filter: brightness(1.05);
+}
+
+.add-calendar-icon {
+    flex-shrink: 0;
+}
+
 .no-events-state {
     text-align: center;
     padding: 64px 32px;
@@ -2033,6 +2072,11 @@ body {
 
     .events-heading {
         font-size: 24px;
+    }
+
+    .add-calendar-btn {
+        font-size: 13px;
+        padding: 8px 14px;
     }
 
     .about-text h2 {
