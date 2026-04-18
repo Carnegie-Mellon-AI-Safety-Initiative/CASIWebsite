@@ -2178,7 +2178,7 @@ body {
     margin-top: 32px;
     display: flex;
     gap: 12px;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: center;
 }
 
@@ -2197,6 +2197,7 @@ body {
     box-shadow: var(--shadow-md);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     text-align: center;
+    white-space: nowrap;
 }
 
 .hackathon-hero-btn:hover {
