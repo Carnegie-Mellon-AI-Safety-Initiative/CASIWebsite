@@ -1892,7 +1892,9 @@ body {
 }
 
 /* Event Cards */
-.events-list {
+.events-list,
+.seminar-events-list,
+.past-seminar-events-list {
     display: flex;
     flex-direction: column;
     gap: 24px;
