@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Voice-Cloning Fraud - CASI Blog</title>
+    <link rel="icon" href="assets/CASI Logo white circle.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="logo-link">
+                    <img src="assets/CASI Logo transperent.png" alt="CASI Logo" class="logo-img">
+                    <div class="logo-text">
+                        <span class="logo-main">CASI</span>
+                        <span class="logo-sub">AI Safety Initiative</span>
+                    </div>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="team.html" class="nav-link">About</a>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">Get Involved <span class="dropdown-arrow">▼</span></a>
+                    <div class="dropdown-menu">
+                        <a href="technical-reading-group.html" class="dropdown-link">AI Alignment Fundamentals</a>
+                        <a href="policy-reading-group.html" class="dropdown-link">AI Governance Fundamentals</a>
+                        <a href="research-fellowship.html" class="dropdown-link">CASI Research Fellowship</a>
+                        <a href="research-scholars.html" class="dropdown-link">CASI Research Scholars</a>
+                        <a href="seminar.html" class="dropdown-link">AI Safety Seminar</a>
+                    </div>
+                </div>
+                <a href="core-membership.html" class="nav-link">Membership</a>
+                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="contact.html" class="nav-link">Join Us!</a>
+                <a href="get-involved.html" class="nav-link upcoming-events-btn">Upcoming Events</a>
+            </div>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-nav">
+            <a href="index.html" class="mobile-nav-link">Home</a>
+            <a href="team.html" class="mobile-nav-link">About</a>
+            <a href="technical-reading-group.html" class="mobile-nav-link">AI Alignment Fundamentals</a>
+            <a href="policy-reading-group.html" class="mobile-nav-link">AI Governance Fundamentals</a>
+            <a href="research-fellowship.html" class="mobile-nav-link">CASI Research Fellowship</a>
+            <a href="research-scholars.html" class="mobile-nav-link">CASI Research Scholars</a>
+            <a href="seminar.html" class="mobile-nav-link">AI Safety Seminar</a>
+            <a href="core-membership.html" class="mobile-nav-link">Membership</a>
+            <a href="blog.html" class="mobile-nav-link active">Blog</a>
+            <a href="contact.html" class="mobile-nav-link">Join Us!</a>
+            <a href="get-involved.html" class="mobile-nav-link upcoming-events-btn">Upcoming Events</a>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container header-content">
+            <h1 class="page-title">Blog</h1>
+            <p class="page-subtitle">Read about the work from our CASI members</p>
+        </div>
+    </header>
+
+    <main class="blog-post-main">
+        <article class="container blog-post-article">
+            <h2 class="blog-post-title">Addressing the Epidemic of AI Voice-Cloning Fraud</h2>
+            <div class="blog-post-meta">
+                <span class="blog-post-author">Mateo Ruiz-Leal</span>
+            </div>
+
+            <h3 class="blog-section-heading">Executive Summary</h3>
+            <p>Agentic AI systems are already being deployed to automate voice-cloning &quot;grandparent scams&quot; and other highly sophisticated impersonation frauds at scale. Yet, the true operators behind these malicious campaigns are often overseas, transient, and effectively unreachable by U.S. law enforcement and private plaintiffs. While existing tools like the Federal Trade Commission’s (FTC) Impersonation Rule begin to address upstream liability, they fall short. They do not create a clear, ex ante duty to identify deployers, nor do they provide a guaranteed path to financial reimbursement for victims (FTC, 2025; Mintz, 2024).</p>
+            <p>This policy brief proposes a “Conditional Cost-Shifting” framework that bridges this gap. By borrowing Bank Secrecy Act–style &quot;Know Your Customer&quot; (KYC) obligations—adapted here as “Know Your Deployer” (KYD)—and combining them with the Truth in Lending Act’s (TILA) strict limits on consumer liability, this framework offers a pragmatic solution. Under this hybrid model, intermediary agentic AI platforms that fail to meet KYD become strictly responsible for making-whole restitution to fraud victims, aligning responsibility with the entities that possess actual control over the technology, rather than burdening the least sophisticated consumers (Lawfare, 2024; Consumer Financial Protection Bureau, n.d).</p>
+            <h3 class="blog-section-heading">Problem Statement</h3>
+            <p>The mechanics of modern impersonation fraud are becoming increasingly sophisticated. Fraudsters use readily available voice-cloning models to mimic relatives and demand urgent wire transfers. While the FTC&#x27;s new Impersonation Rule aims to prohibit AI-enabled impersonation, it is fundamentally reactive. It seeks to extend liability to firms that provide tools &#x27;with knowledge or reason to know&#x27; they will be used unlawfully, but this places a heavy burden of proof on establishing the provider&#x27;s exact knowledge state. Most importantly, current regulations operate after the harm has occurred and fail to create a clear, automatic compensation channel backed by a financially responsible intermediary.</p>
+            <h3 class="blog-section-heading">The Unreachable Operator Problem</h3>
+            <p>The most significant hurdle in combating these scams is the physical and jurisdictional distance of the perpetrators. In many such scams, the operator is located abroad, utilizes disposable email addresses, operates through burner phone credentials, and interacts with the victim exclusively through AI-mediated channels. This operational security leaves law enforcement and private litigants with no practical way to identify, locate, or sue the human behind the agentic AI deployment (Lawfare, 2024).</p>
+            <p>Even when the payment trail is traceable, the intermediaries providing the foundational technology typically disclaim all responsibility. They argue that they merely supply neutral tools and lack direct privity with the victim. The FTC has historically attempted to bridge this gap via “means and instrumentalities” theories, but this approach has demonstrated a limited ex ante deterrent effect on the industry (LawAI, 2024).</p>
+            <h3 class="blog-section-heading">The Policy Solution: A Hybrid KYD–TILA Model</h3>
+            <h3 class="blog-section-heading">A. Borrowing from BSA and KYC for AI</h3>
+            <p>In the financial sector, the Bank Secrecy Act (BSA) and related anti-money laundering (AML) rules provide a proven risk governance template. Covered institutions are required to perform KYC, maintain rigorous customer identification programs, and report suspicious activity to mitigate the misuse of critical financial infrastructure (Lawfare, 2024; Oracle, 2024).</p>
+            <p>Policymakers are already extending KYC-style obligations into the realms of AI and cloud infrastructure. Under Executive Order 14110 and a proposed rule by the Commerce Department, U.S. cloud providers offering infrastructure for training large AI models would be required to verify foreign customers’ identities and adopt comprehensive customer identification programs, extending even to resellers.</p>
+            <h3 class="blog-section-heading">B. “Know Your Deployer” (KYD) Mandate for Agentic AI</h3>
+            <p>Intermediary agentic AI platforms—encompassing providers of agent frameworks, APIs, hosted agent marketplaces, and voice-cloning services—must be required to implement risk-based <strong>Know Your Deployer (KYD)</strong> programs.</p>
+            <ul class="blog-bullet-list">
+            <li><strong>Identity Verification:</strong> Platforms must verify the real-world identity of deployers <em>before</em> granting them the ability to initiate autonomous outbound outreach or payment-related actions toward consumers.</li>
+            <li><strong>Supply Chain Extension:</strong> These programs would mirror financial KYC by requiring the collection of identifying information, ongoing customer due diligence, and the strict extension of KYD requirements to resellers and white-label integrators.</li>
+            <li><strong>Risk-Based Scope:</strong> KYD would be triggered by capabilities most closely associated with consumer fraud risk (e.g., outbound calling, SMS/email outreach, initiation of financial transactions). Smaller or purely experimental deployments lacking external contact capabilities would be subject to simplified, tiered KYD.</li>
+            </ul>
+            <h3 class="blog-section-heading">C. Conditional Cost-Shifting: Losing the Liability Shield</h3>
+            <p>The core of this proposal relies on a mechanism analogous to the Truth in Lending Act (TILA). Under 15 U.S.C. 1643 and Regulation Z, a cardholder’s liability for unauthorized credit card use is strictly capped, forcing issuers and card networks to absorb most losses. The cost of doing business underpins consumer trust in card payments.</p>
+            <p>This hybrid framework creates a statutory rebuttable presumption: If an agentic AI platform fails to implement and maintain compliant KYD, any consumer loss caused by impersonation or fraud facilitated by that platform&#x27;s tools is presumptively treated as ‘unauthorized use.’ The platform becomes strictly liable up to the full amount of the loss.</p>
+            <p>Platforms demonstrating substantial compliance retain their intermediary safe harbor shield, facing only traditional FTC and state-law exposure rather than automatic strict restitution obligations (Cornell Law School, n.d.; Consumer Financial Protection Bureau, n.d).</p>
+            <h3 class="blog-section-heading">Implementation Strategy</h3>
+            <p>A theoretical liability shift requires a frictionless execution mechanism to protect vulnerable populations.</p>
+            <ul class="blog-bullet-list">
+            <li><strong>Statutory Authority:</strong> Congress must enact a targeted statute modeled on 15 U.S.C. 1643 to codify strict liability for noncompliant AI intermediaries. Concurrently, the FTC should leverage Section 5 to enforce compliance audits. Linking this to existing financial KYC frameworks minimizes constitutional and administrative-law challenges based on novelty.</li>
+            <li><strong>Victim Redress &amp; Enforcement:</strong> Under this regime, victims retain standard TILA dispute procedures with their financial institutions. Issuers, backed by the new statutory liability, can then seek indemnification directly from the noncompliant AI platforms.</li>
+            <li><strong>Burden of Proof:</strong> Crucially, the AI platform—not the traumatized victim—bears the burden of proving it possessed valid KYD records at the time of the incident to avoid liability. The FTC and CFPB must establish centralized dispute portals, backed by statutory civil penalties for platforms that systematically deny valid claims, forcing quick settlements over complex litigation.</li>
+            </ul>
+            <h3 class="blog-section-heading">Anticipated Objections</h3>
+            <p>Critics may argue that imposing KYD and strict liability will stifle the nascent AI industry. However, historical evidence and market realities suggest otherwise.</p>
+            <ul class="blog-bullet-list">
+            <li><strong>KYC and Innovation Coexist:</strong> Financial institutions have operated under BSA KYC/AML obligations for decades without halting massive innovation in digital banking and fintech. Recent extensions of KYC to large AI model cloud providers are correctly framed as necessary security safeguards, not innovation moratoriums (Oracle, 2024).</li>
+            <li><strong>Alignment with Regulatory Goals:</strong> The FTC’s goal is to ensure upstream actors are not shielded from liability when their tools enable scams. The Conditional Cost-Shifting framework operationalizes this predictability, clearly defining the duties required to maintain a safe harbor (FTC, 2025).</li>
+            <li><strong>Consumer Protection Baselines:</strong> TILA forces issuers to absorb fraud losses, yet the credit card industry remains ubiquitously profitable and highly innovative. Internalizing fraud externalities at the platform level actually enhances market competition; firms investing in robust KYD can credibly signal trustworthiness to consumers and enterprise partners.</li>
+            <li><strong>Risk-Proportionate:</strong> By tiering KYD duties to scale with fraud-relevant capabilities, the framework actively minimizes the compliance burden on low-risk, early-stage AI experimentation.</li>
+            <li><strong>The Open-Source Migration Fallacy:</strong> Critics will correctly note that imposing strict KYD on commercial intermediaries will inevitably drive sophisticated bad actors to utilize localized, open-weights models, effectively bypassing this hosted framework (Seger et al.). However, this argument relies on the perfect solution fallacy. By imposing strict liability on frictionless commercial vectors (APIs and hosted agent marketplaces), this policy deliberately raises the technical barrier to entry, compute requirements, and infrastructure costs for fraudsters (Vake et al.). While localized, open-source deployments will persist, severing access to the cheapest, most scalable commercial tools is a necessary first step to collapsing the sheer volume and speed of automated impersonation scams.</li>
+            </ul>
+            <h3 class="blog-section-heading">Cited works</h3>
+            <ol class="blog-ref-list">
+            <li>Federal Trade Commission. (2025, April 3). FTC highlights actions to protect consumers from impersonation scams. <a href="https://www.ftc.gov/news-events/news/press-releases/2025/04/ftc-highlights-actions-protect-consumers-impersonation-scams" class="text-link" target="_blank" rel="noopener noreferrer">FTC press release</a></li>
+            <li>Mintz. (2024, February 29). <em>Proposed FTC rule would hold AI companies liable for “deepfake” impersonation fraud</em>. <a href="https://www.mintz.com/insights-center/viewpoints/2191/2024-02-29-proposed-ftc-rule-would-hold-ai-companies-liable" class="text-link" target="_blank" rel="noopener noreferrer">Mintz</a></li>
+            <li>Lawfare. (2024, April 28). Know-your-customer is coming for the cloud—the stakes are high. <a href="https://www.lawfaremedia.org/article/know-your-customer-is-coming-for-the-cloud-the-stakes-are-high" class="text-link" target="_blank" rel="noopener noreferrer">Lawfare</a></li>
+            <li>Consumer Financial Protection Bureau. (n.d.). § 1026.12 special credit card provisions. <a href="https://www.consumerfinance.gov/rules-policy/regulations/1026/12" class="text-link" target="_blank" rel="noopener noreferrer">consumerfinance.gov</a></li>
+            <li>LawAI. (2024, July 24). <em>Existing authorities for oversight of frontier AI models</em>. <a href="https://law-ai.org/existing-authorities-for-oversight/" class="text-link" target="_blank" rel="noopener noreferrer">law-ai.org</a></li>
+            <li>Oracle. (2024, August 27). <em>Anti–money laundering AI explained</em>. <a href="https://www.oracle.com/financial-services/aml-ai/" class="text-link" target="_blank" rel="noopener noreferrer">Oracle</a></li>
+            <li>Cornell Law School. (n.d.). <em>15 U.S. Code § 1643 — Liability of holder of credit card</em>. Legal Information Institute. <a href="https://www.law.cornell.edu/uscode/text/15/1643" class="text-link" target="_blank" rel="noopener noreferrer">LII</a></li>
+            <li>Consumer Financial Protection Bureau. (n.d.). <em>§ 1026.12 special credit card provisions</em>. <a href="https://www.consumerfinance.gov/rules-policy/regulations/1026/12" class="text-link" target="_blank" rel="noopener noreferrer">consumerfinance.gov</a></li>
+            <li>Seger, Elizabeth, et al. “Open-Sourcing Highly Capable Foundation Models: An Evaluation of Risks, Benefits, and Alternative Methods for Pursuing Open-Source Objectives.” <em>SSRN Electronic Journal</em>, 2023. <a href="https://doi.org/10.2139/ssrn.4596436" class="text-link" target="_blank" rel="noopener noreferrer">doi:10.2139/ssrn.4596436</a></li>
+            <li>Vake, Domen, et al. “Is Open Source the Future of AI? A Data-Driven Approach.” <em>arXiv</em>, 2025. <a href="https://doi.org/10.48550/arXiv.2501.16403" class="text-link" target="_blank" rel="noopener noreferrer">doi:10.48550/arXiv.2501.16403</a></li>
+            </ol>
+
+            <p class="blog-post-published blog-post-published--footer">Published 5/2/2026</p>
+            <p class="blog-post-back-link"><a href="blog.html">← Back to blog home</a></p>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="assets/CASI Logo white circle.ico" alt="CASI Logo" class="footer-logo">
+                    <div class="footer-info">
+                        <h4>Carnegie Mellon AI Safety Initiative</h4>
+                        <p>Building safer AI for everyone</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h5>Navigation</h5>
+                        <a href="about.html">About</a>
+                        <a href="team.html">Team</a>
+                        <a href="get-involved.html">Get Involved</a>
+                        <a href="contact.html">Join Us!</a>
+                    </div>
+                    <div class="footer-section">
+                        <h5>Connect</h5>
+                        <a href="https://discord.gg/t9VyYhNQzb" target="_blank">Discord Server</a>
+                        <a href="mailto:casi@andrew.cmu.edu">Email Us</a>
+                        <a href="https://tartanconnect.cmu.edu/CASI/club_signup" target="_blank">Mailing List</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Carnegie Mellon AI Safety Initiative</p>
+                <p class="cmu-address">Units 1M and 1E of the Craig-Henry Building, 201 South Craig Street, Pittsburgh, PA 15213</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
