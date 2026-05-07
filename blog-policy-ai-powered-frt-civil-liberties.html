@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered FRT and Civil Liberties - CASI Blog</title>
+    <link rel="icon" href="assets/CASI Logo white circle.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="logo-link">
+                    <img src="assets/CASI Logo transperent.png" alt="CASI Logo" class="logo-img">
+                    <div class="logo-text">
+                        <span class="logo-main">CASI</span>
+                        <span class="logo-sub">AI Safety Initiative</span>
+                    </div>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="team.html" class="nav-link">About</a>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">Get Involved <span class="dropdown-arrow">▼</span></a>
+                    <div class="dropdown-menu">
+                        <a href="technical-reading-group.html" class="dropdown-link">AI Alignment Fundamentals</a>
+                        <a href="policy-reading-group.html" class="dropdown-link">AI Governance Fundamentals</a>
+                        <a href="research-fellowship.html" class="dropdown-link">CASI Research Fellowship</a>
+                        <a href="research-scholars.html" class="dropdown-link">CASI Research Scholars</a>
+                        <a href="seminar.html" class="dropdown-link">AI Safety Seminar</a>
+                    </div>
+                </div>
+                <a href="core-membership.html" class="nav-link">Membership</a>
+                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="contact.html" class="nav-link">Join Us!</a>
+                <a href="get-involved.html" class="nav-link upcoming-events-btn">Upcoming Events</a>
+            </div>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-nav">
+            <a href="index.html" class="mobile-nav-link">Home</a>
+            <a href="team.html" class="mobile-nav-link">About</a>
+            <a href="technical-reading-group.html" class="mobile-nav-link">AI Alignment Fundamentals</a>
+            <a href="policy-reading-group.html" class="mobile-nav-link">AI Governance Fundamentals</a>
+            <a href="research-fellowship.html" class="mobile-nav-link">CASI Research Fellowship</a>
+            <a href="research-scholars.html" class="mobile-nav-link">CASI Research Scholars</a>
+            <a href="seminar.html" class="mobile-nav-link">AI Safety Seminar</a>
+            <a href="core-membership.html" class="mobile-nav-link">Membership</a>
+            <a href="blog.html" class="mobile-nav-link active">Blog</a>
+            <a href="contact.html" class="mobile-nav-link">Join Us!</a>
+            <a href="get-involved.html" class="mobile-nav-link upcoming-events-btn">Upcoming Events</a>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container header-content">
+            <h1 class="page-title">Blog</h1>
+            <p class="page-subtitle">Read about the work from our CASI members</p>
+        </div>
+    </header>
+
+    <main class="blog-post-main">
+        <article class="container blog-post-article">
+            <h2 class="blog-post-title">A Fourth Amendment and Rawlsian Ethics Framework for AI-Powered FRT</h2>
+            <div class="blog-post-meta">
+                <span class="blog-post-author">Taeho Lee</span>
+            </div>
+
+            <pre id="frt-md-source" class="blog-md-verbatim" style="display:none;">Taeho Lee
+
+Bracket 2: AI-Powered Mass Surveillance and Civil Liberties
+
+**A Fourth Amendment and Rawlsian Ethics Based Framework for AI-Powered FRT**
+
+**Executive Summary:**
+
+Facial recognition technology (FRT) is currently used by Customs and Border Protection (CBP) to record entries/exits. Such technology has a narrow dual-use: contraband prevention and to legally admit individuals. The adoption of AI-powered FRT threatens to exceed these two purposes, erode privacy, erode fairness, and enable mission creep. This brief proposes that regulating policy be guided by the following legal-ethical test: is it clearly constitutional, and does it pass Rawlsian ethics? Using the test, this brief categorizes uses into impermissible, conditionally permissible, and permissible. Impermissible uses include: photograph usage in model training data, data-use in criminal intelligence, and data-sharing with law-enforcement/ICE. Conditionally permissible conditions include: error rate thresholds, signposting, on-site redress, and national security exceptions. Permissible uses consist only of uses that do not violate the other two categorizations. Congress should codify the above policy set via a statutory framework.
+
+**Problem:**
+
+CBP is congressionally mandated to record border arrivals and departures via a biometric entry/exit system. CBP operates the Traveler Verification Service (TVS), a one-to-many system, creating a gallery of expected travelers from APIS data to compare with captured images. Privacy and fairness measures are currently present, including image deletion after twelve hours, manual review opt-in, public notice of FRT, data-retention agreements with partners, and model testing in collaboration with NIST.1 However, adoption of artificial intelligence in FRT poses new issues in regards to privacy and fairness. Legally, the Fourth Amendment may not apply to FRT technology as facial recognition is not considered a “search.”2 Even if it did, the “border exception” of the Fourth Amendment does not adequately provide safeguards against AI-powered FRT’s dangers.3 SCOTUS has recognized the border exception serves only to block contraband from entry, and to ensure legal admittance of individuals.4 AI-powered FRT threatens to exceed these two designated tasks by degrading privacy via data collection, introducing bias, removing human oversight, and facilitating the intrusion of law-enforcement. AI could facilitate mission creep as border and law-enforcement capabilities strengthen. There does not currently exist a statutory boundary that separates permissible use of AI-powered FRT from impermissible uses, which this brief will address.
+
+1 U.S. Department of Homeland Security, U.S. Customs and Border Protection, Privacy Impact Assessment for the Traveler Verification Service, DHS/CBP/PIA-056, November 14, 2018, 1-16, https://www.dhs.gov/publication/dhscbppia-056-traveler-verification-service.
+2 United States v. Dionisio, 410 U.S. 1, 14 (1973), https://supreme.justia.com/cases/federal/us/410/1/ 3 Andrew Ferguson, “Facial Recognition and the Fourth Amendment,” *Minnesota Law Review* 105 (2021): 1166, https://digitalcommons.wcl.american.edu/facsch_lawrev/742/
+4 Laura K. Donohue, “Customs, Immigration, and Rights: Constitutional Limits on Electronic Border Searches,” *The Yale Law Journal Forum* 128 (2019): 961,
+https://yalelawjournal.org/essay/customs-immigration-and-rights
+
+Taeho Lee
+Bracket 2: AI-Powered Mass Surveillance and Civil Liberties
+
+**Congressional Standard:**
+
+This brief proposes a two-part legal-ethical test to act as a guide for policymaking, where both parts must be satisfied. First, the test asks: is the usage clearly constitutional under the border exception bounds of the Fourth Amendment? Second, the test asks: does the usage satisfy Rawlsian ethical standards? Constitutionally, a usage passes if there is *no substantial possibility* that SCOTUS will deem it unconstitutional. Critically, while existing FRT technology may not be considered a “search” and may not trigger the Fourth Amendment, AI-powered FRT is materially different. The ability of AI systems to autonomously identify, retain, make inferences and predictions, and probe collateral areas of a subject’s life are much more similar to a “search” than existing FRT technology.5If there is a substantial possibility that SCOTUS may interpret AI-powered FRT as a “search,” and it exceeds the dual tasks of contraband prevention and legal admittance, it fails the constitutionalism prong. Rawlsian ethics theory, where decision-makers reside under a “veil of ignorance,” asks what border security regime the state’s citizens would choose if they do not know if they are citizen, alien, mistaken match, border agent, or a victim of an attack.6 Under such a “veil of ignorance”, decision-makers would gravitate towards a security regime that places the least burden on the most disadvantaged groups while allowing reasonable national-security exceptions.7 Rawlsian frameworks are already applied to AI governance in academic literature.8 Under this test, there emerges either *impermissible*, *conditionally permissible*, or *permissible* uses of AI-powered FRT. Constitutionalism screens for verification and privacy, while Rawlsian ethics screens for privacy, fairness, burden minimization, and bounded exceptions.
+
+**Policy:**
+
+Based on the legal-ethical test, this brief will categorize uses of AI-powered FRT in three permissibility categories. Congress should codify such categorizations with a statutory framework via legislation.
+
+*Impermissible:*
+
+● The usage of entry/exit photographs in AI-model training data is forbidden as it is not clearly constitutional. Even if the initial photograph is not a search, usage of photographs in model training creates a scalable biometric data-use regime, to which SCOTUS may deem the Fourth Amendment applicable. The Fourth Amendment’s border exception only covers “non-investigatory purposes with clear *ex ante* guidelines and rules…in particular locations.”9 Usage of entry/exit photographs in model training data would not have clear *ex ante* guidelines and rules, and could be processed, utilized, and deployed in locations other than the border. The geographic constraint creeps beyond the border, and so SCOTUS, which gives little leeway to programmatic systems, may deem this usage unconstitutional.
+
+● Data from AI-powered FRT cannot be used for criminal intelligence as it is not clearly constitutional. Usage of AI-powered FRT data for criminal intelligence has greater predictive and investigative capacity than non-AI FRT, to which SCOTUS may deem the Fourth Amendment applies. If so, the purpose of the border exception is solely to block contraband and admit individuals legally—AI used in a criminal-investigative capacity would therefore be in violation.
+
+● Data from AI-powered FRT cannot be shared with law-enforcement or ICE as it fails Rawlsian ethics. Such data-sharing would be reasonably rejected by Rawlsian decision-makers as it enables mission creep. As of November 2024, CBP uses TVS to query newly captured photographs against existing derogatory photo repositories, including records tied to warrants, prior apprehensions, and suspected terrorism links. The resulting information in the e3 database is accessible to ICE, allowing utilization of FRT data for criminal intelligence purposes.10 This is impermissible as outlined in the point above. Thus, this use is rejected as it intrudes into both privacy and constitutionalism.
+
+*Conditionally permissible:*
+
+● AI-powered FRT may be used as long as error rates meet specified error thresholds. Two crucial metrics are false negative identification rate (FNIR), where the model fails to identify person X as person X, and false positive identification rate (FPIR), where the model misidentifies person X who is not in the gallery as person Y. FNIR is crucial for fairness, and FPIR is crucial for national security. Currently, non-AI FRT TVS models display an order of magnitude higher FPIR rates in Asian women compared to European men.11 Therefore, a Rawlsian-based quantitative framework must be established for AI-powered FRT models. Rawlsian decision-makers would likely choose MinMax fairness, which aims to minimize the maximum error in regards to the most disadvantaged subgroups.12 Utilizing the published error rates of non-AI models, and assuming AI models need to have errors equal or better than non-AI models, the following error rates are realistic.13 AI-models must display a worst-group FNIR of under 3%, a worst-to-best-group FNIR ratio under 1.5, a worst-group FPIR under 0.3%, and a worst-to-best-group FPIR ratio under 3. The absolute rates ensure baseline accuracy, the ratios ensure that error disparities between subgroups are fair, and the mix of FNIR and FPIR ensure a balance of fairness and security. Such statistics must also be reported publicly by protected subgroup.
+
+● AI-powered FRT may be used as long as signposting is clear. Rawlsian decision-makers would reasonably mandate that all travelers have prior warning of AI-powered FRT usage. A July 2022 Government Accountability Office (GAO) audit targeting CBP found that signage was inconsistently posted, and signage was often outdated or informationally limited, and FRT locations were not correctly published online.14 Usage of AI-powered FRT therefore would require comprehensive, consistent, and up-to-date signposting.
+
+● AI-powered FRT may be used as long as *on-site* mechanisms to challenge AI classifications exist. Rawlsian decision-makers would reasonably mandate that all travelers have accessible redress pathways. CBP currently allows travelers to challenge classifications via mail, online website, or call.15 However, mail redress is slow, international travelers may lack English knowledge to navigate a website, and GAO found the CBP call center was understaffed.16 A physical on-site redress location is therefore necessary.
+
+● A national-security exception for AI-powered FRT exists as long as the only functions are to stop contraband and admit individuals legally. Rawlsian decision-makers may be the victim of an attack or illicit smuggling, and so would allow narrow-purpose exceptions. For example, TVS currently retains entry images of aliens in the IDENT database for biometric records of entry and future matching.17 Such national-security data-retention is permissible as long as data is strictly quarantined in the IDENT database and only utilized for admitting aliens legally. If a national-security exception is dual-use restrained, with no possibility of purpose creep, it is conditionally permissible.
+
+*Permissible:*
+
+● AI-powered FRT is permissible if and only if it stays narrow-use, and the above requirements are met.
+
+Mission creep would be constrained by requiring any new use to satisfy the same legal-ethical test, verified by an independent bipartisan review-board.
+
+**Implementation:**
+
+To implement, Congress would introduce a statutory framework. DHS would then promulgate, and CBP would execute within the existing TVS architecture. A Privacy Impact Assessment would be published before deployment, along with a one-year status report.
+
+CBP would test models before deployment in collaboration with NIST. In addition, airlines, cruise operators, and contractors must sign binding data-handling and compliance agreements, to be audited by CBP. GAO will perform periodic external audits on metrics. If a site-specific audit is failed, AI deployment at that site is paused, and if a general audit is failed, general AI deployment is put on a 6-month moratorium. As CBP’s TVS infrastructure is already present, a realistic implementation target is 18-months. Given that the *9-11 Response and Biometric Exit Account* in CBP’s FY2026 budget costs $15.9 million annually, a reasonable cost upfront would be $20 million, with an additional $10 million in annual maintenance.18
+
+**Objections:**
+
+● Objectionists could argue that too many national security sacrifices are made. However, the privacy and fairness risks of AI may be as great or greater than the risk of smuggling, attacks, or unauthorized entry. AI-powered FRT technology would impact every traveler entering or leaving the U.S., while the contrary risks are severe but comparatively rare.
+
+● Objectionists could argue that such regulation makes the work of border agents administratively difficult. However, AI-powered FRT would facilitate large efficiency gains for CBP, which could make up for the administrative burden.
+
+**Bibliography:**
+
+Barsotti, Flavia, and Rüya Gökhan Koçer. “MinMax Fairness: From Rawlsian Theory of Justice to Solution for Algorithmic Bias.” *AI & SOCIETY* 39 (2024): 961–974.
+https://doi.org/10.1007/s00146-022-01577-x.
+
+Donohue, Laura K. “Customs, Immigration, and Rights: Constitutional Limits on Electronic Border Searches.” *The Yale Law Journal Forum* 128 (2019): 961–1015.
+https://yalelawjournal.org/essay/customs-immigration-and-rights.
+
+Ferguson, Andrew. “Facial Recognition and the Fourth Amendment.” *Minnesota Law Review* 105 (2021): 1105–1210. https://digitalcommons.wcl.american.edu/facsch_lawrev/742/.
+
+Grace, Jamie, and Roxanne Bamford. “‘AI Theory of Justice’: Using Rawlsian Approaches to Legislate Better on Machine Learning in Government.” *Amicus Curiae*, series 2, 1, no. 3 (2020): 338–360. https://doi.org/10.14296/ac.v1i3.5161.
+
+Grother, Patrick, Austin Hom, Mei Ngan, and Kayee Hanaoka. *Face Recognition Vendor Test (FRVT) Part 7: Identification for Paperless Travel and Immigration*. NIST Interagency/Internal Report (NISTIR) 8381. Gaithersburg, MD: National Institute of Standards and Technology, July 2021. https://doi.org/10.6028/NIST.IR.8381.
+
+Levinson-Waldman, Rachel, and Ivey Dyson. “The Dangers of Unregulated AI in Policing.” *Brennan Center for Justice*. November 20, 2025.
+https://www.brennancenter.org/our-work/research-reports/dangers-unregulated-ai-policing.
+
+National Institute of Standards and Technology. “Face Recognition Technology Evaluation (FRTE) 1:N Identification.” Accessed April 12, 2026.
+https://pages.nist.gov/frvt/html/frvt1N.html.
+
+United States v. Dionisio. 410 U.S. 1 (1973). https://supreme.justia.com/cases/federal/us/410/1/.
+
+U.S. Department of Homeland Security. *Privacy Impact Assessment for the Traveler Verification Service*. DHS/CBP/PIA-056. November 14, 2018.
+https://www.dhs.gov/publication/dhscbppia-056-traveler-verification-service.
+
+U.S. Department of Homeland Security. *Privacy Impact Assessment Update for the CBP Portal (e3) to EID/IDENT*. DHS/CBP/PIA-012(d). November 4, 2024.
+https://www.dhs.gov/sites/default/files/2024-11/24_1112_privacy-pia-cbp012-e3d-november-2024.pdf.
+
+U.S. Department of Homeland Security. *U.S. Customs and Border Protection: Congressional Budget Justification, Fiscal Year 2026*. Washington, DC: U.S. Department of Homeland Security, June 12, 2025.
+https://www.dhs.gov/sites/default/files/2025-06/25_0613_cbp_fy26-congressional-budget-justificatin.pdf.
+
+U.S. Government Accountability Office. *Facial Recognition Technology: CBP Traveler Identity Verification and Efforts to Address Privacy Issues*. Statement of Rebecca Gambler, Director, Homeland Security and Justice, before the Subcommittee on Border Security, Facilitation, and Operations, Committee on Homeland Security, House of Representatives. GAO-22-106154. Washington, DC: U.S. Government Accountability Office, July 27, 2022. https://www.gao.gov/assets/gao-22-106154.pdf.
+
+Westerstrand, Salla. “Towards Just Democracies in the Age of Pervasive Digital Systems—A Rawlsian Approach.” *AI & SOCIETY*. Published July 31, 2025.
+https://doi.org/10.1007/s00146-025-02503-7
+
+AI Disclosure:
+
+ChatGPT was utilized for proofreading, feedback, confirmation, and citation-formatting purposes. Additionally, ChatGPT was used to search the web to suggest research articles for me to read. All writing is original, and all ideas and policy recommendations are original. No other AI tools were used.</pre>
+            <div id="frt-md-rendered" class="blog-rendered-content"></div>
+            <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+            <script>
+                (function () {
+                    var source = document.getElementById('frt-md-source');
+                    var target = document.getElementById('frt-md-rendered');
+                    if (!source || !target || !window.marked) return;
+                    var cleaned = (source.textContent || '')
+                        .replace(/\r\n/g, '\n')
+                        .replace(/^Taeho Lee\s*\n/i, '')
+                        .replace(/^Bracket 2:[^\n]*\n/i, '')
+                        .replace(/^Taeho Lee\s*$/gmi, '')
+                        .replace(/^Bracket 2:[^\n]*$/gmi, '')
+                        .replace(/^\s*●\s*/gm, '- ')
+                        .replace(/(\w)\n(https?:\/\/)/g, '$1\n\n$2')
+                        .replace(/\n{3,}/g, '\n\n')
+                        .trim();
+                    target.innerHTML = window.marked.parse(cleaned);
+                    var title = document.querySelector('.blog-post-title');
+                    var firstHeading = target.querySelector('h1, h2');
+                    if (title && firstHeading && firstHeading.textContent.trim().toLowerCase() === title.textContent.trim().toLowerCase()) {
+                        firstHeading.remove();
+                    }
+                    var firstAuthorLine = target.querySelector('p');
+                    if (firstAuthorLine && /taeho lee/i.test(firstAuthorLine.textContent)) {
+                        firstAuthorLine.remove();
+                    }
+                    var citationHeadings = target.querySelectorAll('h1, h2, h3, h4');
+                    citationHeadings.forEach(function (heading) {
+                        if (!/references|bibliography|cited works|additional sources/i.test(heading.textContent || '')) return;
+                        var next = heading.nextElementSibling;
+                        while (next && !/^(OL|UL)$/i.test(next.tagName)) {
+                            next = next.nextElementSibling;
+                        }
+                        if (next) next.classList.add('blog-ref-list');
+                    });
+                    target.querySelectorAll('a').forEach(function (a) {
+                        a.classList.add('text-link');
+                        if (!a.getAttribute('target')) a.setAttribute('target', '_blank');
+                        if (!a.getAttribute('rel')) a.setAttribute('rel', 'noopener noreferrer');
+                    });
+                })();
+            </script>
+
+            <p class="blog-post-published blog-post-published--footer">Published 5/6/2026</p>
+            <p class="blog-post-back-link"><a href="blog.html">← Back to blog home</a></p>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="assets/CASI Logo white circle.ico" alt="CASI Logo" class="footer-logo">
+                    <div class="footer-info">
+                        <h4>Carnegie Mellon AI Safety Initiative</h4>
+                        <p>Building safer AI for everyone</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h5>Navigation</h5>
+                        <a href="about.html">About</a>
+                        <a href="team.html">Team</a>
+                        <a href="get-involved.html">Get Involved</a>
+                        <a href="contact.html">Join Us!</a>
+                    </div>
+                    <div class="footer-section">
+                        <h5>Connect</h5>
+                        <a href="https://discord.gg/t9VyYhNQzb" target="_blank">Discord Server</a>
+                        <a href="mailto:casi@andrew.cmu.edu">Email Us</a>
+                        <a href="https://tartanconnect.cmu.edu/CASI/club_signup" target="_blank">Mailing List</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Carnegie Mellon AI Safety Initiative</p>
+                <p class="cmu-address">Units 1M and 1E of the Craig-Henry Building, 201 South Craig Street, Pittsburgh, PA 15213</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
