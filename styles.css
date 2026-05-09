@@ -2114,6 +2114,22 @@ body {
     box-shadow: var(--shadow-md);
 }
 
+.hackathon-status-card {
+    margin: 20px auto 0;
+    max-width: 760px;
+    background: rgba(59, 130, 246, 0.12);
+    border: 1px solid var(--border-highlight);
+    border-radius: 12px;
+    padding: 14px 18px;
+}
+
+.hackathon-status-card p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
 .hackathon-content {
     max-width: 900px;
     margin: 0 auto;
@@ -2834,6 +2850,31 @@ body {
     color: var(--text-secondary);
 }
 
+.blog-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.blog-filter-chip {
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-secondary);
+    color: var(--text-secondary);
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.blog-filter-chip:hover,
+.blog-filter-chip.active {
+    border-color: var(--accent-blue);
+    color: var(--accent-blue);
+}
+
 .blog-list {
     display: flex;
     flex-direction: column;
@@ -2873,6 +2914,22 @@ body {
     font-size: 17px;
     line-height: 1.6;
     margin-bottom: 10px;
+}
+
+.blog-card-labels {
+    margin-bottom: 10px;
+}
+
+.blog-label-chip {
+    display: inline-block;
+    border: 1px solid var(--border-highlight);
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px;
+    line-height: 1.4;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent-blue);
+    background: rgba(59, 130, 246, 0.08);
 }
 
 /* Blog listing date + post author + footer dateline: same mono treatment */
