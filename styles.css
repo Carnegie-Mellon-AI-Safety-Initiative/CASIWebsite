@@ -2987,6 +2987,14 @@ body {
     margin-bottom: 22px;
 }
 
+.blog-post-event-link {
+    font-size: 17px !important;
+    line-height: 1.65 !important;
+    color: var(--text-secondary) !important;
+    margin-top: -12px !important;
+    margin-bottom: 26px !important;
+}
+
 .blog-post-article p.blog-post-published {
     font-size: 14px !important;
     line-height: 1.5 !important;
