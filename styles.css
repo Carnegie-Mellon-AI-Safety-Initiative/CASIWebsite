@@ -1849,23 +1849,65 @@ body {
 }
 
 .logos-grid {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     align-items: center;
-    gap: 48px;
-    flex-wrap: wrap;
+    justify-items: center;
+    gap: 44px 48px;
+    max-width: 760px;
+    margin: 0 auto;
 }
 
 .company-logo {
-    height: 40px;
+    height: 34px;
     width: auto;
+    max-width: 100%;
+    object-fit: contain;
     opacity: 0.7;
     transition: opacity 0.3s ease, transform 0.3s ease;
     filter: grayscale(100%);
 }
 
+/* Per-logo height tuning so every mark reads at the same visual size */
+.company-logo[alt="OpenAI"] {
+    height: 27px;
+}
+
 .company-logo[alt="Anthropic"] {
+    height: 17px;
+}
+
+.company-logo[alt="Gray Swan"] {
+    height: 37px;
+}
+
+.company-logo[alt="MATS"] {
     height: 29px;
+}
+
+.company-logo[alt="Constellation"] {
+    height: 31px;
+}
+
+/* SPAR has no wordmark image: pair its icon with a text wordmark */
+.company-logo--spar {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 34px;
+}
+
+.spar-mark {
+    height: 34px;
+    width: auto;
+}
+
+.spar-word {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+    line-height: 1;
 }
 
 .company-logo:hover {
@@ -1880,17 +1922,39 @@ body {
     }
     
     .logos-grid {
-        gap: 32px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px 24px;
     }
-    
-    .company-logo {
-        height: 32px;
+
+    .company-logo[alt="OpenAI"] {
+        height: 26px;
     }
-    
+
     .company-logo[alt="Anthropic"] {
-        height: 24px;
+        height: 17px;
     }
-    
+
+    .company-logo[alt="Gray Swan"] {
+        height: 29px;
+    }
+
+    .company-logo[alt="MATS"] {
+        height: 26px;
+    }
+
+    .company-logo[alt="Constellation"] {
+        height: 26px;
+    }
+
+    .company-logo--spar,
+    .spar-mark {
+        height: 29px;
+    }
+
+    .spar-word {
+        font-size: 20px;
+    }
+
     .logos-heading {
         font-size: 16px;
         margin-bottom: 24px;
