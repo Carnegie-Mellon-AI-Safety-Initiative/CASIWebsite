@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Geopolitics Creates Conscripted Corporate Monsters - CASI Blog</title>
+    <link rel="icon" href="assets/CASI Logo white circle.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="logo-link">
+                    <img src="assets/CASI Logo transperent.png" alt="CASI Logo" class="logo-img">
+                    <div class="logo-text">
+                        <span class="logo-main">CASI</span>
+                        <span class="logo-sub">AI Safety Initiative</span>
+                    </div>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="team.html" class="nav-link">About</a>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">Get Involved <span class="dropdown-arrow">▼</span></a>
+                    <div class="dropdown-menu">
+                        <a href="technical-reading-group.html" class="dropdown-link">AI Alignment Fundamentals</a>
+                        <a href="policy-reading-group.html" class="dropdown-link">AI Governance Fundamentals</a>
+                        <a href="research-fellowship.html" class="dropdown-link">CASI Research Fellowship</a>
+                        <a href="research-scholars.html" class="dropdown-link">CASI Research Scholars</a>
+                        <a href="seminar.html" class="dropdown-link">AI Safety Seminar</a>
+                    </div>
+                </div>
+                <a href="core-membership.html" class="nav-link">Membership</a>
+                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="contact.html" class="nav-link">Join Us!</a>
+                <a href="get-involved.html" class="nav-link upcoming-events-btn">Upcoming Events</a>
+            </div>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-nav">
+            <a href="index.html" class="mobile-nav-link">Home</a>
+            <a href="team.html" class="mobile-nav-link">About</a>
+            <a href="technical-reading-group.html" class="mobile-nav-link">AI Alignment Fundamentals</a>
+            <a href="policy-reading-group.html" class="mobile-nav-link">AI Governance Fundamentals</a>
+            <a href="research-fellowship.html" class="mobile-nav-link">CASI Research Fellowship</a>
+            <a href="research-scholars.html" class="mobile-nav-link">CASI Research Scholars</a>
+            <a href="seminar.html" class="mobile-nav-link">AI Safety Seminar</a>
+            <a href="core-membership.html" class="mobile-nav-link">Membership</a>
+            <a href="blog.html" class="mobile-nav-link active">Blog</a>
+            <a href="contact.html" class="mobile-nav-link">Join Us!</a>
+            <a href="get-involved.html" class="mobile-nav-link upcoming-events-btn">Upcoming Events</a>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container header-content">
+            <h1 class="page-title">Blog</h1>
+            <p class="page-subtitle">Read about the work from our CASI members</p>
+        </div>
+    </header>
+
+    <main class="blog-post-main">
+        <article class="container blog-post-article">
+            <h2 class="blog-post-title">How Geopolitics Creates Conscripted Corporate Monsters</h2>
+            <div class="blog-post-meta">
+                <span class="blog-post-author">Taeho Lee, Christina Li, and Anishka Jannu</span>
+            </div>
+
+            <pre id="blog-md-source" class="blog-md-verbatim" style="display:none;"># **How Geopolitics Creates Conscripted Corporate Monsters**
+
+*Taeho Lee, Christina Li, and Anishka Jannu*
+
+Anthropic is a company that delivers shocking products. However, on June 12, 2026, they were themselves shocked when the Trump Administration announced that Anthropic’s cutting-edge Mythos-class Fable model would be restricted from use by foreign nationals. While the company scrambled to negotiate with the administration, the outside world learned a harsh lesson. Uncle Sam could decide, with little explanation, to coerce a private American company to protect the interests of Washington.
+
+Anthropic may have looked like the victim that day, and to an extent, it was. However, Anthropic, and other AI-related companies—including labs such as OpenAI and cloud providers such as Amazon and Microsoft—are perhaps not so innocent. There exists a vicious cycle between these companies, the state, and the balance of power, where geopolitical competition sets off a runaway reaction. As geopolitical competition intensifies, the state gains an incentive to concentrate power in a few national champions. Those companies then become more potent in terms of coercive power. This causes geopolitical competition to accelerate, and thus the cycle starts anew.
+
+# **The Knights of the Cloud Table**
+
+The U.S. and China are locked in vigorous competition. And so as they compete on the world stage, each country uses every tool at its disposal, companies included. Both have an incentive to concentrate corporate power in national champions, since the fewer the number of firms, the easier they are to control.
+
+Intel was a household name in the 1990s, but has been in a slump in the AI age. That was, until August 2025, when the Trump Administration took 10% equity in the company at a cost of $8.9 billion. As of writing, Intel’s stock price has risen roughly fivefold. More examples of state-favored concentration can be found with Elon Musk’s AI company (now SpaceX subsidiary) xAI, which secured a contract to supply its model Grok to the U.S. government. Mr. Musk offers custom models and Forward Deployed Engineering (FDE) support, and in return gets a large buyer. And in general, the loose regulatory framework of the Trump Administration does little to stop the market concentration of AI and cloud companies.
+
+Now that the state has large national champions, the next step is to make them do its bidding. The first method is through President-to-CEO talks. From a ritzy September gala where the top tech CEOs met with Mr. Trump to talk AI, to NVIDIA’s CEO Jensen Huang accompanying Mr. Trump to a diplomatic mission to China, it is easier to exert control over the CEOs of a few concentrated companies. The second is through conditional access. NVIDIA was theoretically granted access to the China market if it shared 25% of revenue with the U.S. government (although no shipments have yet been made). If, instead, the Trump Administration was dealing with an entire industry, could it really shake everyone down for 25% of their revenue?
+
+**Laissez-Warfare**
+
+Concentrated companies can now be used to project power more potently than a free-market approach. A company usually wants to maximize profit, but if it holds a key technology, the state can announce a “national security concern,” profits be damned. A prime example is the U.S. government's earlier export restriction of advanced NVIDIA chips to China, lowering the company’s profits but weakening China. Another example is the national-security push for chip manufacturing capacity in the United States.
+
+China has not been sitting idle—its interventionist industrial policy promotes national AI champions to bolster soft power. Chinese efforts can be split into two categories: developing key industries, and promoting its open-source AI models in emerging markets. China’s 15th Five Year Plan calls for a domestic advanced-chip manufacturing industry and AI economic diffusion, likely leveraging its concentrated state-owned enterprises. According to RAND, China promotes its companies’ models abroad through more AI-related diplomacy and multilateral initiatives than the U.S.
+
+Lastly, there is that final tool of international competition: defense. The Trump Administration loudly calls for AI companies to be integrated into the Department of Defense. Anthropic’s recent row with the DoD over Claude’s adoption in military operations is a governmental setback, but it shows controlling intent. The kingmaking nature of the state through contracts and regulation incentivizes companies to comply. And the prize is large: a more efficient and deadly war machine.
+
+**The Honourable East Intelligence Company**
+
+Coercive potency feeds right back into geopolitical competition. As a state gains in power through powerful and loyal national champions, other states get scared. They seek to concentrate power into their own national champions. Terrified of losing sovereignty, the French government replaced American firm Palantir with domestic firm ChapsVision in its intelligence service, and directed 665 million euros to French AI firm Mistral to develop a state chatbot for civil servants. France’s actions therefore display the dynamic. Everybody feels they have to concentrate to compete, and the deadly loop starts right back up again.
+
+National champions are nothing new. Just look at the Dutch and British East India Companies, massive corporations that ruled over millions. But while these 18th-century national champions traded in tea and spices, today's national champions trade in the future of humanity—technology that may cause human extinction. Is Anthropic the next V.O.C.? Let’s hope not.</pre>
+            <div id="blog-md-rendered" class="blog-rendered-content"></div>
+            <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+            <script>
+                (function () {
+                    var source = document.getElementById('blog-md-source');
+                    var target = document.getElementById('blog-md-rendered');
+                    var titleEl = document.querySelector('.blog-post-title');
+                    var authorEl = document.querySelector('.blog-post-author');
+                    if (!source || !target || !window.marked) return;
+
+                    // Escape a string for safe use inside a RegExp
+                    function escapeRegExp(str) {
+                        return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    }
+
+                    var cleaned = (source.textContent || '')
+                        .replace(/\r\n/g, '\n')
+                        .trim();
+
+                    // Strip a leading markdown title line (e.g. "# **Title**") if it
+                    // matches the page's own <h2 class="blog-post-title"> text, so we
+                    // never hardcode a specific post's title here.
+                    if (titleEl) {
+                        var titleText = titleEl.textContent.trim();
+                        var titlePattern = new RegExp('^#+\\s*\\**\\s*' + escapeRegExp(titleText) + '\\s*\\**\\s*\\n?', 'i');
+                        cleaned = cleaned.replace(titlePattern, '');
+                    }
+
+                    // Strip a leading byline line (e.g. "*Author One, Author Two*") if
+                    // it matches the page's own .blog-post-author text.
+                    if (authorEl) {
+                        var authorText = authorEl.textContent.trim();
+                        // Byline may use "and"/"," interchangeably between the h2 meta
+                        // and the markdown source, so split on both and match loosely.
+                        var authorNames = authorText.split(/,|\band\b/i).map(function (s) {
+                            return s.trim();
+                        }).filter(Boolean);
+                        var authorAlternation = authorNames.map(escapeRegExp).join('|');
+                        if (authorAlternation) {
+                            var authorPattern = new RegExp('^\\s*\\*[^\\n]*(' + authorAlternation + ')[^\\n]*\\*\\s*\\n?', 'i');
+                            cleaned = cleaned.replace(authorPattern, '');
+                        }
+                    }
+
+                    cleaned = cleaned
+                        .replace(/^\s*·\s*/gm, '- ')
+                        .replace(/\n{3,}/g, '\n\n')
+                        .trim();
+
+                    target.innerHTML = window.marked.parse(cleaned);
+
+                    // Belt-and-suspenders: if a duplicate heading/byline still slipped
+                    // through (e.g. wording didn't match exactly), remove it.
+                    var firstHeading = target.querySelector('h1, h2');
+                    if (titleEl && firstHeading && firstHeading.textContent.trim().toLowerCase() === titleEl.textContent.trim().toLowerCase()) {
+                        firstHeading.remove();
+                    }
+                    var firstPara = target.querySelector('p');
+                    if (authorEl && firstPara) {
+                        var firstParaLower = firstPara.textContent.toLowerCase();
+                        var authorHit = authorEl.textContent.split(/,|\band\b/i).some(function (name) {
+                            name = name.trim().toLowerCase();
+                            return name && firstParaLower.indexOf(name) !== -1;
+                        });
+                        if (authorHit) firstPara.remove();
+                    }
+
+                    var citationHeadings = target.querySelectorAll('h1, h2, h3, h4');
+                    citationHeadings.forEach(function (heading) {
+                        if (!/references|bibliography|cited works|additional sources/i.test(heading.textContent || '')) return;
+                        var next = heading.nextElementSibling;
+                        while (next && !/^(OL|UL)$/i.test(next.tagName)) {
+                            next = next.nextElementSibling;
+                        }
+                        if (next) next.classList.add('blog-ref-list');
+                    });
+                    target.querySelectorAll('a').forEach(function (a) {
+                        a.classList.add('text-link');
+                        if (!a.getAttribute('target')) a.setAttribute('target', '_blank');
+                        if (!a.getAttribute('rel')) a.setAttribute('rel', 'noopener noreferrer');
+                    });
+                })();
+            </script>
+
+            <p class="blog-post-published blog-post-published--footer">Published 7/1/2026</p>
+            <p class="blog-post-back-link"><a href="blog.html">← Back to blog home</a></p>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="assets/CASI Logo white circle.ico" alt="CASI Logo" class="footer-logo">
+                    <div class="footer-info">
+                        <h4>Carnegie Mellon AI Safety Initiative</h4>
+                        <p>Building safer AI for everyone</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h5>Navigation</h5>
+                        <a href="about.html">About</a>
+                        <a href="team.html">Team</a>
+                        <a href="get-involved.html">Get Involved</a>
+                        <a href="contact.html">Join Us!</a>
+                    </div>
+                    <div class="footer-section">
+                        <h5>Connect</h5>
+                        <a href="https://discord.gg/t9VyYhNQzb" target="_blank">Discord Server</a>
+                        <a href="mailto:casi@andrew.cmu.edu">Email Us</a>
+                        <a href="https://tartanconnect.cmu.edu/CASI/club_signup" target="_blank">Mailing List</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="footer-year">2025</span> Carnegie Mellon AI Safety Initiative</p>
+                <p class="cmu-address">Units 1M and 1E of the Craig-Henry Building, 201 South Craig Street, Pittsburgh, PA 15213</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        var yearEl = document.getElementById('footer-year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
