@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM-Powered Drones Could Reverse the "Democratization of Warfare" - CASI Blog</title>
+    <link rel="icon" href="assets/CASI Logo white circle.ico" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html" class="logo-link">
+                    <img src="assets/CASI Logo transperent.png" alt="CASI Logo" class="logo-img">
+                    <div class="logo-text">
+                        <span class="logo-main">CASI</span>
+                        <span class="logo-sub">AI Safety Initiative</span>
+                    </div>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="team.html" class="nav-link">About</a>
+                <div class="nav-dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">Get Involved <span class="dropdown-arrow">▼</span></a>
+                    <div class="dropdown-menu">
+                        <a href="technical-reading-group.html" class="dropdown-link">AI Alignment Fundamentals</a>
+                        <a href="policy-reading-group.html" class="dropdown-link">AI Governance Fundamentals</a>
+                        <a href="research-fellowship.html" class="dropdown-link">CASI Research Fellowship</a>
+                        <a href="research-scholars.html" class="dropdown-link">CASI Research Scholars</a>
+                        <a href="seminar.html" class="dropdown-link">AI Safety Seminar</a>
+                    </div>
+                </div>
+                <a href="core-membership.html" class="nav-link">Membership</a>
+                <a href="blog.html" class="nav-link active">Blog</a>
+                <a href="contact.html" class="nav-link">Join Us!</a>
+                <a href="get-involved.html" class="nav-link upcoming-events-btn">Upcoming Events</a>
+            </div>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-nav">
+            <a href="index.html" class="mobile-nav-link">Home</a>
+            <a href="team.html" class="mobile-nav-link">About</a>
+            <a href="technical-reading-group.html" class="mobile-nav-link">AI Alignment Fundamentals</a>
+            <a href="policy-reading-group.html" class="mobile-nav-link">AI Governance Fundamentals</a>
+            <a href="research-fellowship.html" class="mobile-nav-link">CASI Research Fellowship</a>
+            <a href="research-scholars.html" class="mobile-nav-link">CASI Research Scholars</a>
+            <a href="seminar.html" class="mobile-nav-link">AI Safety Seminar</a>
+            <a href="core-membership.html" class="mobile-nav-link">Membership</a>
+            <a href="blog.html" class="mobile-nav-link active">Blog</a>
+            <a href="contact.html" class="mobile-nav-link">Join Us!</a>
+            <a href="get-involved.html" class="mobile-nav-link upcoming-events-btn">Upcoming Events</a>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="container header-content">
+            <h1 class="page-title">Blog</h1>
+            <p class="page-subtitle">Read about the work from our CASI members</p>
+        </div>
+    </header>
+
+    <main class="blog-post-main">
+        <article class="container blog-post-article">
+            <h2 class="blog-post-title">LLM-Powered Drones Could Reverse the "Democratization of Warfare"</h2>
+            <div class="blog-post-meta">
+                <span class="blog-post-author">Taeho Lee</span>
+            </div>
+
+            <pre id="blog-md-source" class="blog-md-verbatim" style="display:none;"># **LLM-Powered Drones Could Reverse the "Democratization of Warfare"**
+
+*Taeho Lee*
+
+The [TFL-1](https://thefourthlaw.ai/blog/the-fourth-law-and-ukrainian-armor-codify-ub60d-drone-with-tfl-1-autonomy-module/) system is a seemingly innocuous black module attached to a First-Person-View drone. With it, the FPV drone gains AI capability: the ability to fly autonomously in the last moments of its attack, striking the target even when contact with the drone operator is lost. Costing only between [$150 and $620](https://thefourthlaw.ai/#section4), it allows cash-strapped militaries to gain advanced strike capabilities. Defying electronic-warfare countermeasures, such Ukrainian AI-powered drones have wreaked havoc on Russian supply lines, while Iranian Shahed drones targeting the Strait of Hormuz have inflicted pain on the mighty United States. State and non-state actors that were previously outgunned by larger and better-funded militaries now have the capability to fight back using cheap drones that are increasingly AI-powered—the "[democratization of warfare](https://www.thebritishacademy.ac.uk/publications/the-democratisation-and-diversification-of-war-reflections-on-the-effects-of-technological-change-and-normative-retrenchment-on-the-character-of-contemporary-war/)." However, this trend may be short-lived; military power could return to the global superpowers. As AI-powered drones become widespread, the superpowers have something lesser powers do not: context.
+
+**Look Up for Context**
+
+Current AI-powered drones utilize "narrow" AI, which comprises mainly [computer vision systems and](https://www.csis.org/analysis/ukraines-future-vision-and-current-capabilities-waging-ai-enabled-autonomous-warfare) [autonomous navigation](https://www.csis.org/analysis/ukraines-future-vision-and-current-capabilities-waging-ai-enabled-autonomous-warfare). In Ukraine, such systems are a solution to widespread electronic-warfare systems the Russians employ. Fiber-optic drones are one established workaround, but the kilometers of cable they spool behind them can tangle, and cable shortages have made them expensive. "Narrow" AI-powered drones avoid these drawbacks by taking over guidance at the terminal attack phase, when the drone is most vulnerable to electronic-warfare. The operator simply marks a visible target on their screen, and the drone does the rest.
+
+However, innovation is not likely to stop at "narrow" AI, as locally run agentic LLMs are the logical future step in drone warfare. Sitting [above narrow AI systems](https://arxiv.org/abs/2503.08302) as the "brain" of the drone, they could command vision, flight, and navigation modules. With the ability to process data, LLM-powered drones could automate the entire mission, carrying out strikes from launch to detonation. Additionally, they may not require a one-to-one ratio of operator to drone; swarms of LLM-powered drones could be directed by one human operator using natural language. Such drones could also communicate amongst themselves, lowering the burden on the human operator. A decisive advantage in fires will go to the military that first uses such drones on a mass scale.
+
+How would such LLM-powered drones undo the democratization of warfare? After all, compact local LLMs are cheaper to deploy than compute-heavy frontier LLMs. Shouldn't smaller powers be able to make cheap military-grade LLMs to use on their own drones, reinforcing the current democratizing trend? Not so. LLMs have an unofficial motto: garbage in, garbage out. An LLM-powered drone, no matter how effective the onboard LLM model, is only as good as the context it receives. Context means data gathered by sensors, which becomes mission context for LLMs to analyze. Context is everything: it shapes the mission plan, determines whether a target is a target, and guides the approach to the strike. Context is where the United States and China dominate. The United States has developed a battlefield data collection ecosystem over decades. Satellites gaze down from space, F-35 jets collect data from the skies, and American intelligence agencies harvest troves of data. In 2024, Palantir's military data-aggregation software Maven had [179 live feeds](https://www.wired.com/story/project-maven-katrina-manson-book-excerpt/) from land, sea, air, space, and cyber providing data to be processed. China intends to leverage an advanced C4ISR system, a "[network](https://media.defense.gov/2024/Dec/18/2003615520/-1/-1/0/MILITARY-AND-SECURITY-DEVELOPMENTS-INVOLVING-THE-PEOPLES-REPUBLIC-OF-CHINA-2024.PDF) [information system-of-systems](https://media.defense.gov/2024/Dec/18/2003615520/-1/-1/0/MILITARY-AND-SECURITY-DEVELOPMENTS-INVOLVING-THE-PEOPLES-REPUBLIC-OF-CHINA-2024.PDF)," to conduct data-driven AI-powered precision strikes. Both nations have systems capable of harvesting vast amounts of data and transforming it into onboard model context, a capability that non-superpowers largely lack.
+
+**The Immoral Future of Killing**
+
+To illustrate the transformative nature of LLM-powered drones, let us first examine a simplified version of the [kill-chain](https://www.doctrine.af.mil/Portals/61/documents/AFDP_3-60/3-60-AFDP-TARGETING.pdf) used in the Iran war. During the first wave of strikes, the kill-chain may have looked like this. First, a target is detected. Second, the data is gathered and sent out of Iranian territory. Third, it is then processed by the [Maven system](https://www.washingtonpost.com/technology/2026/03/04/anthropic-ai-iran-campaign/), and an order is sent back to a local weapons system. Fourth, the weapons system fires, and the munition arrives. This process could take hours. During those opening hours, the IRGC launched retaliatory missiles and drones across the region. However, in a potential scenario where LLM-powered drones are used, the timeline is compressed. A target could be detected, its data sent directly to LLM-powered drones loitering in enemy airspace (perhaps via technologies such as directional optical links), and the strike planned and executed locally. The entire process could take minutes instead of hours, leaving little time for retaliation—or human review.
+
+The advent of LLM-powered drones could reconcentrate military power in the hands of the two superpowers. This shift would likely be legally and ethically horrendous. This article has explained how such technology might work, and the allure of military power (or desperation, in the case of Ukraine) will likely drive the technology forward. Make no mistake: the advent of such drones amounts to fully autonomous AI weapons. Can the laws of war stand up to such technology? Can our ethical codes stand up to such weapons? Or will efficiency conquer both legality and ethics and turn war even more monstrous?</pre>
+            <div id="blog-md-rendered" class="blog-rendered-content"></div>
+            <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+            <script>
+                (function () {
+                    var source = document.getElementById('blog-md-source');
+                    var target = document.getElementById('blog-md-rendered');
+                    var titleEl = document.querySelector('.blog-post-title');
+                    var authorEl = document.querySelector('.blog-post-author');
+                    if (!source || !target || !window.marked) return;
+
+                    // Escape a string for safe use inside a RegExp
+                    function escapeRegExp(str) {
+                        return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    }
+
+                    var cleaned = (source.textContent || '')
+                        .replace(/\r\n/g, '\n')
+                        .trim();
+
+                    // Strip a leading markdown title line (e.g. "# **Title**") if it
+                    // matches the page's own <h2 class="blog-post-title"> text, so we
+                    // never hardcode a specific post's title here.
+                    if (titleEl) {
+                        var titleText = titleEl.textContent.trim();
+                        var titlePattern = new RegExp('^#+\\s*\\**\\s*' + escapeRegExp(titleText) + '\\s*\\**\\s*\\n?', 'i');
+                        cleaned = cleaned.replace(titlePattern, '');
+                    }
+
+                    // Strip a leading byline line (e.g. "*Author One, Author Two*") if
+                    // it matches the page's own .blog-post-author text.
+                    if (authorEl) {
+                        var authorText = authorEl.textContent.trim();
+                        // Byline may use "and"/"," interchangeably between the h2 meta
+                        // and the markdown source, so split on both and match loosely.
+                        var authorNames = authorText.split(/,|\band\b/i).map(function (s) {
+                            return s.trim();
+                        }).filter(Boolean);
+                        var authorAlternation = authorNames.map(escapeRegExp).join('|');
+                        if (authorAlternation) {
+                            var authorPattern = new RegExp('^\\s*\\*[^\\n]*(' + authorAlternation + ')[^\\n]*\\*\\s*\\n?', 'i');
+                            cleaned = cleaned.replace(authorPattern, '');
+                        }
+                    }
+
+                    cleaned = cleaned
+                        .replace(/^\s*·\s*/gm, '- ')
+                        .replace(/\n{3,}/g, '\n\n')
+                        .trim();
+
+                    target.innerHTML = window.marked.parse(cleaned);
+
+                    // Belt-and-suspenders: if a duplicate heading/byline still slipped
+                    // through (e.g. wording didn't match exactly), remove it.
+                    var firstHeading = target.querySelector('h1, h2');
+                    if (titleEl && firstHeading && firstHeading.textContent.trim().toLowerCase() === titleEl.textContent.trim().toLowerCase()) {
+                        firstHeading.remove();
+                    }
+                    var firstPara = target.querySelector('p');
+                    if (authorEl && firstPara) {
+                        var firstParaLower = firstPara.textContent.toLowerCase();
+                        var authorHit = authorEl.textContent.split(/,|\band\b/i).some(function (name) {
+                            name = name.trim().toLowerCase();
+                            return name && firstParaLower.indexOf(name) !== -1;
+                        });
+                        if (authorHit) firstPara.remove();
+                    }
+
+                    var citationHeadings = target.querySelectorAll('h1, h2, h3, h4');
+                    citationHeadings.forEach(function (heading) {
+                        if (!/references|bibliography|cited works|additional sources/i.test(heading.textContent || '')) return;
+                        var next = heading.nextElementSibling;
+                        while (next && !/^(OL|UL)$/i.test(next.tagName)) {
+                            next = next.nextElementSibling;
+                        }
+                        if (next) next.classList.add('blog-ref-list');
+                    });
+                    target.querySelectorAll('a').forEach(function (a) {
+                        a.classList.add('text-link');
+                        if (!a.getAttribute('target')) a.setAttribute('target', '_blank');
+                        if (!a.getAttribute('rel')) a.setAttribute('rel', 'noopener noreferrer');
+                    });
+                })();
+            </script>
+
+            <p class="blog-post-published blog-post-published--footer">Published 7/13/2026</p>
+            <p class="blog-post-back-link"><a href="blog.html">← Back to blog home</a></p>
+        </article>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="assets/CASI Logo white circle.ico" alt="CASI Logo" class="footer-logo">
+                    <div class="footer-info">
+                        <h4>Carnegie Mellon AI Safety Initiative</h4>
+                        <p>Building safer AI for everyone</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h5>Navigation</h5>
+                        <a href="about.html">About</a>
+                        <a href="team.html">Team</a>
+                        <a href="get-involved.html">Get Involved</a>
+                        <a href="contact.html">Join Us!</a>
+                    </div>
+                    <div class="footer-section">
+                        <h5>Connect</h5>
+                        <a href="https://discord.gg/t9VyYhNQzb" target="_blank">Discord Server</a>
+                        <a href="mailto:casi@andrew.cmu.edu">Email Us</a>
+                        <a href="https://tartanconnect.cmu.edu/CASI/club_signup" target="_blank">Mailing List</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="footer-year">2025</span> Carnegie Mellon AI Safety Initiative</p>
+                <p class="cmu-address">Units 1M and 1E of the Craig-Henry Building, 201 South Craig Street, Pittsburgh, PA 15213</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        var yearEl = document.getElementById('footer-year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
