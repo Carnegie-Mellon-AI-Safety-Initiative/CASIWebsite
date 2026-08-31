@@ -10,6 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Home mailing-list promo arrow: show through end of Sept 6, 2026
+    const mailingListWrap = document.querySelector('.home-mailing-list-wrap');
+    if (mailingListWrap && Date.now() < new Date('2026-09-07T00:00:00').getTime()) {
+        mailingListWrap.classList.add('show-promo-arrow');
+    }
+
     // Contact form submission
     const contactForm = document.querySelector('.contact-form');
     if (contactForm) {

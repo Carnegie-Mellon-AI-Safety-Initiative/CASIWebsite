@@ -238,6 +238,45 @@ body {
     box-shadow: var(--shadow-md);
 }
 
+.nav-mobile-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.home-mailing-list-wrap {
+    display: none;
+    position: relative;
+}
+
+.home-mailing-list-btn {
+    display: inline-block;
+    text-decoration: none !important;
+}
+
+.home-mailing-list-arrow {
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 12px);
+    transform: translateX(-50%);
+    color: var(--accent-purple);
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+    pointer-events: none;
+    animation: mailing-list-arrow-bounce 1.2s ease-in-out infinite;
+}
+
+@keyframes mailing-list-arrow-bounce {
+    0%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    50% {
+        transform: translateX(-50%) translateY(-6px);
+    }
+}
+
 .mobile-menu-toggle {
     display: none;
     flex-direction: column;
@@ -851,6 +890,26 @@ body {
 @media (max-width: 768px) {
     .mobile-menu-toggle {
         display: flex;
+    }
+
+    .home-mailing-list-wrap {
+        display: block;
+    }
+
+    .home-mailing-list-btn {
+        white-space: nowrap;
+        font-size: 13px;
+        padding: 8px 14px;
+        line-height: 1.2;
+        text-decoration: none !important;
+    }
+
+    .home-mailing-list-arrow {
+        display: none;
+    }
+
+    .home-mailing-list-wrap.show-promo-arrow .home-mailing-list-arrow {
+        display: block;
     }
 
     .nav-links {
