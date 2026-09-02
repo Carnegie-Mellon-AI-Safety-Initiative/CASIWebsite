@@ -6,6 +6,41 @@
 <meta name="description" content="Carnegie Mellon AI Safety Initiative: research, programs, and events working towards a safer future in the presence of powerful artificial intelligence.">
 <link rel="icon" href="assets/brand/CASI Logo white circle.ico" type="image/x-icon">
 <style>
+/* Scroll motion.
+   The states live in attributes, not in inline styles: the template runtime
+   rewrites style="..." on every re-render, which wiped the inline transition
+   and killed the fade. Attributes survive that, so the CSS below owns the
+   animation and the logic class only flips data-rev between 0 and 1.
+   Nothing here applies unless JS arms an element, so the reduced-motion bail
+   in initMotion() still leaves the page completely untouched. */
+/* A keyframe animation, not a transition between two states. The runtime
+   rebuilds nodes and re-renders constantly, and a transition can be dropped
+   mid-flight, which is what flickered. An animation with "both" fill carries
+   its own from-state, so nothing has to be hidden first and a dropped frame
+   leaves the element visible rather than stuck. */
+@keyframes casi-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes casi-rise-lg { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+[data-rev="0"] { opacity: 0; }
+[data-rev="1"] { animation: casi-rise 660ms cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+[data-rev="1"][data-rv="rise"] { animation-name: casi-rise-lg; animation-duration: 760ms; }
+/* A heading pair that should land sooner. */
+[data-rev="1"][data-fast] { animation-duration: 480ms; }
+[data-rev="1"][data-rd="70"]  { animation-delay: 70ms; }
+[data-rev="1"][data-rd="140"] { animation-delay: 140ms; }
+[data-rev="1"][data-rd="210"] { animation-delay: 210ms; }
+[data-rev="1"][data-rd="280"] { animation-delay: 280ms; }
+[data-rev="1"][data-rd="160"] { animation-delay: 160ms; }
+[data-rev="1"][data-rd="320"] { animation-delay: 320ms; }
+[data-rev="1"][data-fast][data-rd="160"] { animation-delay: 60ms; }
+[data-rev="1"][data-fast][data-rd="320"] { animation-delay: 130ms; }
+[data-rev="1"][data-rd="70"]  { transition-delay: 70ms; }
+[data-rev="1"][data-rd="140"] { transition-delay: 140ms; }
+[data-rev="1"][data-rd="210"] { transition-delay: 210ms; }
+[data-rev="1"][data-rd="280"] { transition-delay: 280ms; }
+[data-rev="1"][data-rd="160"] { transition-delay: 160ms; }
+[data-rev="1"][data-rd="320"] { transition-delay: 320ms; }
+</style>
+<style>
 /* Mobile treatment for the sticky header.
    The desktop header is a 3-column grid: logo, nav, Join Us. Below 860px the
    six nav links plus the button no longer fit on one line, so the row is
@@ -34,6 +69,14 @@
   header > nav a[data-nav] { font-size: 15px !important; }
   /* keep a hover menu inside the viewport on a narrow screen */
   header > nav > div > div { max-width: 92vw !important; }
+  /* the program description sections are two columns on desktop; stack them */
+  section[data-program] {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  section[data-program] > div:first-child {
+    position: static !important;
+  }
 }
 @media (max-width: 480px) {
   header > nav { gap: 8px 14px !important; }
@@ -255,7 +298,7 @@
       <div style="position:relative;z-index:1;max-width:736px">
         <h1 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(36px,4.2vw,56px);font-weight:700;line-height:1;letter-spacing:0em;text-wrap:balance">Carnegie Mellon<br>AI Safety Initiative</h1>
         <p style="margin:24px 0 0;max-width:820px;font-size:20px;font-weight:400;line-height:1.5;color:#2E4057;text-wrap:pretty"><span style="color:#2E4057">Working towards a </span><span style="color:#2F5FA8;font-weight:700">safer future</span><span style="color:#2E4057"> in the presence of </span><span style="color:#2F5FA8;font-weight:700">powerful artificial intelligence</span></p>
-        <div style="display:flex;flex-wrap:wrap;gap:16px;margin-top:56px">
+        <div data-rise="1" style="display:flex;flex-wrap:wrap;gap:16px;margin-top:56px">
           <a href="https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform?usp=dialog" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:0 22px;height:48px;border-radius:14px;background:#1B151A;border:1px solid #1B151A;color:#F7F9FC;font-size:17px;font-weight:700" style-hover="background:transparent;color:#0E030B">
             <span>Join our mailing list</span>
           </a>
@@ -312,7 +355,7 @@
       </div>
     </section>
 
-    <section style="background:#F7F9FC;color:#0E030B;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px)">
+    <section data-norev style="background:#F7F9FC;color:#0E030B;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px)">
       <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0 0 40px;text-align:center;font-size:22px;font-weight:700;letter-spacing:0.005em">Our members have worked with</h2>
       <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:20px clamp(24px,3vw,44px)">
         <sc-for list="{{ orgs }}" as="org" hint-placeholder-count="6">
@@ -345,12 +388,12 @@
   <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
   <main data-screen-label="About">
 
-    <section style="position:relative;overflow:hidden;min-height:clamp(760px,124vh,1400px);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:0 clamp(24px,5vw,96px);background-color:#F7F9FC;background-image:linear-gradient(180deg,#cfd8e6 0%,#c4cfe0 20%,#8fa3c9 36%,#546ea8 50%,#31468f 60%,#252a55 70%,#1b1826 78%,#3b3a48 83%,#6f7488 88%,#a9b2c6 92%,#d8dfea 96%,#F7F9FC 100%)">
+    <section data-norev style="position:relative;overflow:hidden;min-height:clamp(760px,124vh,1400px);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:0 clamp(24px,5vw,96px);background-color:#F7F9FC;background-image:linear-gradient(180deg,#cfd8e6 0%,#c4cfe0 20%,#8fa3c9 36%,#546ea8 50%,#31468f 60%,#252a55 70%,#1b1826 78%,#3b3a48 83%,#6f7488 88%,#a9b2c6 92%,#d8dfea 96%,#F7F9FC 100%)">
       <div style="position:absolute;left:50%;top:-18%;width:196%;height:146%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(50% 50% at 50% 46%,#437FD5 28%,rgba(107,104,145,0.72) 62%,rgba(30,20,32,0) 100%);filter:blur(68px);pointer-events:none"></div>
       <div style="position:absolute;left:0;right:0;bottom:0;height:42%;background:linear-gradient(180deg,rgba(247,249,252,0) 0%,rgba(247,249,252,0.55) 44%,rgba(247,249,252,0.92) 76%,#F7F9FC 100%);pointer-events:none"></div>
       <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(32px,4vw,56px);width:100%;min-height:calc(100vh - 70px)">
-      <h1 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;position:relative;z-index:1;margin:0;max-width:18ch;text-align:center;font-size:clamp(36px,4.2vw,56px);font-weight:700;line-height:1.04;letter-spacing:0em;color:#ffffff;text-wrap:balance">Building a safer AI future from Pittsburgh</h1>
-      <svg width="48" height="46" sc-camel-view-box="0 0 45 44" fill="#ffffff" aria-label="CASI mark" style="position:relative;z-index:1">
+      <h1 data-rise="1" style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;position:relative;z-index:1;margin:0;max-width:18ch;text-align:center;font-size:clamp(36px,4.2vw,56px);font-weight:700;line-height:1.04;letter-spacing:0em;color:#ffffff;text-wrap:balance">Building a safer AI future from Pittsburgh</h1>
+      <svg width="48" height="46" sc-camel-view-box="0 0 45 44" fill="#ffffff" aria-label="CASI mark" data-rise="2" style="position:relative;z-index:1">
         <path d="M 22.455 9.957 C 21.257 8.056 19.393 5.743 17.037 5.734 L 7.741 5.699 L 0 5.671 L 0.026 3.474 L 0.073 0 L 22.426 0" transform="translate(0.01 0)"></path>
         <g transform="translate(0 8.496)">
           <path d="M 21.018 23.034 L 21.048 35.488 C 17.261 35.659 12.871 34.362 9.488 32.597 C 6.3 30.882 3.426 28.565 1.755 25.288 C 0.726 23.04 0.05 20.692 0.044 18.163 L 0 0 L 11.352 0.019 L 16.779 0.046 C 18.23 0.153 19.426 1.262 20.042 2.522 C 20.475 3.408 20.922 4.33 20.943 5.339 L 20.982 7.182 L 21.019 23.035 L 21.018 23.034 Z M 16.589 9.18 C 16.589 5.862 13.898 3.172 10.579 3.172 C 7.261 3.172 4.569 5.862 4.569 9.18 C 4.569 12.499 7.261 15.189 10.579 15.189 C 13.898 15.189 16.589 12.499 16.589 9.18 Z"></path>
@@ -380,11 +423,11 @@
       </sc-for>
     </section>
 
-    <section style="background:#F7F9FC;padding:0 clamp(24px,5vw,96px) clamp(88px,10vw,140px)">
+    <section data-norev style="background:#F7F9FC;padding:0 clamp(24px,5vw,96px) clamp(88px,10vw,140px)">
       <div data-bg="assets/fence.jpg" role="img" aria-label="CASI fence painting reading Smarter than us. Ready? CMU AI Safety" style="width:70%;margin:0 auto;aspect-ratio:1672 / 731;border-radius:7px;background-color:#0E030B;background-size:cover;background-position:center"></div>
     </section>
 
-    <section style="background:#A6B4B4;padding:clamp(40px,5vw,80px) clamp(24px,5vw,96px) clamp(136px,15vw,248px)">
+    <section data-norev style="background:#A6B4B4;padding:clamp(40px,5vw,80px) clamp(24px,5vw,96px) clamp(136px,15vw,248px)">
       <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.1;letter-spacing:0em;color:#0E030B">What We Offer</h2>
       <p style="margin:20px 0 0;max-width:68ch;font-size:20px;line-height:1.5;color:#2E4057;text-wrap:pretty">Explore the foundations of AI safety through our <span style="color:#0E030B;font-weight:700">AI Alignment Fundamentals</span> program, which covers technical research challenges, or our <span style="color:#0E030B;font-weight:700">AI Governance Fundamentals</span> program, which tackles the policy and governance challenges of AI.</p>
 
@@ -426,7 +469,7 @@
             <span>Spring 2026</span>
             <span>Weekly</span>
           </div>
-          <a href="#" sc-camel-on-click="{{ goPrograms }}" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;padding:0 20px;height:34px;border-radius:999px;background:#ffffff;color:#0E030B;font-size:15px" style-hover="background:#0E030B;color:#ffffff">Apply</a>
+          <a href="#" sc-camel-on-click="{{ goFellowship }}" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;padding:0 20px;height:34px;border-radius:999px;background:#ffffff;color:#0E030B;font-size:15px" style-hover="background:#0E030B;color:#ffffff">Apply</a>
         </div>
 
         <div style="position:relative;overflow:hidden;display:flex;flex-direction:column;aspect-ratio:268 / 320;padding:24px;border-radius:14px;background:#ffffff;color:#2E4057">
@@ -449,7 +492,7 @@
             <span>Fall/Spring</span>
             <span>10-20 hrs/week</span>
           </div>
-          <a href="#" sc-camel-on-click="{{ goPrograms }}" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;padding:0 20px;height:34px;border-radius:999px;background:#ffffff;color:#0E030B;font-size:15px" style-hover="background:#0E030B;color:#ffffff">Apply</a>
+          <a href="#" sc-camel-on-click="{{ goScholars }}" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;padding:0 20px;height:34px;border-radius:999px;background:#ffffff;color:#0E030B;font-size:15px" style-hover="background:#0E030B;color:#ffffff">Apply</a>
         </div>
       </div>
     </section>
@@ -476,14 +519,14 @@
     <div style="position:relative;z-index:1">
 
 
-    <section style="position:relative;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px) clamp(48px,6vw,72px)">
+    <section data-norev style="position:relative;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px) clamp(48px,6vw,72px)">
       <div style="position:relative">
-      <h1 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;max-width:1100px;font-size:clamp(34px,3.2vw,42px);font-weight:700;line-height:1.05;letter-spacing:0em;text-wrap:balance">Our team</h1>
-      <p style="margin:24px 0 0;max-width:56ch;font-size:20px;line-height:1.5;color:#2E4057;text-wrap:pretty">The exec board leading CASI this year.</p>
+      <h1 data-rise="1" style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;max-width:1100px;font-size:clamp(34px,3.2vw,42px);font-weight:700;line-height:1.05;letter-spacing:0em;text-wrap:balance">Our team</h1>
+      <p data-rise="2" style="margin:24px 0 0;max-width:56ch;font-size:20px;line-height:1.5;color:#2E4057;text-wrap:pretty">The exec board leading CASI this year.</p>
       </div>
     </section>
 
-    <section style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(32px,3.5vw,48px) clamp(20px,2vw,32px);padding:0 clamp(24px,5vw,96px) clamp(96px,11vw,176px)">
+    <section data-norev style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(32px,3.5vw,48px) clamp(20px,2vw,32px);padding:0 clamp(24px,5vw,96px) clamp(96px,11vw,176px)">
       <sc-for list="{{ board }}" as="p" hint-placeholder-count="13">
         <div>
           <div style="position:relative;aspect-ratio:3 / 4;border-radius:12px;overflow:hidden;background:#F7F9FC">
@@ -507,7 +550,7 @@
   <sc-if value="{{ isPrograms }}" hint-placeholder-val="{{ true }}">
   <main data-screen-label="Get Involved">
 
-    <section style="position:relative;overflow:hidden;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px) clamp(96px,11vw,176px)">
+    <section data-norev style="position:relative;overflow:hidden;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px) clamp(96px,11vw,176px)">
       <div aria-hidden="true" style="position:absolute;left:0;right:0;top:calc(-1 * clamp(64px,7.2vw,102px));height:clamp(440px,54vh,660px);overflow:hidden;pointer-events:none">
         <div style="position:absolute;inset:0;background-color:#F7F9FC"></div>
         <div style="position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(180deg,rgba(194,182,205,0.42) 0%,rgba(206,191,210,0.26) 26%,rgba(181,179,182,0.1) 56%,rgba(247,249,252,0) 92%)"></div>
@@ -526,12 +569,12 @@
               <p style="margin:16px 0 0;max-width:52ch;font-size:17px;line-height:1.5;color:#14163a;text-wrap:pretty">{{ p.desc }}</p>
             </div>
             <sc-if value="{{ p.filled }}" hint-placeholder-val="{{ true }}">
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform" target="_blank" rel="noopener" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;min-width:max-content;padding:0 24px;height:40px;border-radius:16px;font-size:15px;font-weight:400;white-space:nowrap;border:1px solid #1B151A;background:#1B151A;color:#ffffff;transition:background-color 160ms ease-out,color 160ms ease-out,border-color 160ms ease-out" style-hover="background:#ffffff;color:#0E030B;border-color:#CDD9F1">
+              <a href="{{ p.url }}" target="_blank" rel="noopener" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;min-width:max-content;padding:0 24px;height:40px;border-radius:16px;font-size:15px;font-weight:400;white-space:nowrap;border:1px solid #1B151A;background:#1B151A;color:#ffffff;transition:background-color 160ms ease-out,color 160ms ease-out,border-color 160ms ease-out" style-hover="background:#ffffff;color:#0E030B;border-color:#CDD9F1">
                 <span>{{ p.cta }}</span>
               </a>
             </sc-if>
             <sc-if value="{{ p.outlined }}" hint-placeholder-val="{{ false }}">
-              <a href="#" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;min-width:max-content;padding:0 24px;height:40px;border-radius:16px;font-size:15px;font-weight:400;white-space:nowrap;border:1px solid rgba(0,0,52,0.22);background:transparent;color:#0E030B;transition:background-color 160ms ease-out" style-hover="background:#CDD9F1">
+              <a href="#" sc-camel-on-click="{{ p.go }}" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;min-width:max-content;padding:0 24px;height:40px;border-radius:16px;font-size:15px;font-weight:400;white-space:nowrap;border:1px solid rgba(0,0,52,0.22);background:transparent;color:#0E030B;transition:background-color 160ms ease-out" style-hover="background:#CDD9F1">
                 <span>{{ p.cta }}</span>
               </a>
             </sc-if>
@@ -541,7 +584,7 @@
       </div>
     </section>
 
-    <section style="padding:0 clamp(24px,5vw,96px) clamp(96px,11vw,176px)">
+    <section data-norev style="padding:0 clamp(24px,5vw,96px) clamp(96px,11vw,176px)">
       <div style="display:grid;grid-template-columns:minmax(280px,1fr) minmax(220px,0.5fr);gap:clamp(40px,5vw,80px);align-items:start;padding:clamp(48px,5vw,72px) clamp(40px,4.5vw,64px);overflow:hidden;background:#2F2C3E;color:#F7F9FC;border-radius:{{ coreTopRadius }};position:relative">
         <div style="position:absolute;inset:0;background:radial-gradient(60% 70% at 50% 50%,rgba(198,204,240,0.126) 0%,rgba(198,204,240,0.054) 45%,rgba(198,204,240,0) 78%);pointer-events:none"></div>
         <div style="position:relative">
@@ -598,7 +641,7 @@
       </div>
     </section>
 
-    <section style="padding:clamp(96px,11vw,176px) clamp(24px,5vw,96px) clamp(96px,11vw,176px)">
+    <section data-norev style="padding:clamp(96px,11vw,176px) clamp(24px,5vw,96px) clamp(96px,11vw,176px)">
       <div style="max-width:820px;margin:0 auto;text-align:center">
         <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.1;letter-spacing:0em">Frequently Asked Questions</h2>
         <p style="margin:16px auto 0;max-width:52ch;font-size:17px;line-height:1.45;color:#2E4057;text-wrap:pretty">Everything students usually ask before joining CASI. Still unsure? Email us at <a href="mailto:casi@andrew.cmu.edu" style="color:#437FD5;font-weight:700">casi@andrew.cmu.edu</a>.</p>
@@ -618,7 +661,7 @@
       </div>
     </section>
 
-    <section style="display:grid;grid-template-columns:minmax(280px,0.8fr) 1.2fr;gap:clamp(40px,6vw,96px);padding:clamp(96px,11vw,176px) clamp(24px,5vw,96px) clamp(96px,11vw,176px);background:#2F2C3E;color:#F7F9FC">
+    <section data-norev style="display:grid;grid-template-columns:minmax(280px,0.8fr) 1.2fr;gap:clamp(40px,6vw,96px);padding:clamp(96px,11vw,176px) clamp(24px,5vw,96px) clamp(96px,11vw,176px);background:#2F2C3E;color:#F7F9FC">
       <div>
         <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.1;letter-spacing:0em">Get in touch</h2>
         <p style="margin:16px 0 0;max-width:44ch;font-size:17px;line-height:1.45;color:#A6B4B4;text-wrap:pretty">Reach out about membership, programs, or collaboration.</p>
@@ -678,12 +721,12 @@
         <div style="position:absolute;left:0;right:0;bottom:0;height:46%;background:linear-gradient(180deg,rgba(247,249,252,0) 0%,rgba(247,249,252,0.75) 58%,#F7F9FC 100%)"></div>
       </div>
       <div style="position:relative">
-        <h1 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(34px,3.2vw,42px);font-weight:700;line-height:1.05;letter-spacing:-0.005em">Events</h1>
-        <p style="margin:16px 0 0;max-width:52ch;font-size:20px;line-height:1.4;color:#2E4057;text-wrap:pretty">See what we have planned. <a href="{{ icalUrl }}" style="color:#437FD5;font-weight:700" style-hover="color:#0E030B">Subscribe to our calendar</a></p>
+        <h1 data-rise="1" data-fast style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(34px,3.2vw,42px);font-weight:700;line-height:1.05;letter-spacing:-0.005em">Events</h1>
+        <p data-rise="2" data-fast style="margin:16px 0 0;max-width:52ch;font-size:20px;line-height:1.4;color:#2E4057;text-wrap:pretty">See what we have planned. <a href="{{ icalUrl }}" style="color:#437FD5;font-weight:700" style-hover="color:#0E030B">Subscribe to our calendar</a></p>
       </div>
     </section>
 
-    <section style="padding:0">
+    <section data-norev style="padding:0">
       <div style="display:flex;align-items:center;justify-content:flex-end;gap:12px;padding:0 clamp(24px,5vw,96px) 16px;border-bottom:1px solid rgba(0,0,52,0.18)">
         <sc-for list="{{ eventTabs }}" as="tab" hint-placeholder-count="2">
           <a href="#" sc-camel-on-click="{{ tab.go }}" style="display:flex;align-items:center;padding:0 24px;height:40px;border-radius:16px;border:{{ tab.border }};background:{{ tab.bg }};color:{{ tab.color }};font-size:15px;font-weight:400">{{ tab.label }}</a>
@@ -691,7 +734,7 @@
       </div>
     </section>
 
-    <section style="display:flex;flex-direction:column;gap:clamp(16px,1.6vw,24px);width:min(100%,1080px);margin:0 auto;padding:clamp(24px,2.5vw,40px) clamp(24px,5vw,96px) clamp(88px,11vw,176px)">
+    <section data-norev style="display:flex;flex-direction:column;gap:clamp(16px,1.6vw,24px);width:min(100%,1080px);margin:0 auto;padding:clamp(24px,2.5vw,40px) clamp(24px,5vw,96px) clamp(88px,11vw,176px)">
       <sc-for list="{{ events }}" as="ev" hint-placeholder-count="4">
         <div style="display:grid;grid-template-columns:180px minmax(0,1fr) 200px;gap:clamp(20px,2.5vw,40px);align-items:stretch;min-height:232px;padding:clamp(8px,1vw,16px) clamp(24px,2.6vw,40px);border-radius:28px;color:#1B151A;background-color:#EFF0F1;border:1.5px solid #DFE1E4">
           <div style="padding:clamp(28px,3vw,36px) 0">
@@ -791,7 +834,7 @@
   <sc-if value="{{ isBlog }}" hint-placeholder-val="{{ true }}">
   <main data-screen-label="Blog">
 
-    <section style="position:relative;overflow:hidden;color:#0E030B;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px)">
+    <section data-norev style="position:relative;overflow:hidden;color:#0E030B;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px)">
       <div aria-hidden="true" style="position:absolute;left:0;right:0;top:calc(-1 * clamp(64px,7.2vw,102px));height:clamp(440px,54vh,660px);overflow:hidden;pointer-events:none">
         <div style="position:absolute;inset:0;background-color:#F7F9FC"></div>
         <div style="position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(180deg,rgba(194,182,205,0.42) 0%,rgba(206,191,210,0.26) 26%,rgba(181,179,182,0.1) 56%,rgba(247,249,252,0) 92%)"></div>
@@ -800,8 +843,8 @@
         <div style="position:absolute;left:0;right:0;bottom:0;height:46%;background:linear-gradient(180deg,rgba(247,249,252,0) 0%,rgba(247,249,252,0.75) 58%,#F7F9FC 100%)"></div>
       </div>
       <div style="position:relative">
-      <h1 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(34px,3.2vw,42px);font-weight:700;line-height:1.05;letter-spacing:-0.005em;color:#0E030B">Blog</h1>
-      <p style="margin:16px 0 0;max-width:52ch;font-size:20px;line-height:1.4;color:#2E4057;text-wrap:pretty">Read about our members’ work, on <a href="https://carnegieaisafety.substack.com/" target="_blank" rel="noopener" style="color:#437FD5;font-weight:700">our Substack</a>.</p>
+      <h1 data-rise="1" data-fast style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(34px,3.2vw,42px);font-weight:700;line-height:1.05;letter-spacing:-0.005em;color:#0E030B">Blog</h1>
+      <p data-rise="2" data-fast style="margin:16px 0 0;max-width:52ch;font-size:20px;line-height:1.4;color:#2E4057;text-wrap:pretty">Read about our members’ work, on <a href="https://carnegieaisafety.substack.com/" target="_blank" rel="noopener" style="color:#437FD5;font-weight:700">our Substack</a>.</p>
       <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:32px">
         <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
           <a href="#" sc-camel-on-click="{{ f.go }}" style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;display:flex;align-items:center;padding:0 24px;height:40px;border-radius:16px;border:2px solid transparent;font-size:15px;font-weight:400;background:{{ f.bg }};color:{{ f.fg }};letter-spacing:0.01em">{{ f.label }}</a>
@@ -809,7 +852,7 @@
         <span style="display:flex;align-items:center;flex:0 0 auto;height:40px;margin-left:8px;font-size:15px;color:#2E4057;white-space:nowrap">{{ postCount }}</span>
       </div>
 
-      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:1fr;gap:32px;margin-top:clamp(48px,5vw,64px)">
+      <div data-blog-grid style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:1fr;gap:32px;margin-top:clamp(48px,5vw,64px)">
         <sc-for list="{{ posts }}" as="post" hint-placeholder-count="6">
           <a href="{{ post.url }}" target="_blank" rel="noopener" itemscope="" itemtype="https://schema.org/BlogPosting" style="display:flex;flex-direction:column;height:100%;min-height:180px;padding:clamp(18px,2vw,24px) clamp(20px,2.4vw,32px);border-radius:28px;background:#EFF0F1;border:1.5px solid #DFE1E4;color:#1B151A;transition:border-color 160ms ease-out" style-hover="border-color:#BEC3CA">
             <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px">
@@ -827,11 +870,83 @@
   </main>
   </sc-if>
 
+  <sc-if value="{{ isDescriptions }}" hint-placeholder-val="{{ false }}">
+  <main data-screen-label="Program Descriptions">
+
+    <section style="display:flex;align-items:center;justify-content:center;min-height:clamp(300px,34vh,420px);padding:clamp(72px,9vw,132px) clamp(24px,5vw,96px);background-color:#C6CCF0;background-image:linear-gradient(180deg,#C6CCF0 0%,#C6CCF0 42%,#C1D0F3 70%,#BBD5F1 100%)">
+      <h1 data-rise="1" style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;text-align:center;font-size:clamp(34px,3.2vw,42px);font-weight:700;line-height:1.05;letter-spacing:-0.005em;color:#0E030B;text-wrap:balance">CASI Program Descriptions</h1>
+    </section>
+
+    <section id="research-fellowship" data-program="research-fellowship" style="background:#F7F9FC;display:grid;grid-template-columns:minmax(320px,0.95fr) minmax(320px,1.05fr);gap:clamp(40px,5vw,88px);align-items:start;padding:clamp(56px,7vw,104px) clamp(24px,5vw,96px) clamp(72px,9vw,128px)">
+      <div style="position:sticky;top:104px">
+        <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(28px,2.8vw,36px);font-weight:700;line-height:1.1;letter-spacing:0em;color:#0E030B">CASI Research Fellowship</h2>
+        <p style="margin:12px 0 0;max-width:34ch;font-size:20px;font-weight:700;line-height:1.4;color:#437FD5">Explore and develop AI safety research projects</p>
+        <p style="margin:28px 0 0;max-width:42ch;font-size:24px;line-height:1.4;color:#0E030B;text-wrap:pretty">Hands-on research experience in AI safety for motivated students who are ready to dive deeper into the field.</p>
+      </div>
+      <div>
+        <p style="margin:0;font-size:17px;line-height:1.55;color:#2E4057;max-width:64ch;text-wrap:pretty">Our Research Fellowship provides hands-on research experience in AI safety for motivated students ready to dive deeper into the field. This program requires an extended application process and is designed for students who have demonstrated commitment to AI safety research.</p>
+        <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:clamp(36px,3.6vw,48px) 0 0;font-size:22px;font-weight:700;letter-spacing:0.01em;color:#0E030B">Prerequisites</h3>
+        <p style="margin:12px 0 0;font-size:17px;line-height:1.55;color:#2E4057;max-width:64ch;text-wrap:pretty">Applicants must have either completed one of our introductory reading groups with good attendance, or demonstrate equivalent experience in AI safety research or related fields.</p>
+        <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:clamp(36px,3.6vw,48px) 0 0;font-size:22px;font-weight:700;letter-spacing:0.01em;color:#0E030B">Mentorship</h3>
+        <p style="margin:12px 0 0;font-size:17px;line-height:1.55;color:#2E4057;max-width:64ch;text-wrap:pretty">Spring 2026 is mentored by PhD students Jennifer Evans and Ida Mattson, with guest mentors brought in by project.</p>
+      </div>
+    </section>
+
+    <div aria-hidden="true" style="height:1px;margin:0 clamp(24px,5vw,96px);background:#C6CCF0"></div>
+
+    <section id="research-scholars" data-program="research-scholars" style="background:#F7F9FC;display:grid;grid-template-columns:minmax(320px,0.95fr) minmax(320px,1.05fr);gap:clamp(40px,5vw,88px);align-items:start;padding:clamp(72px,9vw,128px) clamp(24px,5vw,96px)">
+      <div style="position:sticky;top:104px">
+        <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(28px,2.8vw,36px);font-weight:700;line-height:1.1;letter-spacing:0em;color:#0E030B">CASI Research Scholars</h2>
+        <p style="margin:12px 0 0;max-width:34ch;font-size:20px;font-weight:700;line-height:1.4;color:#437FD5">Structured research opportunities with expert mentorship</p>
+        <p style="margin:28px 0 0;max-width:42ch;font-size:24px;line-height:1.4;color:#0E030B;text-wrap:pretty">Pre-scoped projects that pair undergraduate and masters students with professors, postdocs, and senior PhD students.</p>
+      </div>
+      <div>
+        <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:22px;font-weight:700;letter-spacing:0.01em;color:#0E030B">What is the CASI Research Scholars program?</h3>
+        <p style="margin:12px 0 0;font-size:17px;line-height:1.55;color:#2E4057;max-width:64ch;text-wrap:pretty">The CASI Research Scholars program connects talented undergraduate and masters students with professors, postdoctoral scholars, and senior PhD students to work on cutting-edge AI safety research. This program differs from our Research Fellowship in that research projects are pre-scoped by PhD mentors, allowing you to join a well-defined research initiative with clear direction and support.</p>
+        <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:clamp(36px,3.6vw,48px) 0 0;font-size:22px;font-weight:700;letter-spacing:0.01em;color:#0E030B">How is this different from the Research Fellowship?</h3>
+        <p style="margin:12px 0 0;font-size:17px;line-height:1.55;color:#2E4057;max-width:64ch;text-wrap:pretty">While our Research Fellowship is exploratory, where you help define your own research direction through team matching and scoping, the Research Scholars program provides pre-scoped projects mentored by PhD students. This allows for deeper focus and more immediate research engagement.</p>
+        <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:clamp(36px,3.6vw,48px) 0 0;font-size:22px;font-weight:700;letter-spacing:0.01em;color:#0E030B">Application process</h3>
+        <p style="margin:12px 0 0;font-size:17px;line-height:1.55;color:#2E4057;max-width:64ch;text-wrap:pretty">Each research project has its own application process. Applications typically require around 10 hours to complete, which may include project-specific assignments, essays, or research proposals. This ensures we find mentees who are genuinely excited about the project at hand.</p>
+        <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:clamp(36px,3.6vw,48px) 0 0;font-size:22px;font-weight:700;letter-spacing:0.01em;color:#0E030B">What you will gain</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:clamp(24px,2.6vw,36px);margin-top:20px">
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#437FD5">Expert mentorship</div>
+            <p style="margin:8px 0 0;max-width:32ch;font-size:17px;line-height:1.5;color:#2E4057;text-wrap:pretty">Work directly with PhD students and experienced researchers.</p>
+          </div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#437FD5">Research skills</div>
+            <p style="margin:8px 0 0;max-width:32ch;font-size:17px;line-height:1.5;color:#2E4057;text-wrap:pretty">Develop real research competencies in AI safety.</p>
+          </div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#437FD5">Publications</div>
+            <p style="margin:8px 0 0;max-width:32ch;font-size:17px;line-height:1.5;color:#2E4057;text-wrap:pretty">Contribute to research that is concretely directed towards a publication.</p>
+          </div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#437FD5">Compute and API credits</div>
+            <p style="margin:8px 0 0;max-width:32ch;font-size:17px;line-height:1.5;color:#2E4057;text-wrap:pretty">CASI provides the resources you need to conduct your research.</p>
+          </div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#437FD5">Impact</div>
+            <p style="margin:8px 0 0;max-width:32ch;font-size:17px;line-height:1.5;color:#2E4057;text-wrap:pretty">Contribute meaningfully to the AI safety research community.</p>
+          </div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#437FD5">Time commitment</div>
+            <p style="margin:8px 0 0;max-width:32ch;font-size:17px;line-height:1.5;color:#2E4057;text-wrap:pretty">10 to 20 hours per week, varying by project, across collaborative and independent work.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  </sc-if>
 
 
 
 
-  <footer style="background:#F7F9FC;color:#0E030B;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px) 40px">
+
+
+
+  <footer style="background:#F7F9FC;color:#0E030B;border-top:{{ footerBorder }};padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px) 40px">
     <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:clamp(32px,5vw,64px)">
       <div>
         <div style="display:flex;align-items:center;gap:8px">
@@ -953,10 +1068,22 @@ class Component extends DCLogic {
     { url: "https://carnegieaisafety.substack.com/p/aaai-26-recap", author: "Xuning Ying", title: "AAAI-26 Recap", cat: "Member Reflections", blurb: "Presenting AI safety research on jailbreaking and chain-of-thought patterns at AAAI-26.", date: "4/24/2026", img: "assets/post-aaai.png" }
   ];
 
+  // Which programs have a written description page. A program that is not
+  // listed here gets an inert Learn More rather than a neighbour's anchor.
+  programDesc = { p4: "research-fellowship", p5: "research-scholars" };
+
+  // Where each filled button points. p1 and p2 open the pre-registration
+  // form; p3 subscribes to the seminar mailing list.
+  programUrl = {
+    p1: "https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform",
+    p2: "https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform",
+    p3: "https://lists.andrew.cmu.edu/mailman/listinfo/casi-safety-seminar"
+  };
+
   programs = [
     { key: "p1", title: "AI Alignment Fundamentals", timing: "Applications open Sept 15, 2026", desc: "An accessible introduction to technical AI safety: RLHF, jailbreaking, interpretability, AI control, and more. Weekly paper discussions, food provided, and no work outside our sessions.", cta: "Apply", filled: true },
     { key: "p2", title: "AI Governance Fundamentals", timing: "Applications open Sept 15, 2026", desc: "An accessible introduction to AI governance: regulation frameworks, international cooperation, risk assessment, and governance of advanced systems. Weekly policy papers and case studies, food provided, and no work outside our sessions.", cta: "Apply", filled: true },
-    { key: "p3", title: "Advanced Reading Group", timing: "Rolling admission, fundamentals required", desc: "A rigorous weekly seminar for students who have completed one of our fundamentals programs.", cta: "Learn More", filled: false },
+    { key: "p3", title: "CASI AI Safety Seminar", timing: "A Seminar on AI safety and security", desc: "A research-level, technical seminar on AI safety and security. It is geared towards PhD students, postdocs, professors, and others active in ML research. Each session features paper presentations and in-depth discussion of current work. Food is provided.", cta: "Subscribe", filled: true },
     { key: "p4", title: "CASI Research Fellowship", timing: "Applications open in October", desc: "Hands-on AI safety research for students ready to go deeper. Extended application; requires a completed reading group or equivalent experience. Projects are mentored by PhD students and guest mentors.", cta: "Learn More", filled: false },
     { key: "p5", title: "CASI Research Scholars", timing: "Applications closed for Fall 2026", desc: "Pre-scoped projects for undergrad and masters students, mentored by professors, postdocs, and senior PhD students. Expect 10 to 20 hours a week, with compute and API credits provided and publication as the goal.", cta: "Learn More", filled: false }
   ];
@@ -1034,7 +1161,7 @@ class Component extends DCLogic {
   navItems = [
     { key: "home", label: "Home" },
     { key: "about", label: "About" },
-    { key: "programs", label: "Programs" },
+    { key: "programs", label: "Get Involved" },
     { key: "events", label: "Calendar" },
     { key: "blog", label: "Blog" },
     { key: "team", label: "Team" }
@@ -1072,6 +1199,21 @@ class Component extends DCLogic {
 
   go = (page) => (e) => { if (e) e.preventDefault(); this.setState({ page: page, post: 0 }); window.scrollTo(0, 0); };
 
+  // Switch to the descriptions screen and land on one program's section.
+  // That section only exists once the screen renders, so poll briefly for it.
+  goDesc = (id) => (e) => {
+    if (e) e.preventDefault();
+    this.setState({ page: "descriptions", post: 0 });
+    window.scrollTo(0, 0);
+    if (!id) return;
+    let tries = 0;
+    const t = setInterval(() => {
+      const el = document.getElementById(id);
+      if (el) { el.scrollIntoView({ block: "start" }); clearInterval(t); }
+      if (++tries > 60) clearInterval(t);
+    }, 50);
+  };
+
   assetUrl(path) {
     if (!path) return "";
     if (/^(data:|https?:)/.test(path)) return path;
@@ -1102,15 +1244,182 @@ class Component extends DCLogic {
 
   stopShotTimer() { if (this.shotTimer) { clearInterval(this.shotTimer); this.shotTimer = null; } }
 
-  componentWillUnmount() { this.stopShotTimer(); }
+    componentWillUnmount() {
+    this.stopShotTimer();
+    clearTimeout(this._revealTimer);
+    clearTimeout(this._cardsTimer);
+    if (this.revealObs) this.revealObs.disconnect();
+    if (this._onScroll) window.removeEventListener("scroll", this._onScroll);
+  }
 
-  componentDidMount() { this.applyBgs(); this.startShotTimer(); this.loadGcal(); }
+  
+  // ---- scroll motion ----------------------------------------------------
+  // Sections fade and rise once as they enter the viewport. Every animated
+  // property is written here at runtime and removed again when the animation
+  // ends, so the markup keeps no motion styles of its own.
 
-  componentDidUpdate() { this.applyBgs(); }
+  reducedMotion() {
+    return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }
+
+  initMotion() {
+    // Guard before any mutation. The reveal hides an element first, so the one
+    // real failure mode is content that stays hidden. Bail before that can happen.
+    if (this.reducedMotion() || typeof IntersectionObserver === "undefined") return;
+    this._revealPage = this.state.page;
+    this._revealFilter = this.state.filter;
+    this.revealObs = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;          // one way; nothing re-hides
+        this.revealObs.unobserve(en.target);     // never process a node twice
+        this.showUnit(en.target);
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
+    this.queueReveal();
+    this.initParallax();
+  }
+
+  showUnit(el) {
+    el.setAttribute("data-rev", "1");
+  }
+
+  replayReveal(sel) {
+    document.querySelectorAll(sel).forEach((el) => {
+      if (this.revealObs) this.revealObs.unobserve(el);
+      el.removeAttribute("data-rev");
+      el.removeAttribute("data-rd");
+      el.removeAttribute("data-rv");
+    });
+    this.queueReveal();
+  }
+
+  queueReveal() {
+    // Hover state re-renders on every mouse move, so coalesce the scans.
+    clearTimeout(this._revealTimer);
+    this._revealTimer = setTimeout(() => this.scanReveal(), 16);
+  }
+
+  scanReveal() {
+    if (!this.revealObs) return;
+    const fresh = (el) => !el.hasAttribute("data-rev");
+    // Never arm something the reader has already scrolled past. A re-render can
+    // drop the data-rev marker, and re-arming an element that sits above the
+    // viewport would hide it for good, because the observer only fires on entry.
+    // An element still on screen is safe to arm: the observer reports it at once,
+    // which is how a hero animates on arrival rather than on scroll.
+    const notPassed = (el) => el.getBoundingClientRect().bottom > 0;
+    // Decorative layers carry these inline. Animating them would fight the design.
+    const SKIP = ["transform:", "position:fixed", "position:sticky", "position:absolute"];
+    // Outermost sections only. Some screens wrap their sections in a div, so a
+    // plain "main > section" misses them, but walking every nested section would
+    // arm a wrapper and its contents twice and make the reveal flicker.
+    const sections = [].slice.call(document.querySelectorAll("main section"))
+      .filter((sec) => !sec.parentElement || !sec.parentElement.closest("section"));
+    sections.forEach((sec) => {
+      let kids = [];
+      if (!sec.hasAttribute("data-norev")) {
+        // Descend past single-child wrappers to the row that holds real content,
+        // so a section animates as several blocks rather than one slab.
+        let node = sec, guard = 0;
+        while (node.children.length === 1 && guard++ < 4) node = node.children[0];
+        kids = [].slice.call(node.children).filter((el) => {
+          if (!fresh(el) || !notPassed(el)) return false;
+          // Overlapping units flicker: skip anything that holds, or sits inside,
+          // an element that is already animating.
+          if (el.querySelector("[data-rev]")) return false;
+          if (el.parentElement && el.parentElement.closest("[data-rev]")) return false;
+          if (el.getAttribute("aria-hidden") === "true") return false;
+          if (el.offsetHeight <= 8) return false;
+          const inline = el.getAttribute("style") || "";
+          return !SKIP.some((k) => inline.indexOf(k) >= 0);
+        });
+      }
+      // A marked element animates even inside an opted-out section.
+      const rises = [].slice.call(sec.querySelectorAll("[data-rise]")).filter((el) => fresh(el) && notPassed(el));
+      // Blog cards enter the scan only while a filter change is replaying.
+      const cards = this._replayCards
+        ? [].slice.call(sec.querySelectorAll("[data-blog-grid] > *")).filter(fresh)   // a filter replay arms cards wherever they sit
+        : [];
+      const units = [];
+      kids.concat(rises, cards).forEach((el) => { if (units.indexOf(el) < 0) units.push(el); });
+      if (!units.length) return;
+      units.forEach((el, i) => {
+        const rise = el.getAttribute("data-rise");
+        // Cap the stagger so a six-card grid never grows a long tail.
+        const delay = rise ? parseInt(rise, 10) * 160 : Math.min(i, 4) * 70;
+        if (rise) el.setAttribute("data-rv", "rise");
+        if (delay) el.setAttribute("data-rd", String(delay));
+        if (el.getBoundingClientRect().top < window.innerHeight) {
+          // Already on screen: play it now. The animation owns its from-state,
+          // so there is no hidden step that could be left showing.
+          el.setAttribute("data-rev", "1");
+        } else {
+          el.setAttribute("data-rev", "0");
+          this.revealObs.observe(el);
+        }
+      });
+    });
+  }
+
+  initParallax() {
+    // Transform only, so the work stays on the compositor and never lays out.
+    // The drift is downward: both layers are masked to transparent at their top
+    // edge, so moving them down never exposes a seam.
+    this._onScroll = () => {
+      if (this._pxQueued) return;
+      this._pxQueued = true;
+      requestAnimationFrame(() => {
+        this._pxQueued = false;
+        const y = window.scrollY || 0;
+        const hero = Math.min(y * 0.1, 40);
+        const weave = Math.min(y * 0.06, 24);
+        document.querySelectorAll('[data-bg="assets/hero-gradient.png"]').forEach((el) => {
+          el.style.transform = "translate3d(0," + hero + "px,0)";
+        });
+        document.querySelectorAll('[data-bg="assets/programs-weave.png"]').forEach((el) => {
+          el.style.transform = "translate3d(0," + weave + "px,0)";
+        });
+      });
+    };
+    window.addEventListener("scroll", this._onScroll, { passive: true });
+    this._onScroll();   // a page restored mid-scroll starts in the right place
+  }
+
+  componentDidMount() {
+    this.applyBgs();
+    this.startShotTimer();
+    this.loadGcal();
+    this.initMotion();   // last, so heights and background images are real
+  }
+
+    componentDidUpdate() {
+    this.applyBgs();
+    const st = this.state;
+    // Re-arm on nav: React rewrites style="..." on re-render, which wipes the
+    // inline overrides, so each screen has to be armed again after it mounts.
+    if (this._revealPage !== st.page) {
+      this._revealPage = st.page;
+      this.replayReveal("main [data-rev]");
+    }
+    // A blog filter change makes the new cards rise. This runs after the
+    // commit, not in the click handler, or the re-render overwrites the arming.
+    if (this._revealFilter !== undefined && this._revealFilter !== st.filter) {
+      this._replayCards = true;
+      clearTimeout(this._cardsTimer);
+      this._cardsTimer = setTimeout(() => { this._replayCards = false; }, 400);
+      this.replayReveal("[data-blog-grid] > *");
+    }
+    this._revealFilter = st.filter;
+    // No scan here. componentDidUpdate runs on every hover, and re-scanning then
+    // re-arms any node the runtime rebuilt, which reads as a flicker. Only a
+    // mount, a page change and a filter change queue a scan.
+  }
 
   renderVals() {
     const st = this.state;
     const hov = st.hov;
+    // the descriptions screen keeps Programs lit in the nav
+    const navActive = st.page === "descriptions" ? "programs" : st.page;
     const arrows = new Proxy({}, { get: (_, k) => (hov === String(k) ? 1 : 0) });
     const visible = this.allPosts.filter((p) => st.filter === "All" || p.cat === st.filter);
     const maxPost = Math.max(0, visible.length - 2);
@@ -1132,6 +1441,11 @@ class Component extends DCLogic {
       board: this.boardData,
       isHome: st.page === "home",
       isPrograms: st.page === "programs",
+      isDescriptions: st.page === "descriptions",
+      goDescriptions: this.goDesc(""),
+      goFellowship: this.goDesc("research-fellowship"),
+      goScholars: this.goDesc("research-scholars"),
+      footerBorder: st.page === "descriptions" ? "1px solid #C6CCF0" : "none",
       isBlog: st.page === "blog",
       isEvents: st.page === "events",
       eventScopeLabel: (st.eventScope || "Upcoming") === "Upcoming" ? "Upcoming events" : "Past events",
@@ -1207,9 +1521,9 @@ class Component extends DCLogic {
       nav: this.navItems.map((n) => ({
         key: n.key,
         label: n.label,
-        color: st.page === n.key ? "#1B151A" : "#2E4057",
-        weight: st.page === n.key ? 700 : 400,
-        dot: st.page === n.key ? 1 : 0,
+        color: navActive === n.key ? "#1B151A" : "#2E4057",
+        weight: navActive === n.key ? 700 : 400,
+        dot: navActive === n.key ? 1 : 0,
         go: ["home", "programs", "blog", "events", "about", "team"].indexOf(n.key) >= 0 ? this.go(n.key) : (e) => e.preventDefault(),
         hasMenu: !!this.navMenus[n.key],
         menuOpen: st.navMenu === n.key,
@@ -1273,6 +1587,8 @@ class Component extends DCLogic {
       },
 
       programs: this.programs.map((p) => ({
+        url: this.programUrl[p.key] || "#",
+        go: this.programDesc[p.key] ? this.goDesc(this.programDesc[p.key]) : (e) => e.preventDefault(),
         key: p.key,
         title: p.title,
         timing: p.timing,
