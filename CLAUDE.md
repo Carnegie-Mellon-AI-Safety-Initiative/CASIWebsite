@@ -1,97 +1,75 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file gives guidance to Claude Code (claude.ai/code) for work in this repository.
 
 ## Project Overview
 
-This is a static website for the Carnegie Mellon AI Safety Initiative (CASI). The site uses vanilla HTML, CSS, and JavaScript without any build process or frameworks.
+This is the static website for the Carnegie Mellon AI Safety Initiative (CASI).
+It is one page with six screens: Home, About, Programs, Calendar, Blog, and Team.
+JavaScript switches the screens. There is no build step and no package manager.
+
+The page comes from a design prototype. A design tool produced it, and an unpack
+step turned the single-file bundle into real files.
 
 ## Architecture
 
-### Static Site Structure
-- **index.html** - Homepage with hero section and community overview
-- **about.html** - About page explaining CASI's mission and goals
-- **team.html** - Team member profiles and information
-- **events.html** - Events and activities listing
-- **contact.html** - Contact form (uses mailto functionality)
+- `index.html` — the whole site. It holds the markup, the CSS, and the page data.
+- `support.js` — the prototype template runtime. It reads the custom markup.
+- `image-slot.js` — an image component that the runtime uses.
+- `vendor/` — React 18.3.1 and React DOM, served locally, not from a CDN.
+- `assets/` — photos, logos, team portraits, and the Aileron fonts.
+- `assets/brand/` — the CASI logo files and the favicon.
+- `.nojekyll` — stops GitHub Pages from running Jekyll on the files.
 
-### Key Components
-- **Navigation**: Shared navigation component across all pages with mobile responsive hamburger menu
-- **Styling**: Single `styles.css` file using CSS custom properties for theming
-- **Interactivity**: `script.js` handles mobile menu, contact form, and floating animations
-- **Assets**: Logo files in multiple formats stored in `assets/` directory
+### The template runtime
 
-### Design System
-- **Color Scheme**: Dark theme with CSS custom properties defined in `:root`
-  - Primary background: `--bg-primary` (#0a0a0b)
-  - Accent colors: Blue (#3b82f6), Purple (#8b5cf6), Green (#10b981)
-- **Typography**: Space Grotesk font family with JetBrains Mono for code
-- **Responsive Design**: Mobile-first approach with desktop breakpoints
+`index.html` uses custom markup that `support.js` interprets:
 
-## Development Workflow
+- `<sc-for list={{ items }} as="item">` — repeat for each item.
+- `<sc-if value={{ cond }}>` — render only when the condition is true.
+- `{{ expression }}` — insert a value.
+- `data-bg="path"` — set a CSS `background-image`.
+- `<x-dc>` — the root of the template.
+- A `<script type="text/x-dc">` block at the end of the file holds the page data
+  and the state class. Edit content there, not in the markup.
 
-### Local Development
-- No build process required - open HTML files directly in browser
-- For live reload during development, use a simple HTTP server:
-  ```bash
-  python -m http.server 8000
-  # or
-  npx serve .
-  ```
+To change text or content, edit `index.html` by hand. The design tool is no
+longer in the loop.
 
-### File Organization
-- All HTML files in root directory
-- Single CSS file (`styles.css`) for all styling
-- Single JavaScript file (`script.js`) for all functionality
-- Assets organized in `assets/` directory
+### Fonts
 
-### Key Features
-- **Mobile Navigation**: Hamburger menu with toggle functionality
-- **Contact Form**: Uses mailto protocol to send emails to casi@andrew.cmu.edu
-- **Floating Animations**: Mouse-following background shapes on homepage
-- **Discord Integration**: Direct links to Discord server (https://discord.gg/t9VyYhNQzb)
+- Aileron — self-hosted in `assets/fonts/`. Headings, labels, and buttons.
+- DM Sans — loaded from Google Fonts. Body copy.
+
+## Local Development
+
+Serve the repository root. Do not open `index.html` as a file, because the
+runtime needs HTTP.
+
+```bash
+python3 -m http.server 4399
+# then open http://localhost:4399/
+```
 
 ## Deployment
 
-- Hosted on GitHub Pages with custom domain: cmuaisafety.com
-- CNAME file configured for custom domain
-- Direct push to main branch triggers deployment
-- No build or CI/CD process required
+- GitHub Pages serves the site at the custom domain cmuaisafety.com.
+- The `CNAME` file holds the domain.
+- The default branch is `main`. A push to `main` publishes the site.
+- There is no build step and no CI.
 
-## Making Changes
+## External Services
 
-When editing:
-1. Maintain consistent navigation structure across all pages
-2. Keep the dark theme color scheme using existing CSS custom properties
-3. Ensure mobile responsiveness for any new components
-4. Test contact form functionality (mailto links)
-5. Verify logo and asset paths remain correct
+- Blog posts live on Substack: https://carnegieaisafety.substack.com/
+  The Blog screen reads the feed at https://carnegieaisafety.substack.com/feed
+  This repository holds no blog post pages.
+- The Calendar screen reads a public Google Calendar iCal feed.
+  Calendar ID: `c_30fd9569f750ccfb1d8fcacd354e814213f016626f94a1848b8dee1a07e06513@group.calendar.google.com`
+  The template also accepts a `gcalApiKey` prop for the Google Calendar API.
+- Contact email: casi@andrew.cmu.edu
 
-## Known Issues / Future Improvements
+## Notes
 
-### Navigation Centralization
-Currently, navigation dropdowns are duplicated across all 8 HTML files. This causes sync issues when updating menus. Consider implementing:
-- JavaScript-based navigation generation (`nav.js`)
-- Template system for navigation HTML
-- Build process to generate navigation from single source
-
-### Event Management
-Events system includes both static fallback and Google Calendar API integration:
-
-**Current Setup:**
-- Static events shown as fallback in `get-involved.html` 
-- Google Calendar API integration implemented in `script.js`
-- Calendar ID: `c_30fd9569f750ccfb1d8fcacd354e814213f016626f94a1848b8dee1a07e06513@group.calendar.google.com`
-- **Note: Calendar is hard-coded and is a personal calendar owned by Lawrence Feng**
-
-**To Enable Live Calendar:**
-1. Get Google Calendar API key from Google Cloud Console
-2. Replace `YOUR_API_KEY` in `script.js` line 363
-3. Enable Calendar API in Google Cloud Console
-4. Set up API key restrictions for security
-
-**Event Display:**
-- Automatically fetches upcoming events from Google Calendar
-- Displays in custom-styled event cards matching site design
-- Falls back to "No events" message if API fails or no events exist
-- Shows events for next 3 months, maximum 5 events
+- `design_handoff_casi_website/` holds the original design bundle and the
+  handoff README. `.gitignore` excludes it. Keep it out of the repository.
+- `blogs/` holds draft Markdown for Substack posts. It is not published.

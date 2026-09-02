@@ -1,183 +1,1630 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CASI - Carnegie Mellon AI Safety Initiative</title>
-    <link rel="icon" href="assets/CASI Logo white circle.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CASI - Carnegie Mellon AI Safety Initiative</title>
+<meta name="description" content="Carnegie Mellon AI Safety Initiative: research, programs, and events working towards a safer future in the presence of powerful artificial intelligence.">
+<link rel="icon" href="assets/brand/CASI Logo white circle.ico" type="image/x-icon">
+<style>
+/* Scroll motion.
+   The states live in attributes, not in inline styles: the template runtime
+   rewrites style="..." on every re-render, which wiped the inline transition
+   and killed the fade. Attributes survive that, so the CSS below owns the
+   animation and the logic class only flips data-rev between 0 and 1.
+   Nothing here applies unless JS arms an element, so the reduced-motion bail
+   in initMotion() still leaves the page completely untouched. */
+/* A keyframe animation, not a transition between two states. The runtime
+   rebuilds nodes and re-renders constantly, and a transition can be dropped
+   mid-flight, which is what flickered. An animation with "both" fill carries
+   its own from-state, so nothing has to be hidden first and a dropped frame
+   leaves the element visible rather than stuck. */
+@keyframes casi-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes casi-rise-lg { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+[data-rev="0"] { opacity: 0; }
+[data-rev="1"] { animation: casi-rise 660ms cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+[data-rev="1"][data-rv="rise"] { animation-name: casi-rise-lg; animation-duration: 760ms; }
+/* A heading pair that should land sooner. */
+[data-rev="1"][data-fast] { animation-duration: 480ms; }
+[data-rev="1"][data-rd="70"]  { animation-delay: 70ms; }
+[data-rev="1"][data-rd="140"] { animation-delay: 140ms; }
+[data-rev="1"][data-rd="210"] { animation-delay: 210ms; }
+[data-rev="1"][data-rd="280"] { animation-delay: 280ms; }
+[data-rev="1"][data-rd="160"] { animation-delay: 160ms; }
+[data-rev="1"][data-rd="320"] { animation-delay: 320ms; }
+[data-rev="1"][data-fast][data-rd="160"] { animation-delay: 60ms; }
+[data-rev="1"][data-fast][data-rd="320"] { animation-delay: 130ms; }
+[data-rev="1"][data-rd="70"]  { transition-delay: 70ms; }
+[data-rev="1"][data-rd="140"] { transition-delay: 140ms; }
+[data-rev="1"][data-rd="210"] { transition-delay: 210ms; }
+[data-rev="1"][data-rd="280"] { transition-delay: 280ms; }
+[data-rev="1"][data-rd="160"] { transition-delay: 160ms; }
+[data-rev="1"][data-rd="320"] { transition-delay: 320ms; }
+</style>
+<style>
+/* Mobile treatment for the sticky header.
+   The desktop header is a 3-column grid: logo, nav, Join Us. Below 860px the
+   six nav links plus the button no longer fit on one line, so the row is
+   allowed to wrap: logo and Join Us keep the top line and the nav drops to a
+   full-width second line. Desktop is untouched, because every rule lives in a
+   media query. The !important flags are needed to beat the inline styles the
+   design tool emits. */
+@media (max-width: 860px) {
+  header {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px 16px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  header > nav {
+    order: 3 !important;
+    width: 100% !important;
+    flex-basis: 100% !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 10px 18px !important;
+  }
+  header > nav a[data-nav] { font-size: 15px !important; }
+  /* keep a hover menu inside the viewport on a narrow screen */
+  header > nav > div > div { max-width: 92vw !important; }
+  /* the program description sections are two columns on desktop; stack them */
+  section[data-program] {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  section[data-program] > div:first-child {
+    position: static !important;
+  }
+}
+@media (max-width: 480px) {
+  header > nav { gap: 8px 14px !important; }
+  header > nav a[data-nav] { font-size: 14px !important; }
+  header a[href*="tartanconnect"] {
+    height: 34px !important;
+    padding: 0 14px !important;
+    font-size: 15px !important;
+  }
+}
+</style>
+<script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js": "vendor/react.production.min.js", "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "vendor/react-dom.production.min.js"};</script>
+<script src="support.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="index.html" class="logo-link">
-                    <img src="assets/CASI Logo transperent.png" alt="CASI Logo" class="logo-img">
-                    <div class="logo-text">
-                        <span class="logo-main">CASI</span>
-                        <span class="logo-sub">AI Safety Initiative</span>
-                    </div>
-                </a>
+<x-dc>
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <style>/* latin-ext */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: italic;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url("assets/4072f8de.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: italic;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url("assets/0613b61c.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url("assets/43353870.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 300 900;
+  font-display: swap;
+  src: url("assets/25bdffe5.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+  <link rel="alternate" type="application/rss+xml" title="Carnegie AI Safety Initiative" href="https://carnegieaisafety.substack.com/feed">
+
+<style>
+  @font-face { font-family: 'Aileron'; src: url("assets/fonts/Aileron-Light.otf") format('opentype'); font-weight: 300; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Aileron'; src: url("assets/fonts/Aileron-Regular.otf") format('opentype'); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Aileron'; src: url("assets/fonts/Aileron-SemiBold.otf") format('opentype'); font-weight: 600; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Aileron'; src: url("assets/fonts/Aileron-Bold.otf") format('opentype'); font-weight: 700; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Aileron'; src: url("assets/fonts/Aileron-Black.otf") format('opentype'); font-weight: 900; font-style: normal; font-display: swap; }
+  
+  
+  
+  
+  
+  
+  
+  
+  html, body { margin: 0; padding: 0; background: #F7F9FC; }
+  * { box-sizing: border-box; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: inherit; }
+  ::selection { background: #1B151A; color: #F7F9FC; }
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="image-slot.js"></script>
+
+</helmet>
+  <div aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden;opacity:0;pointer-events:none">
+    <img data-asset="assets/hero-gradient.png" src="assets/hero-gradient.png" alt="">
+    <img data-asset="assets/programs-weave.png" src="assets/programs-weave.png" alt="">
+    <img data-asset="assets/photo-1.jpg" src="assets/photo-1.jpg" alt="">
+    <img data-asset="assets/photo-2.jpg" src="assets/photo-2.jpg" alt="">
+    <img data-asset="assets/photo-3.jpg" src="assets/photo-3.jpg" alt="">
+    <img data-asset="assets/photo-4.jpg" src="assets/photo-4.jpg" alt="">
+    <img data-asset="assets/photo-crowd-1.jpg" src="assets/photo-crowd-1.jpg" alt="">
+    <img data-asset="assets/photo-crowd-2.jpg" src="assets/photo-crowd-2.jpg" alt="">
+    <img data-asset="assets/photo-seminar-1.jpg" src="assets/photo-seminar-1.jpg" alt="">
+    <img data-asset="assets/photo-classroom-1.jpg" src="assets/photo-classroom-1.jpg" alt="">
+    <img data-asset="assets/post-aaai.png" src="assets/post-aaai.png" alt="">
+    <img data-asset="assets/post-frt.png" src="assets/post-frt.png" alt="">
+    <img data-asset="assets/post-liability.png" src="assets/post-liability.png" alt="">
+    <img data-asset="assets/logo-openai.png" src="assets/logo-openai.png" alt="">
+    <img data-asset="assets/logo-anthropic.png" src="assets/logo-anthropic.png" alt="">
+    <img data-asset="assets/logo-grayswan.png" src="assets/logo-grayswan.png" alt="">
+    <img data-asset="assets/logo-constellation.png" src="assets/logo-constellation.png" alt="">
+    <img data-asset="assets/logo-mats.png" src="assets/logo-mats.png" alt="">
+    <img data-asset="assets/logo-spar.png" src="assets/logo-spar.png" alt="">
+    <img data-asset="assets/team-group.jpg" src="assets/team-group.jpg" alt="">
+    <img data-asset="assets/fence.jpg" src="assets/fence.jpg" alt="">
+    <img data-asset="assets/team/louis-sloot.jpg" src="assets/team/louis-sloot.jpg" alt="">
+    <img data-asset="assets/team/lawrence-feng.jpg" src="assets/team/lawrence-feng.jpg" alt="">
+    <img data-asset="assets/team/franca-ellerman.jpg" src="assets/team/franca-ellerman.jpg" alt="">
+    <img data-asset="assets/team/edward-friedman.jpg" src="assets/team/edward-friedman.jpg" alt="">
+    <img data-asset="assets/team/shriyan-reyya.jpg" src="assets/team/shriyan-reyya.jpg" alt="">
+    <img data-asset="assets/team/xuning-ying.jpg" src="assets/team/xuning-ying.jpg" alt="">
+    <img data-asset="assets/team/dani-roytburg-v4.jpg" src="assets/team/dani-roytburg-v4.jpg" alt="">
+    <img data-asset="assets/team/matan-shtepel.jpg" src="assets/team/matan-shtepel.jpg" alt="">
+    <img data-asset="assets/team/keira-leal.jpg" src="assets/team/keira-leal.jpg" alt="">
+    <img data-asset="assets/team/samanvita-singhania.jpg" src="assets/team/samanvita-singhania.jpg" alt="">
+    <img data-asset="assets/team/dorian-clay.jpg" src="assets/team/dorian-clay.jpg" alt="">
+    <img data-asset="assets/team/sophia-cano.jpg" src="assets/team/sophia-cano.jpg" alt="">
+    <img data-asset="assets/team/veronica-shao.jpg" src="assets/team/veronica-shao.jpg" alt="">
+  </div>
+
+<div style="font-family:'DM Sans','Helvetica Neue',Helvetica,Arial,sans-serif;background:#F7F9FC;color:#0E030B;min-height:100vh;-webkit-font-smoothing:antialiased">
+
+  <header style="position:sticky;top:0;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:48px;padding:16px clamp(24px,5vw,96px);background:rgba(247,249,252,0.62);backdrop-filter:blur(22px) saturate(1.4);-webkit-backdrop-filter:blur(22px) saturate(1.4);border-bottom:1px solid rgba(0,0,52,0.14);color:#0E030B">
+    <a href="#" sc-camel-on-click="{{ goHome }}" style="display:flex;align-items:center;gap:8px;width:max-content">
+      <svg width="29" height="28" sc-camel-view-box="0 0 45 44" fill="#1B151A" aria-label="CASI logo">
+        <path d="M 22.455 9.957 C 21.257 8.056 19.393 5.743 17.037 5.734 L 7.741 5.699 L 0 5.671 L 0.026 3.474 L 0.073 0 L 22.426 0" transform="translate(0.01 0)"></path>
+        <g transform="translate(0 8.496)">
+          <path d="M 21.018 23.034 L 21.048 35.488 C 17.261 35.659 12.871 34.362 9.488 32.597 C 6.3 30.882 3.426 28.565 1.755 25.288 C 0.726 23.04 0.05 20.692 0.044 18.163 L 0 0 L 11.352 0.019 L 16.779 0.046 C 18.23 0.153 19.426 1.262 20.042 2.522 C 20.475 3.408 20.922 4.33 20.943 5.339 L 20.982 7.182 L 21.019 23.035 L 21.018 23.034 Z M 16.589 9.18 C 16.589 5.862 13.898 3.172 10.579 3.172 C 7.261 3.172 4.569 5.862 4.569 9.18 C 4.569 12.499 7.261 15.189 10.579 15.189 C 13.898 15.189 16.589 12.499 16.589 9.18 Z"></path>
+          <circle cx="10.578" cy="8.789" r="2.942"></circle>
+        </g>
+        <path d="M 0.637 9.957 C 1.834 8.056 3.78 5.743 6.135 5.734 L 15.431 5.699 L 23.172 5.671 L 23.145 3.474 L 23.1 0 L 0 0" transform="translate(21.827 0)"></path>
+        <g transform="translate(23.955 8.495)">
+          <path d="M 0.065 7.182 L 0.104 5.339 C 0.125 4.33 0.572 3.408 1.005 2.522 C 1.621 1.262 2.816 0.153 4.268 0.046 L 9.695 0.019 L 21.047 0 L 21.003 18.163 C 20.997 20.692 20.321 23.04 19.293 25.288 C 17.621 28.565 14.748 30.882 11.56 32.597 C 8.177 34.362 3.786 35.659 0 35.488 L 0.03 23.034 L 0.067 7.182 L 0.065 7.182 Z M 10.467 15.19 C 13.787 15.19 16.477 12.5 16.477 9.181 C 16.477 5.863 13.786 3.172 10.467 3.172 C 7.148 3.172 4.457 5.863 4.457 9.181 C 4.457 12.5 7.148 15.19 10.467 15.19 Z"></path>
+          <circle cx="10.467" cy="8.79" r="2.942"></circle>
+        </g>
+      </svg>
+      <span style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;font-size:22px;font-weight:700;letter-spacing:0.02em;line-height:1">CASI</span>
+    </a>
+
+    <nav style="display:flex;align-items:center;gap:clamp(16px,2vw,32px)">
+      <sc-for list="{{ nav }}" as="item" hint-placeholder-count="5">
+        <div style="position:relative;display:flex;align-items:center" sc-camel-on-mouse-enter="{{ item.enter }}" sc-camel-on-mouse-leave="{{ item.leave }}">
+          <a href="#" sc-camel-on-click="{{ item.go }}" data-nav="{{ item.key }}" style="position:relative;display:flex;align-items:center;justify-content:center;gap:6px;font-size:17px;font-weight:{{ item.weight }};line-height:1;color:{{ item.color }}">
+            <span>{{ item.label }}</span>
+            <sc-if value="{{ item.hasMenu }}" hint-placeholder-val="{{ false }}">
+              <svg width="9" height="6" sc-camel-view-box="0 0 9 6" fill="none"><path d="M1 1L4.5 4.5L8 1" stroke="currentColor" stroke-width="1.4"></path></svg>
+            </sc-if>
+            <span style="position:absolute;top:calc(100% + 8px);left:50%;margin-left:-3px;width:6px;height:8px;border-radius:50%;background:#1B151A;opacity:{{ item.dot }}"></span>
+          </a>
+          <sc-if value="{{ item.menuOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="position:absolute;top:100%;left:50%;transform:translateX(-50%);padding-top:18px;z-index:20">
+              <div style="display:flex;flex-direction:column;min-width:184px;padding:8px;background:#2C242A;border:1px solid rgba(255,255,255,0.16);border-radius:14px">
+                <sc-for list="{{ item.menu }}" as="m" hint-placeholder-count="3">
+                  <a href="#" sc-camel-on-click="{{ m.go }}" style="padding:10px 12px;border-radius:8px;font-size:15px;line-height:1;color:#ffffff;white-space:nowrap" style-hover="background:rgba(255,255,255,0.12)">{{ m.label }}</a>
+                </sc-for>
+              </div>
             </div>
-            <div class="nav-links">
-                <a href="index.html" class="nav-link active">Home</a>
-                <a href="team.html" class="nav-link">About</a>
-                <div class="nav-dropdown">
-                    <a href="#" class="nav-link dropdown-toggle">Get Involved <span class="dropdown-arrow">▼</span></a>
-                    <div class="dropdown-menu">
-                        <a href="technical-reading-group.html" class="dropdown-link">AI Alignment Fundamentals</a>
-                        <a href="policy-reading-group.html" class="dropdown-link">AI Governance Fundamentals</a>
-                        <a href="research-fellowship.html" class="dropdown-link">CASI Research Fellowship</a>
-                        <a href="research-scholars.html" class="dropdown-link">CASI Research Scholars</a>
-                        <a href="seminar.html" class="dropdown-link">AI Safety Seminar</a>
-                    </div>
-                </div>
-                <a href="core-membership.html" class="nav-link">Membership</a>
-                <a href="blog.html" class="nav-link">Blog</a>
-                <a href="contact.html" class="nav-link">Join Us!</a>
-                <a href="get-involved.html" class="nav-link upcoming-events-btn">Upcoming Events</a>
-            </div>
-            <div class="nav-mobile-actions">
-                <div class="home-mailing-list-wrap">
-                    <a href="https://tartanconnect.cmu.edu/CASI/club_signup" class="upcoming-events-btn home-mailing-list-btn" target="_blank" rel="noopener noreferrer">Join Mailing List</a>
-                    <span class="home-mailing-list-arrow" aria-hidden="true">↑</span>
-                </div>
-                <div class="mobile-menu-toggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
+          </sc-if>
         </div>
-        <div class="mobile-nav">
-            <a href="index.html" class="mobile-nav-link active">Home</a>
-            <a href="team.html" class="mobile-nav-link">About</a>
-            <a href="technical-reading-group.html" class="mobile-nav-link">AI Alignment Fundamentals</a>
-            <a href="policy-reading-group.html" class="mobile-nav-link">AI Governance Fundamentals</a>
-            <a href="research-fellowship.html" class="mobile-nav-link">CASI Research Fellowship</a>
-            <a href="research-scholars.html" class="mobile-nav-link">CASI Research Scholars</a>
-            <a href="seminar.html" class="mobile-nav-link">AI Safety Seminar</a>
-            <a href="core-membership.html" class="mobile-nav-link">Membership</a>
-            <a href="blog.html" class="mobile-nav-link">Blog</a>
-            <a href="contact.html" class="mobile-nav-link">Join Us!</a>
-            <a href="get-involved.html" class="mobile-nav-link upcoming-events-btn">Upcoming Events</a>
-        </div>
+      </sc-for>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-bg">
-            <div class="grid-overlay"></div>
-            <div class="floating-shapes">
-                <div class="shape shape-1"></div>
-                <div class="shape shape-2"></div>
-                <div class="shape shape-3"></div>
-            </div>
-        </div>
+    <div style="display:flex;justify-content:flex-end">
+      <a href="https://tartanconnect.cmu.edu/CASI/club_signup" target="_blank" rel="noopener" style="text-align:center;line-height:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 18px;height:40px;border-radius:14px;background-color:rgba(198,204,240,0.72);backdrop-filter:blur(16px) saturate(1.6);-webkit-backdrop-filter:blur(16px) saturate(1.6);border:none;transition:background-color 180ms ease-out,color 180ms ease-out,border-color 180ms ease-out,box-shadow 260ms cubic-bezier(0.2,0.7,0.3,1) 60ms;color:#383547;font-size:17px;font-weight:700;white-space:nowrap" style-hover="background-color:#0E030B;color:#ffffff">
+        <span>Join Us</span>
+      </a>
+    </div>
+  </header>
 
-        <div class="hero-container">
-            <div class="hero-content">
-                <h1 class="hero-title">
-                    <span class="title-line-1">Carnegie Mellon</span>
-                    <span class="title-line-2">AI Safety Initiative</span>
-                </h1>
-                <p class="hero-subtitle">
-                    Working towards a safer future in the presence of powerful artificial intelligence
-                </p>
-                <div class="hero-cta-buttons">
-                    <a href="get-involved.html" class="cta-card">
-                        <div class="card-content">
-                            <h3>Upcoming Events</h3>
-                            <p>See what we have planned</p>
-                        </div>
-                        <div class="card-arrow">→</div>
-                    </a>
-                </div>
-            </div>
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <main data-screen-label="Home">
+
+    <section style="position:relative;min-height:calc(100vh - 70px);display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(96px,12vh,160px) clamp(24px,5vw,96px) clamp(96px,12vh,144px);overflow:hidden">
+      <div aria-hidden="true" style="position:absolute;inset:0;overflow:hidden;pointer-events:none">
+        <div data-bg="assets/hero-gradient.png" style="position:absolute;inset:0;background-size:cover;background-position:center bottom;background-repeat:no-repeat;-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0.45) 18%,rgba(0,0,0,0.85) 36%,#000 56%,#000 100%),linear-gradient(90deg,rgba(0,0,0,0.34) 0%,rgba(0,0,0,0.46) 28%,rgba(0,0,0,0.72) 58%,#000 84%);-webkit-mask-composite:source-in;mask-image:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0.45) 18%,rgba(0,0,0,0.85) 36%,#000 56%,#000 100%),linear-gradient(90deg,rgba(0,0,0,0.34) 0%,rgba(0,0,0,0.46) 28%,rgba(0,0,0,0.72) 58%,#000 84%);mask-composite:intersect"></div>
+      </div>
+      <div style="position:relative;z-index:1;max-width:736px">
+        <h1 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(36px,4.2vw,56px);font-weight:700;line-height:1;letter-spacing:0em;text-wrap:balance">Carnegie Mellon<br>AI Safety Initiative</h1>
+        <p style="margin:24px 0 0;max-width:820px;font-size:20px;font-weight:400;line-height:1.5;color:#2E4057;text-wrap:pretty"><span style="color:#2E4057">Working towards a </span><span style="color:#2F5FA8;font-weight:700">safer future</span><span style="color:#2E4057"> in the presence of </span><span style="color:#2F5FA8;font-weight:700">powerful artificial intelligence</span></p>
+        <div data-rise="1" style="display:flex;flex-wrap:wrap;gap:16px;margin-top:56px">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform?usp=dialog" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:0 22px;height:48px;border-radius:14px;background:#1B151A;border:1px solid #1B151A;color:#F7F9FC;font-size:17px;font-weight:700" style-hover="background:transparent;color:#0E030B">
+            <span>Join our mailing list</span>
+          </a>
+          <a href="#" sc-camel-on-click="{{ goAbout }}" style="text-align:center;line-height:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 22px;height:48px;border-radius:14px;background:transparent;border:none;transition:color 180ms ease-out;color:#0E030B;font-size:17px;font-weight:400" style-hover="color:#2E4057">
+            <span>Learn More</span>
+          </a>
         </div>
+      </div>
+    </section>
+
+    <section style="padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px);border-top:1px solid rgba(0,0,52,0.14)">
+      <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0 auto;max-width:1100px;text-align:center;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.1;letter-spacing:0em;text-wrap:pretty">AI safety is one of the most critical challenges of our time.</h2>
+      <p style="margin:24px auto 0;max-width:820px;text-align:center;font-size:17px;line-height:1.5;color:#2E4057;text-wrap:pretty">CASI brings together researchers, students, and enthusiasts across Carnegie Mellon to advance research, collaboration, and education in AI safety and alignment.</p>
+    </section>
+
+    <section style="display:grid;grid-template-columns:minmax(280px,0.8fr) 1.2fr;gap:clamp(32px,5vw,80px);padding:0 clamp(24px,5vw,96px) clamp(88px,11vw,176px)">
+      <div>
+        <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.1;letter-spacing:0em">Risks</h2>
+        <p style="margin:16px 0 0;max-width:380px;font-size:17px;line-height:1.45;color:#0E030B;text-wrap:pretty">As artificial intelligence systems become more capable and ubiquitous, ensuring they remain aligned with human values and beneficial to society becomes increasingly important.</p>
+      </div>
+      <div style="display:flex;flex-direction:column">
+        <sc-for list="{{ risks }}" as="risk" hint-placeholder-count="4">
+          <div style="padding:clamp(28px,3vw,36px) 0;border-bottom:1px solid #C6CCF0">
+            <div style="font-size:15px;font-weight:700;color:#3a6da8">{{ risk.num }}</div>
+            <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:8px 0 0;font-size:22px;font-weight:700;letter-spacing:0.01em">{{ risk.title }}</h3>
+            <p style="margin:8px 0 0;max-width:640px;font-size:17px;line-height:1.45;color:#0E030B;text-wrap:pretty">{{ risk.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="background:#BBD5F1;color:#0E030B;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px)">
+      <div style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;font-size:15px;font-weight:700;color:#2E4057;letter-spacing:0.01em">Our Mission</div>
+      <p style="margin:24px 0 0;max-width:1320px;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.14;letter-spacing:-0.01em;color:#0E030B;text-wrap:pretty">Progress on AI safety requires diverse perspectives and interdisciplinary approaches. <a href="#" sc-camel-on-click="{{ goPrograms }}" style="color:#2E4057;text-decoration:none;cursor:pointer">Our programs meet you wherever you are in your journey.</a></p>
+    </section>
+
+    <section style="background:#BBD5F1;padding:0 0 clamp(72px,9vw,128px)">
+      <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0 0 clamp(32px,3.5vw,48px);padding:0 clamp(24px,5vw,96px);font-size:15px;font-weight:700;color:#2E4057;letter-spacing:0.01em">Past Events</h2>
+      <div sc-camel-on-pointer-down="{{ shotDown }}" sc-camel-on-pointer-up="{{ shotUp }}" sc-camel-on-touch-start="{{ shotDown }}" sc-camel-on-touch-end="{{ shotUp }}" sc-camel-on-click="{{ shotNext }}" sc-camel-on-wheel="{{ shotWheel }}" style="display:flex;justify-content:flex-start;overflow:hidden;padding:0 clamp(24px,5vw,96px);cursor:pointer;touch-action:pan-y;user-select:none">
+        <div style="display:flex;flex:0 0 auto;width:max-content;gap:32px;transition:transform 0.55s cubic-bezier(0.4,0,0.2,1);transform:{{ shotShift }}">
+          <sc-for list="{{ shots }}" as="shot" hint-placeholder-count="4">
+            <div style="flex:0 0 auto;width:647px">
+              <div data-bg="{{ shot.src }}" style="width:647px;height:364px;border-radius:7px;overflow:hidden;background-color:#2a2a2a;background-size:cover;background-position:center;background-repeat:no-repeat"></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;margin-top:clamp(40px,4vw,56px)">
+        <div style="display:flex;align-items:center;gap:8px;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,0.2)">
+          <sc-for list="{{ shotDots }}" as="dot" hint-placeholder-count="3">
+            <a href="#" sc-camel-on-click="{{ dot.go }}" style="width:9px;height:9px;border-radius:50%;background:{{ dot.color }}"></a>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section data-norev style="background:#F7F9FC;color:#0E030B;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px)">
+      <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0 0 40px;text-align:center;font-size:22px;font-weight:700;letter-spacing:0.005em">Our members have worked with</h2>
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:20px clamp(24px,3vw,44px)">
+        <sc-for list="{{ orgs }}" as="org" hint-placeholder-count="6">
+          <div style="display:flex;align-items:center;justify-content:center;height:96px">
+            <sc-if value="{{ org.img }}" hint-placeholder-val="{{ false }}">
+              <div role="img" data-bg="{{ org.img }}" aria-label="{{ org.name }}" style="width:{{ org.w }};height:{{ org.h }};background-size:contain;background-position:center;background-repeat:no-repeat;filter:{{ org.filter }}"></div>
+            </sc-if>
+            <sc-if value="{{ org.isText }}" hint-placeholder-val="{{ false }}">
+              <span style="font-size:22px;font-weight:700;color:#0E030B;white-space:nowrap">{{ org.name }}</span>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="background:#F7F9FC;color:#0E030B;padding:clamp(72px,9vw,128px) clamp(24px,5vw,96px);display:flex;flex-direction:column;align-items:center;text-align:center">
+      <div role="separator" style="align-self:stretch;height:2px;background:#BBD5F1;margin:0 calc(-1 * clamp(24px,5vw,96px)) clamp(40px,5vw,72px)"></div>
+      <p style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;max-width:1180px;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.14;letter-spacing:0em;text-wrap:balance">Join us as we work together to build a future where AI systems remain beneficial, controllable, and aligned with human flourishing.</p>
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:24px;margin-top:clamp(40px,4vw,56px)">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform?usp=dialog" target="_blank" rel="noopener" style="text-align:center;line-height:1;display:flex;align-items:center;justify-content:center;padding:0 28px;height:56px;border-radius:16px;background-color:rgba(198,204,240,0.72);backdrop-filter:blur(16px) saturate(1.6);-webkit-backdrop-filter:blur(16px) saturate(1.6);border:none;transition:background-color 180ms ease-out,color 180ms ease-out;color:#383547;font-size:17px;font-weight:700;white-space:nowrap" style-hover="background-color:#0E030B;color:#ffffff">
+          <span>Join our mailing list</span>
+        </a>
+      </div>
     </section>
 
 
-    <!-- Full Width Text Section -->
-    <section class="full-width-text">
-        <div class="container">
-            <div class="text-content">
-                <p>
-                    AI safety is one of the most critical challenges of our time.
-                </p>
-                <p>
-                    As artificial intelligence systems become more capable and ubiquitous, ensuring they remain aligned with human values and beneficial to society becomes increasingly important. Our community brings together researchers, students, and enthusiasts who are passionate about addressing these challenges through rigorous research, meaningful collaboration, and thoughtful education.
-                </p>
-                <p>
-                    Explore the foundations of AI safety through our <a href="technical-reading-group.html" class="text-link">AI Alignment Fundamentals</a> program, which covers technical research challenges, or our <a href="policy-reading-group.html" class="text-link">AI Governance Fundamentals</a> program, which tackles the policy and governance challenges of AI. We also run an advanced reading group for students who have completed our fundamentals programs.
-                </p>
-                <p>
-                    We believe that making progress on AI safety requires diverse perspectives and interdisciplinary approaches. Our collaborative research programs meet you at whatever stage of your journey you're at: the <a href="research-fellowship.html" class="text-link">CASI Research Fellowship</a> gives you the freedom to explore your ideas and find collaborators, while the <a href="research-scholars.html" class="text-link">CASI Research Scholars</a> program offers structured research on scoped projects with expert PhD mentorship. We also bring together researchers and the broader community through speaker events and our <a href="seminar.html" class="text-link">CASI AI Safety Seminar</a>.
-                </p>
-                <p>
-                    Join us as we work together to build a future where AI systems remain beneficial, controllable, and aligned with human flourishing.
-                </p>
-                <p>
-                    Join our <a href="https://tartanconnect.cmu.edu/CASI/club_signup" class="text-link" target="_blank">mailing list</a>.
-                </p>
-            </div>
-        </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isAbout }}" hint-placeholder-val="{{ false }}">
+  <main data-screen-label="About">
+
+    <section data-norev style="position:relative;overflow:hidden;min-height:clamp(760px,124vh,1400px);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:0 clamp(24px,5vw,96px);background-color:#F7F9FC;background-image:linear-gradient(180deg,#cfd8e6 0%,#c4cfe0 20%,#8fa3c9 36%,#546ea8 50%,#31468f 60%,#252a55 70%,#1b1826 78%,#3b3a48 83%,#6f7488 88%,#a9b2c6 92%,#d8dfea 96%,#F7F9FC 100%)">
+      <div style="position:absolute;left:50%;top:-18%;width:196%;height:146%;transform:translateX(-50%);border-radius:50%;background:radial-gradient(50% 50% at 50% 46%,#437FD5 28%,rgba(107,104,145,0.72) 62%,rgba(30,20,32,0) 100%);filter:blur(68px);pointer-events:none"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;height:42%;background:linear-gradient(180deg,rgba(247,249,252,0) 0%,rgba(247,249,252,0.55) 44%,rgba(247,249,252,0.92) 76%,#F7F9FC 100%);pointer-events:none"></div>
+      <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(32px,4vw,56px);width:100%;min-height:calc(100vh - 70px)">
+      <h1 data-rise="1" style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;position:relative;z-index:1;margin:0;max-width:18ch;text-align:center;font-size:clamp(36px,4.2vw,56px);font-weight:700;line-height:1.04;letter-spacing:0em;color:#ffffff;text-wrap:balance">Building a safer AI future from Pittsburgh</h1>
+      <svg width="48" height="46" sc-camel-view-box="0 0 45 44" fill="#ffffff" aria-label="CASI mark" data-rise="2" style="position:relative;z-index:1">
+        <path d="M 22.455 9.957 C 21.257 8.056 19.393 5.743 17.037 5.734 L 7.741 5.699 L 0 5.671 L 0.026 3.474 L 0.073 0 L 22.426 0" transform="translate(0.01 0)"></path>
+        <g transform="translate(0 8.496)">
+          <path d="M 21.018 23.034 L 21.048 35.488 C 17.261 35.659 12.871 34.362 9.488 32.597 C 6.3 30.882 3.426 28.565 1.755 25.288 C 0.726 23.04 0.05 20.692 0.044 18.163 L 0 0 L 11.352 0.019 L 16.779 0.046 C 18.23 0.153 19.426 1.262 20.042 2.522 C 20.475 3.408 20.922 4.33 20.943 5.339 L 20.982 7.182 L 21.019 23.035 L 21.018 23.034 Z M 16.589 9.18 C 16.589 5.862 13.898 3.172 10.579 3.172 C 7.261 3.172 4.569 5.862 4.569 9.18 C 4.569 12.499 7.261 15.189 10.579 15.189 C 13.898 15.189 16.589 12.499 16.589 9.18 Z"></path>
+          <circle cx="10.578" cy="8.789" r="2.942"></circle>
+        </g>
+        <path d="M 0.637 9.957 C 1.834 8.056 3.78 5.743 6.135 5.734 L 15.431 5.699 L 23.172 5.671 L 23.145 3.474 L 23.1 0 L 0 0" transform="translate(21.827 0)"></path>
+        <g transform="translate(23.955 8.495)">
+          <path d="M 0.065 7.182 L 0.104 5.339 C 0.125 4.33 0.572 3.408 1.005 2.522 C 1.621 1.262 2.816 0.153 4.268 0.046 L 9.695 0.019 L 21.047 0 L 21.003 18.163 C 20.997 20.692 20.321 23.04 19.293 25.288 C 17.621 28.565 14.748 30.882 11.56 32.597 C 8.177 34.362 3.786 35.659 0 35.488 L 0.03 23.034 L 0.067 7.182 L 0.065 7.182 Z M 10.467 15.19 C 13.787 15.19 16.477 12.5 16.477 9.181 C 16.477 5.863 13.786 3.172 10.467 3.172 C 7.148 3.172 4.457 5.863 4.457 9.181 C 4.457 12.5 7.148 15.19 10.467 15.19 Z"></path>
+          <circle cx="10.467" cy="8.79" r="2.942"></circle>
+        </g>
+      </svg>
+      </div>
     </section>
 
-    <!-- Company Logos Section -->
-    <section class="company-logos">
-        <div class="container">
-            <h3 class="logos-heading">Our members have worked with:</h3>
-            <div class="logos-grid">
-                <img src="assets/logos/OpenAI_Logo.png" alt="OpenAI" class="company-logo">
-                <img src="assets/logos/Anthropic_logo.png" alt="Anthropic" class="company-logo">
-                <img src="assets/logos/Gray_Swan_logo.png" alt="Gray Swan" class="company-logo">
-                <img src="assets/logos/Constellation_logo.svg" alt="Constellation" class="company-logo">
-                <img src="assets/logos/MATS_logo.svg" alt="MATS" class="company-logo">
-                <span class="company-logo company-logo--spar" aria-label="SPAR">
-                    <img src="assets/logos/SPAR_isotype.png" alt="" class="spar-mark">
-                    <span class="spar-word">SPAR</span>
-                </span>
-            </div>
-        </div>
+    <section style="background:#F7F9FC;padding:clamp(88px,11vw,160px) clamp(24px,5vw,96px) clamp(112px,13vw,180px)">
+      <div style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0 0 24px;text-align:center;font-size:15px;font-weight:700;color:#3a6da8;letter-spacing:0.01em">Our Approach</div>
+      <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0 auto;max-width:44ch;text-align:center;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.2;letter-spacing:0em;color:#0E030B;text-wrap:balance">CASI seeks to spark interest in and facilitate research about AI safety and alignment</h2>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <img src="assets/CASI Logo white circle.ico" alt="CASI Logo" class="footer-logo">
-                    <div class="footer-info">
-                        <h4>Carnegie Mellon AI Safety Initiative</h4>
-                        <p>Building safer AI for everyone</p>
-                    </div>
-                </div>
-                <div class="footer-links">
-                    <div class="footer-section">
-                        <h5>Navigation</h5>
-                        <a href="about.html">About</a>
-                        <a href="team.html">Team</a>
-                        <a href="get-involved.html">Get Involved</a>
-                        <a href="contact.html">Join Us!</a>
-                    </div>
-                    <div class="footer-section">
-                        <h5>Connect</h5>
-                        <a href="https://discord.gg/t9VyYhNQzb" target="_blank">Discord Server</a>
-                        <a href="mailto:casi@andrew.cmu.edu">Email Us</a>
-                        <a href="https://tartanconnect.cmu.edu/CASI/club_signup" target="_blank">Mailing List</a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Carnegie Mellon AI Safety Initiative</p>
-                <p class="cmu-address">Units 1M and 1E of the Craig-Henry Building, 201 South Craig Street, Pittsburgh, PA 15213</p>
-            </div>
+    <section style="background:#F7F9FC;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:clamp(32px,4vw,56px);padding:0 clamp(24px,5vw,96px) clamp(88px,11vw,176px)">
+      <sc-for list="{{ offerings }}" as="risk" hint-placeholder-count="4">
+        <div>
+          <div style="font-size:15px;font-weight:700;color:#3a6da8">{{ risk.num }}</div>
+          <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:8px 0 0;font-size:22px;font-weight:700;color:#0E030B;letter-spacing:0.01em">{{ risk.title }}</h3>
+          <p style="margin:12px 0 0;max-width:30ch;font-size:17px;line-height:1.45;color:#0E030B;text-wrap:pretty">{{ risk.body }}</p>
         </div>
-    </footer>
+      </sc-for>
+    </section>
 
-    <script src="script.js"></script>
-</body>
-</html>
+    <section data-norev style="background:#F7F9FC;padding:0 clamp(24px,5vw,96px) clamp(88px,10vw,140px)">
+      <div data-bg="assets/fence.jpg" role="img" aria-label="CASI fence painting reading Smarter than us. Ready? CMU AI Safety" style="width:70%;margin:0 auto;aspect-ratio:1672 / 731;border-radius:7px;background-color:#0E030B;background-size:cover;background-position:center"></div>
+    </section>
+
+    <section data-norev style="background:#A6B4B4;padding:clamp(40px,5vw,80px) clamp(24px,5vw,96px) clamp(136px,15vw,248px)">
+      <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.1;letter-spacing:0em;color:#0E030B">What We Offer</h2>
+      <p style="margin:20px 0 0;max-width:68ch;font-size:20px;line-height:1.5;color:#2E4057;text-wrap:pretty">Explore the foundations of AI safety through our <span style="color:#0E030B;font-weight:700">AI Alignment Fundamentals</span> program, which covers technical research challenges, or our <span style="color:#0E030B;font-weight:700">AI Governance Fundamentals</span> program, which tackles the policy and governance challenges of AI.</p>
+
+      <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:clamp(48px,5vw,72px) 0 clamp(20px,2vw,28px);font-size:22px;font-weight:700;color:#0E030B;letter-spacing:0.01em">Reading Groups</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,268px));gap:clamp(16px,1.6vw,24px)">
+        <div style="position:relative;overflow:hidden;display:flex;flex-direction:column;aspect-ratio:268 / 320;padding:24px;border-radius:14px;background:#ffffff;color:#2E4057">
+          <div style="position:absolute;left:0%;top:-25%;width:208%;height:125%;background:radial-gradient(60% 70% at 30% 26%,rgba(199,200,242,0.95) 0%,rgba(199,200,242,0.4275) 42%,rgba(199,200,242,0) 70%),radial-gradient(64% 80% at 54% 58%,rgba(189,207,193,0.95) 0%,rgba(189,207,193,0.4275) 42%,rgba(189,207,193,0) 70%),radial-gradient(70% 95% at 90% 78%,rgba(161,198,234,1) 0%,rgba(161,198,234,0.45) 42%,rgba(161,198,234,0) 70%),radial-gradient(60% 80% at 2% 92%,rgba(189,207,193,0.9) 0%,rgba(189,207,193,0.405) 42%,rgba(189,207,193,0) 70%);pointer-events:none"></div>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,#ffffff 0%,#ffffff 15%,rgba(255,255,255,0.88) 23%,rgba(255,255,255,0.1) 38%,rgba(255,255,255,0) 48%);pointer-events:none"></div>
+          <h4 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;position:relative;margin:0;max-width:13ch;font-size:22px;font-weight:400;line-height:1.2;letter-spacing:0.01em">AI Alignment Fundamentals</h4>
+          <div style="position:relative;display:flex;flex-direction:column;gap:12px;margin-top:clamp(48px,6vw,72px);font-size:15px">
+            <span>Reading Group</span>
+            <span>Fall/Spring</span>
+            <span>Weekly</span>
+          </div>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform" target="_blank" rel="noopener" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;padding:0 20px;height:34px;border-radius:999px;background:#ffffff;color:#0E030B;font-size:15px" style-hover="background:#0E030B;color:#ffffff">Apply</a>
+        </div>
+
+        <div style="position:relative;overflow:hidden;display:flex;flex-direction:column;aspect-ratio:268 / 320;padding:24px;border-radius:14px;background:#ffffff;color:#2E4057">
+          <div style="position:absolute;left:-104%;top:-25%;width:208%;height:125%;background:radial-gradient(60% 70% at 30% 26%,rgba(199,200,242,0.95) 0%,rgba(199,200,242,0.4275) 42%,rgba(199,200,242,0) 70%),radial-gradient(64% 80% at 54% 58%,rgba(189,207,193,0.95) 0%,rgba(189,207,193,0.4275) 42%,rgba(189,207,193,0) 70%),radial-gradient(70% 95% at 90% 78%,rgba(161,198,234,1) 0%,rgba(161,198,234,0.45) 42%,rgba(161,198,234,0) 70%),radial-gradient(60% 80% at 2% 92%,rgba(189,207,193,0.9) 0%,rgba(189,207,193,0.405) 42%,rgba(189,207,193,0) 70%);pointer-events:none"></div>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,#ffffff 0%,#ffffff 15%,rgba(255,255,255,0.88) 23%,rgba(255,255,255,0.1) 38%,rgba(255,255,255,0) 48%);pointer-events:none"></div>
+          <h4 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;position:relative;margin:0;max-width:13ch;font-size:22px;font-weight:400;line-height:1.2;letter-spacing:0.01em">AI Governance Fundamentals</h4>
+          <div style="position:relative;display:flex;flex-direction:column;gap:12px;margin-top:clamp(48px,6vw,72px);font-size:15px">
+            <span>Reading Group</span>
+            <span>Fall/Spring</span>
+            <span>Weekly</span>
+          </div>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform" target="_blank" rel="noopener" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;padding:0 20px;height:34px;border-radius:999px;background:#ffffff;color:#0E030B;font-size:15px" style-hover="background:#0E030B;color:#ffffff">Apply</a>
+        </div>
+      </div>
+
+      <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:clamp(56px,6vw,88px) 0 clamp(20px,2vw,28px);font-size:22px;font-weight:700;color:#0E030B;letter-spacing:0.01em">Research</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,268px));gap:clamp(16px,1.6vw,24px)">
+        <div style="position:relative;overflow:hidden;display:flex;flex-direction:column;aspect-ratio:268 / 320;padding:24px;border-radius:14px;background:#ffffff;color:#2E4057">
+          <div style="position:absolute;left:0%;top:-25%;width:312%;height:125%;background:radial-gradient(44% 70% at 14% 38%,rgba(161,198,234,0.95) 0%,rgba(161,198,234,0.4275) 42%,rgba(161,198,234,0) 70%),radial-gradient(52% 80% at 26% 104%,rgba(199,200,242,1) 0%,rgba(199,200,242,0.45) 42%,rgba(199,200,242,0) 70%),radial-gradient(42% 66% at 55% 30%,rgba(189,207,193,0.95) 0%,rgba(189,207,193,0.4275) 42%,rgba(189,207,193,0) 70%),radial-gradient(52% 80% at 52% 108%,rgba(199,200,242,0.9) 0%,rgba(199,200,242,0.405) 42%,rgba(199,200,242,0) 70%),radial-gradient(40% 64% at 79% 34%,rgba(189,207,193,0.9) 0%,rgba(189,207,193,0.405) 42%,rgba(189,207,193,0) 70%),radial-gradient(50% 80% at 95% 84%,rgba(161,198,234,1) 0%,rgba(161,198,234,0.45) 42%,rgba(161,198,234,0) 70%);pointer-events:none"></div>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,#ffffff 0%,#ffffff 15%,rgba(255,255,255,0.88) 23%,rgba(255,255,255,0.1) 38%,rgba(255,255,255,0) 48%);pointer-events:none"></div>
+          <h4 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;position:relative;margin:0;max-width:13ch;font-size:22px;font-weight:400;line-height:1.2;letter-spacing:0.01em">CASI Research Fellowship</h4>
+          <div style="position:relative;display:flex;flex-direction:column;gap:12px;margin-top:clamp(48px,6vw,72px);font-size:15px">
+            <span>Research Fellowship</span>
+            <span>Spring 2026</span>
+            <span>Weekly</span>
+          </div>
+          <a href="#" sc-camel-on-click="{{ goFellowship }}" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;padding:0 20px;height:34px;border-radius:999px;background:#ffffff;color:#0E030B;font-size:15px" style-hover="background:#0E030B;color:#ffffff">Apply</a>
+        </div>
+
+        <div style="position:relative;overflow:hidden;display:flex;flex-direction:column;aspect-ratio:268 / 320;padding:24px;border-radius:14px;background:#ffffff;color:#2E4057">
+          <div style="position:absolute;left:-208%;top:-25%;width:312%;height:125%;background:radial-gradient(44% 70% at 14% 38%,rgba(161,198,234,0.95) 0%,rgba(161,198,234,0.4275) 42%,rgba(161,198,234,0) 70%),radial-gradient(52% 80% at 26% 104%,rgba(199,200,242,1) 0%,rgba(199,200,242,0.45) 42%,rgba(199,200,242,0) 70%),radial-gradient(42% 66% at 55% 30%,rgba(189,207,193,0.95) 0%,rgba(189,207,193,0.4275) 42%,rgba(189,207,193,0) 70%),radial-gradient(52% 80% at 52% 108%,rgba(199,200,242,0.9) 0%,rgba(199,200,242,0.405) 42%,rgba(199,200,242,0) 70%),radial-gradient(40% 64% at 79% 34%,rgba(189,207,193,0.9) 0%,rgba(189,207,193,0.405) 42%,rgba(189,207,193,0) 70%),radial-gradient(50% 80% at 95% 84%,rgba(161,198,234,1) 0%,rgba(161,198,234,0.45) 42%,rgba(161,198,234,0) 70%);pointer-events:none"></div>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,#ffffff 0%,#ffffff 15%,rgba(255,255,255,0.88) 23%,rgba(255,255,255,0.1) 38%,rgba(255,255,255,0) 48%);pointer-events:none"></div>
+          <h4 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;position:relative;margin:0;max-width:13ch;font-size:22px;font-weight:400;line-height:1.2;letter-spacing:0.01em">CASI AI Safety Seminar</h4>
+          <div style="position:relative;display:flex;flex-direction:column;gap:12px;margin-top:clamp(48px,6vw,72px);font-size:15px">
+            <span>Seminar</span>
+            <span>Fall/Spring</span>
+            <span>Weekly</span>
+          </div>
+          <a href="#" sc-camel-on-click="{{ goPrograms }}" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;padding:0 20px;height:34px;border-radius:999px;background:#ffffff;color:#0E030B;font-size:15px" style-hover="background:#0E030B;color:#ffffff">Apply</a>
+        </div>
+        <div style="position:relative;overflow:hidden;display:flex;flex-direction:column;aspect-ratio:268 / 320;padding:24px;border-radius:14px;background:#ffffff;color:#2E4057">
+          <div style="position:absolute;left:-208%;top:-25%;width:312%;height:125%;background:radial-gradient(44% 70% at 30% 26%,rgba(199,200,242,0.95) 0%,rgba(199,200,242,0.4275) 42%,rgba(199,200,242,0) 70%),radial-gradient(64% 80% at 54% 58%,rgba(189,207,193,0.95) 0%,rgba(189,207,193,0.4275) 42%,rgba(189,207,193,0) 70%),radial-gradient(70% 95% at 90% 78%,rgba(161,198,234,1) 0%,rgba(161,198,234,0.45) 42%,rgba(161,198,234,0) 70%),radial-gradient(60% 80% at 2% 92%,rgba(189,207,193,0.9) 0%,rgba(189,207,193,0.405) 42%,rgba(189,207,193,0) 70%);pointer-events:none"></div>
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,#ffffff 0%,#ffffff 15%,rgba(255,255,255,0.88) 23%,rgba(255,255,255,0.1) 38%,rgba(255,255,255,0) 48%);pointer-events:none"></div>
+          <h4 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;position:relative;margin:0;max-width:13ch;font-size:22px;font-weight:400;line-height:1.2;letter-spacing:0.01em">CASI Research Scholars</h4>
+          <div style="position:relative;display:flex;flex-direction:column;gap:12px;margin-top:clamp(48px,6vw,72px);font-size:15px">
+            <span>Research Scholars</span>
+            <span>Fall/Spring</span>
+            <span>10-20 hrs/week</span>
+          </div>
+          <a href="#" sc-camel-on-click="{{ goScholars }}" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;padding:0 20px;height:34px;border-radius:999px;background:#ffffff;color:#0E030B;font-size:15px" style-hover="background:#0E030B;color:#ffffff">Apply</a>
+        </div>
+      </div>
+    </section>
+
+
+    <section style="background:#F7F9FC;color:#0E030B;border-top:1px solid rgba(46,64,87,0.18);border-bottom:1px solid rgba(46,64,87,0.18);padding:clamp(72px,9vw,128px) clamp(24px,5vw,96px);display:flex;flex-direction:column;align-items:center;text-align:center">
+      <p style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;max-width:1180px;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.14;letter-spacing:0em;color:#0E030B;text-wrap:balance">Subscribe to our mailing list for updates on our reading groups, research opportunities, events, and everything else happening at CASI.</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform?usp=dialog" target="_blank" rel="noopener" style="text-align:center;line-height:1;display:flex;align-self:center;align-items:center;justify-content:center;margin-top:clamp(40px,4vw,56px);padding:0 28px;height:56px;border-radius:16px;background-color:rgba(198,204,240,0.72);backdrop-filter:blur(16px) saturate(1.6);-webkit-backdrop-filter:blur(16px) saturate(1.6);border:none;transition:background-color 180ms ease-out,color 180ms ease-out;color:#383547;font-size:17px;font-weight:700;white-space:nowrap" style-hover="background-color:#0E030B;color:#ffffff">
+        <span>Join our mailing list</span>
+      </a>
+    </section>
+
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isTeam }}" hint-placeholder-val="{{ false }}">
+  <main data-screen-label="Team" style="background-position:top left;background-image:linear-gradient(180deg,rgba(194,182,205,0.26) 0%,rgba(206,191,210,0.15) 4%,rgba(181,179,182,0.06) 8%,rgba(247,249,252,0) 14%);background-repeat:no-repeat">
+      <div aria-hidden="true" style="position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none">
+        <div style="position:absolute;inset:0;background-color:#F7F9FC"></div>
+        <div style="position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(180deg,rgba(194,182,205,0.42) 0%,rgba(206,191,210,0.26) 26%,rgba(181,179,182,0.1) 56%,rgba(247,249,252,0) 92%)"></div>
+        <div style="position:absolute;inset:0;background-image:linear-gradient(90deg,rgba(0,0,52,0.085) 1px,transparent 1px),linear-gradient(180deg,rgba(0,0,52,0.085) 1px,transparent 1px);background-size:clamp(64px,7.2vw,102px) clamp(64px,7.2vw,102px),clamp(64px,7.2vw,102px) clamp(64px,7.2vw,102px);background-position:center top,center top"></div>
+        <div style="position:absolute;inset:0;background:radial-gradient(120% 100% at 50% 40%,rgba(247,249,252,0) 42%,rgba(247,249,252,0.55) 78%,rgba(247,249,252,0.9) 100%)"></div>
+              </div>
+    <div style="position:relative;z-index:1">
+
+
+    <section data-norev style="position:relative;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px) clamp(48px,6vw,72px)">
+      <div style="position:relative">
+      <h1 data-rise="1" style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;max-width:1100px;font-size:clamp(34px,3.2vw,42px);font-weight:700;line-height:1.05;letter-spacing:0em;text-wrap:balance">Our team</h1>
+      <p data-rise="2" style="margin:24px 0 0;max-width:56ch;font-size:20px;line-height:1.5;color:#2E4057;text-wrap:pretty">The exec board leading CASI this year.</p>
+      </div>
+    </section>
+
+    <section data-norev style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(32px,3.5vw,48px) clamp(20px,2vw,32px);padding:0 clamp(24px,5vw,96px) clamp(96px,11vw,176px)">
+      <sc-for list="{{ board }}" as="p" hint-placeholder-count="13">
+        <div>
+          <div style="position:relative;aspect-ratio:3 / 4;border-radius:12px;overflow:hidden;background:#F7F9FC">
+            <sc-if value="{{ p.hasImg }}" hint-placeholder-val="{{ false }}">
+              <div role="img" aria-label="{{ p.name }}" data-bg="{{ p.img }}" style="width:100%;height:100%;background-size:cover;background-position:{{ p.pos }}"></div>
+            </sc-if>
+            <sc-if value="{{ p.noImg }}" hint-placeholder-val="{{ true }}">
+              <image-slot id="{{ p.slot }}" shape="rounded" radius="12" placeholder="Drop a photo"></image-slot>
+            </sc-if>
+          </div>
+          <div style="margin-top:16px;font-size:17px;line-height:1.4;color:#0E030B;text-wrap:pretty">{{ p.name }}</div>
+          <div style="margin-top:6px;font-size:15px;line-height:1.4;color:#5a5d78;text-wrap:pretty">{{ p.role }}</div>
+        </div>
+      </sc-for>
+    </section>
+
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isPrograms }}" hint-placeholder-val="{{ true }}">
+  <main data-screen-label="Get Involved">
+
+    <section data-norev style="position:relative;overflow:hidden;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px) clamp(96px,11vw,176px)">
+      <div aria-hidden="true" style="position:absolute;left:0;right:0;top:calc(-1 * clamp(64px,7.2vw,102px));height:clamp(440px,54vh,660px);overflow:hidden;pointer-events:none">
+        <div style="position:absolute;inset:0;background-color:#F7F9FC"></div>
+        <div style="position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(180deg,rgba(194,182,205,0.42) 0%,rgba(206,191,210,0.26) 26%,rgba(181,179,182,0.1) 56%,rgba(247,249,252,0) 92%)"></div>
+        <div data-bg="assets/programs-weave.png" style="position:absolute;inset:0;background-size:100% auto;background-position:center top;background-repeat:repeat-y;mix-blend-mode:multiply;opacity:0.55;-webkit-mask-image:radial-gradient(70% 78% at 50% 40%,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 26%,rgba(0,0,0,0.25) 50%,rgba(0,0,0,0.6) 74%,#000 100%);mask-image:radial-gradient(70% 78% at 50% 40%,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 26%,rgba(0,0,0,0.25) 50%,rgba(0,0,0,0.6) 74%,#000 100%)"></div>
+        <div style="position:absolute;inset:0;background:radial-gradient(120% 100% at 50% 40%,rgba(247,249,252,0) 42%,rgba(247,249,252,0.55) 78%,rgba(247,249,252,0.9) 100%)"></div>
+        <div style="position:absolute;left:0;right:0;bottom:0;height:46%;background:linear-gradient(180deg,rgba(247,249,252,0) 0%,rgba(247,249,252,0.75) 58%,#F7F9FC 100%)"></div>
+      </div>
+      <div style="position:relative">
+      <h1 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;text-align:center;font-size:clamp(34px,3.2vw,42px);font-weight:700;line-height:1.05;letter-spacing:-0.005em">Programs We Offer</h1>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:clamp(32px,3vw,40px);margin-top:clamp(56px,6vw,80px)">
+        <sc-for list="{{ programs }}" as="p" hint-placeholder-count="4">
+          <div style="position:relative;overflow:hidden;min-height:384px;padding:clamp(48px,4vw,56px);background-color:#C6CCF0;background-image:linear-gradient(180deg,#C6CCF0 0%,#C6CCF0 42%,#C1D0F3 70%,#BBD5F1 100%);border:none;box-shadow:0 26px 56px -22px rgba(44,46,62,0.28);color:#0E030B;clip-path:polygon(48px 0, 100% 0, 100% calc(100% - 51px), calc(100% - 68px) 100%, 0 100%, 0 41px);display:flex;flex-direction:column;align-items:stretch;gap:32px">
+            <div style="position:relative;max-width:640px">
+              <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:22px;font-weight:700;line-height:1.15;color:#0E030B;letter-spacing:0.01em">{{ p.title }}</h3>
+              <div style="margin-top:8px;font-size:15px;font-weight:700;color:#437FD5">{{ p.timing }}</div>
+              <p style="margin:16px 0 0;max-width:52ch;font-size:17px;line-height:1.5;color:#14163a;text-wrap:pretty">{{ p.desc }}</p>
+            </div>
+            <sc-if value="{{ p.filled }}" hint-placeholder-val="{{ true }}">
+              <a href="{{ p.url }}" target="_blank" rel="noopener" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;min-width:max-content;padding:0 24px;height:40px;border-radius:16px;font-size:15px;font-weight:400;white-space:nowrap;border:1px solid #1B151A;background:#1B151A;color:#ffffff;transition:background-color 160ms ease-out,color 160ms ease-out,border-color 160ms ease-out" style-hover="background:#ffffff;color:#0E030B;border-color:#CDD9F1">
+                <span>{{ p.cta }}</span>
+              </a>
+            </sc-if>
+            <sc-if value="{{ p.outlined }}" hint-placeholder-val="{{ false }}">
+              <a href="#" sc-camel-on-click="{{ p.go }}" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;min-width:max-content;padding:0 24px;height:40px;border-radius:16px;font-size:15px;font-weight:400;white-space:nowrap;border:1px solid rgba(0,0,52,0.22);background:transparent;color:#0E030B;transition:background-color 160ms ease-out" style-hover="background:#CDD9F1">
+                <span>{{ p.cta }}</span>
+              </a>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+      </div>
+    </section>
+
+    <section data-norev style="padding:0 clamp(24px,5vw,96px) clamp(96px,11vw,176px)">
+      <div style="display:grid;grid-template-columns:minmax(280px,1fr) minmax(220px,0.5fr);gap:clamp(40px,5vw,80px);align-items:start;padding:clamp(48px,5vw,72px) clamp(40px,4.5vw,64px);overflow:hidden;background:#2F2C3E;color:#F7F9FC;border-radius:{{ coreTopRadius }};position:relative">
+        <div style="position:absolute;inset:0;background:radial-gradient(60% 70% at 50% 50%,rgba(198,204,240,0.126) 0%,rgba(198,204,240,0.054) 45%,rgba(198,204,240,0) 78%);pointer-events:none"></div>
+        <div style="position:relative">
+          <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.1;letter-spacing:0em;color:#F7F9FC">CASI Core Membership</h2>
+          <p style="margin:12px 0 0;font-size:20px;line-height:1.4;color:#F7F9FC;text-wrap:pretty">Join our most dedicated community members.</p>
+          <p style="margin:24px 0 0;max-width:62ch;font-size:17px;line-height:1.55;color:#F7F9FC;text-wrap:pretty">CASI Core Membership recognizes and supports our most active, enthusiastic members who have demonstrated potential to make an impact on AI safety. As CASI interacts with many people across different programs and events, we created core membership to deepen our connections with those who are most committed to our mission.</p>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;justify-content:center;height:100%;align-self:center">
+          <span style="position:relative;display:flex;align-items:center;justify-content:center;padding:0 24px;height:40px;border-radius:16px;border:1px solid rgba(247,249,252,0.34);background:rgba(247,249,252,0.10);backdrop-filter:blur(14px) saturate(0.95);-webkit-backdrop-filter:blur(14px) saturate(0.95);color:#F7F9FC;font-size:15px;font-weight:400;white-space:nowrap">Applications closed</span>
+          <a href="#" sc-camel-on-click="{{ toggleCore }}" style="position:absolute;right:clamp(24px,2.5vw,32px);bottom:clamp(24px,2.5vw,32px);display:flex;align-items:center;gap:12px;font-size:15px;color:#F7F9FC" style-hover="color:#A6B4B4">
+            <span>{{ coreLabel }}</span>
+            <span style="display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:#6199d0;color:#ffffff;transform:{{ coreRotate }}">
+              <svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+            </span>
+          </a>
+        </div>
+      </div>
+      <div style="display:{{ coreDisplay }};margin-top:0;padding:clamp(8px,1vw,16px) clamp(40px,4.5vw,64px) clamp(48px,5vw,64px);background:#2F2C3E;color:#F7F9FC;border-radius:0 0 16px 16px">
+        <p style="margin:0;max-width:62ch;font-size:15px;line-height:1.55;color:#F7F9FC">For the full terms and norms of the program, see the <a href="#" style="color:#F7F9FC;font-weight:700" style-hover="color:#A6B4B4">CASI Core Member Constitution</a>.</p>
+        <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:clamp(32px,3.5vw,48px) 0 0;font-size:22px;font-weight:700;color:#F7F9FC;letter-spacing:0.01em">Core membership benefits</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(32px,3.5vw,48px);margin-top:32px">
+          <div>
+            <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;padding-bottom:12px;border-bottom:1px solid rgba(247,249,252,0.24);font-size:15px;font-weight:700;color:#F7F9FC;letter-spacing:0.01em">Community &amp; space</h3>
+            <div style="display:flex;flex-direction:column;gap:16px;margin-top:20px">
+              <p style="display:flex;gap:10px;margin:0;font-size:17px;line-height:1.5;color:#F7F9FC;text-wrap:pretty"><span style="flex:0 0 auto;color:#A6B4B4">•</span><span>Bi-weekly invite-only socials at the Nest, with catered food and guests</span></p>
+              <p style="display:flex;gap:10px;margin:0;font-size:17px;line-height:1.5;color:#F7F9FC;text-wrap:pretty"><span style="flex:0 0 auto;color:#A6B4B4">•</span><span>24/7 access to the Nest: desks, reading room, stocked snacks</span></p>
+              <p style="display:flex;gap:10px;margin:0;font-size:17px;line-height:1.5;color:#F7F9FC;text-wrap:pretty"><span style="flex:0 0 auto;color:#A6B4B4">•</span><span>Regular one-on-ones with core members and exec</span></p>
+            </div>
+          </div>
+          <div>
+            <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;padding-bottom:12px;border-bottom:1px solid rgba(247,249,252,0.24);font-size:15px;font-weight:700;color:#F7F9FC;letter-spacing:0.01em">Guests &amp; retreats</h3>
+            <div style="display:flex;flex-direction:column;gap:16px;margin-top:20px">
+              <p style="display:flex;gap:10px;margin:0;font-size:17px;line-height:1.5;color:#F7F9FC;text-wrap:pretty"><span style="flex:0 0 auto;color:#A6B4B4">•</span><span>Priority access to guest events: dinners with researchers like Stephen Casper (MIT), Nathan Lambert (Ai2) and Nikola Jurkovic (METR)</span></p>
+              <p style="display:flex;gap:10px;margin:0;font-size:17px;line-height:1.5;color:#F7F9FC;text-wrap:pretty"><span style="flex:0 0 auto;color:#A6B4B4">•</span><span>Fully-paid AI safety retreats: Action Potential, AISST/MAIA, OASIS</span></p>
+            </div>
+          </div>
+          <div>
+            <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;padding-bottom:12px;border-bottom:1px solid rgba(247,249,252,0.24);font-size:15px;font-weight:700;color:#F7F9FC;letter-spacing:0.01em">Funding &amp; research support</h3>
+            <div style="display:flex;flex-direction:column;gap:16px;margin-top:20px">
+              <p style="display:flex;gap:10px;margin:0;font-size:17px;line-height:1.5;color:#F7F9FC;text-wrap:pretty"><span style="flex:0 0 auto;color:#A6B4B4">•</span><span>Conference and travel funding</span></p>
+              <p style="display:flex;gap:10px;margin:0;font-size:17px;line-height:1.5;color:#F7F9FC;text-wrap:pretty"><span style="flex:0 0 auto;color:#A6B4B4">•</span><span>Compute and research expense funding</span></p>
+              <p style="display:flex;gap:10px;margin:0;font-size:17px;line-height:1.5;color:#F7F9FC;text-wrap:pretty"><span style="flex:0 0 auto;color:#A6B4B4">•</span><span>Application sprints for MATS and Astra</span></p>
+            </div>
+          </div>
+          <div>
+            <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;padding-bottom:12px;border-bottom:1px solid rgba(247,249,252,0.24);font-size:15px;font-weight:700;color:#F7F9FC;letter-spacing:0.01em">Growth &amp; perks</h3>
+            <div style="display:flex;flex-direction:column;gap:16px;margin-top:20px">
+              <p style="display:flex;gap:10px;margin:0;font-size:17px;line-height:1.5;color:#F7F9FC;text-wrap:pretty"><span style="flex:0 0 auto;color:#A6B4B4">•</span><span>Run your own events with CASI support</span></p>
+              <p style="display:flex;gap:10px;margin:0;font-size:17px;line-height:1.5;color:#F7F9FC;text-wrap:pretty"><span style="flex:0 0 auto;color:#A6B4B4">•</span><span>Contribute to existing programming</span></p>
+              <p style="display:flex;gap:10px;margin:0;font-size:17px;line-height:1.5;color:#F7F9FC;text-wrap:pretty"><span style="flex:0 0 auto;color:#A6B4B4">•</span><span>Free merch</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section data-norev style="padding:clamp(96px,11vw,176px) clamp(24px,5vw,96px) clamp(96px,11vw,176px)">
+      <div style="max-width:820px;margin:0 auto;text-align:center">
+        <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.1;letter-spacing:0em">Frequently Asked Questions</h2>
+        <p style="margin:16px auto 0;max-width:52ch;font-size:17px;line-height:1.45;color:#2E4057;text-wrap:pretty">Everything students usually ask before joining CASI. Still unsure? Email us at <a href="mailto:casi@andrew.cmu.edu" style="color:#437FD5;font-weight:700">casi@andrew.cmu.edu</a>.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;margin:clamp(48px,5vw,64px) 0 0;border-top:1px solid rgba(0,0,52,0.14)">
+        <sc-for list="{{ faqs }}" as="item" hint-placeholder-count="5">
+          <div style="border-bottom:1px solid rgba(0,0,52,0.14)">
+            <a href="#" sc-camel-on-click="{{ item.toggle }}" style="display:flex;align-items:center;justify-content:space-between;gap:24px;padding:24px 0;font-size:17px;font-weight:700">
+              <span style="max-width:60ch">{{ item.q }}</span>
+              <span style="display:flex;align-items:center;justify-content:center;flex:0 0 auto;width:36px;height:36px;border-radius:50%;background:#6199d0;color:#ffffff;transform:{{ item.rotate }}">
+                <svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"></path></svg>
+              </span>
+            </a>
+            <p style="margin:0;padding:0 0 24px;max-width:76ch;font-size:17px;line-height:1.5;color:#262a4a;display:{{ item.display }};text-wrap:pretty">{{ item.a }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section data-norev style="display:grid;grid-template-columns:minmax(280px,0.8fr) 1.2fr;gap:clamp(40px,6vw,96px);padding:clamp(96px,11vw,176px) clamp(24px,5vw,96px) clamp(96px,11vw,176px);background:#2F2C3E;color:#F7F9FC">
+      <div>
+        <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.1;letter-spacing:0em">Get in touch</h2>
+        <p style="margin:16px 0 0;max-width:44ch;font-size:17px;line-height:1.45;color:#A6B4B4;text-wrap:pretty">Reach out about membership, programs, or collaboration.</p>
+        <div style="display:flex;align-items:center;gap:16px;margin-top:24px">
+          <a href="https://www.linkedin.com/company/carnegie-ai-safety/" target="_blank" rel="noopener" aria-label="LinkedIn" style="display:block;width:36px;height:36px;background-image:url(&quot;assets/social-linkedin-sq.png&quot;);background-size:92%;background-position:center;background-repeat:no-repeat" style-hover="opacity:0.7"></a>
+          <a href="https://www.instagram.com/cmu.casi/" target="_blank" rel="noopener" aria-label="Instagram" style="display:block;width:36px;height:36px;background-image:url(&quot;assets/social-instagram-sq.png&quot;);background-size:92%;background-position:center;background-repeat:no-repeat" style-hover="opacity:0.7"></a>
+          <a href="https://discord.gg/gMTJNkzngs" target="_blank" rel="noopener" aria-label="Discord" style="display:block;width:36px;height:36px;background-image:url(&quot;assets/social-discord-sq.png&quot;);background-size:cover;background-position:center;background-repeat:no-repeat" style-hover="opacity:0.7"></a>
+        </div>
+      </div>
+      <div>
+        <p style="margin:0;max-width:56ch;font-size:20px;line-height:1.45;color:#F7F9FC;text-wrap:pretty">Stay updated with the latest AI safety research, upcoming events, and community news. Get exclusive access to our research insights and be the first to know about workshops, speaker events, and collaboration opportunities.</p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform?usp=dialog" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;width:max-content;margin-top:40px;padding:0 28px;height:56px;border-radius:16px;background:#F7F9FC;border:2px solid #F7F9FC;color:#0E030B;font-size:17px;font-weight:700" style-hover="background:#0E030B;border-color:#0E030B;color:#ffffff">
+          <span>Join our mailing list</span>
+        </a>
+        <div style="height:1px;background:rgba(247,249,252,0.18);margin:clamp(64px,7vw,96px) 0"></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:clamp(40px,5vw,80px)">
+          <div>
+            <div style="font-size:15px;font-weight:400;color:#A6B4B4">Email</div>
+            <a href="mailto:casi@andrew.cmu.edu" style="display:block;margin-top:8px;font-size:17px;font-weight:700;letter-spacing:-0.01em" style-hover="color:#C6CCF0">casi@andrew.cmu.edu</a>
+            <p style="margin:12px 0 0;max-width:32ch;font-size:17px;line-height:1.45;color:#A6B4B4;text-wrap:pretty">General inquiries, membership questions and collaboration.</p>
+          </div>
+          <div>
+            <div style="font-size:15px;font-weight:400;color:#A6B4B4">Discord</div>
+            <a href="https://discord.gg/gMTJNkzngs" target="_blank" rel="noopener" style="display:block;margin-top:8px;font-size:17px;font-weight:700;letter-spacing:-0.01em" style-hover="color:#C6CCF0">Join the server</a>
+            <p style="margin:12px 0 0;max-width:32ch;font-size:17px;line-height:1.45;color:#A6B4B4;text-wrap:pretty">Real-time discussion, event updates and community.</p>
+          </div>
+          <div>
+            <div style="font-size:15px;font-weight:400;color:#A6B4B4">Office</div>
+            <div style="margin-top:8px;font-size:17px;font-weight:700;letter-spacing:-0.01em">Craig-Henry Building</div>
+            <p style="margin:12px 0 0;max-width:32ch;font-size:17px;line-height:1.45;color:#A6B4B4">Units 1M and 1E, 201 South Craig Street, Pittsburgh, PA 15213</p>
+          </div>
+        </div>
+        </div>
+      </section>
+
+
+
+
+
+    </main></sc-if>
+    
+
+
+
+  
+  
+  
+  <sc-if value="{{ isEvents }}" hint-placeholder-val="{{ false }}">
+  <main data-screen-label="Events">
+
+    <section style="position:relative;overflow:hidden;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px) clamp(40px,4.5vw,64px)">
+      <div aria-hidden="true" style="position:absolute;left:0;right:0;top:calc(-1 * clamp(64px,7.2vw,102px));height:clamp(440px,54vh,660px);overflow:hidden;pointer-events:none">
+        <div style="position:absolute;inset:0;background-color:#F7F9FC"></div>
+        <div style="position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(180deg,rgba(194,182,205,0.42) 0%,rgba(206,191,210,0.26) 26%,rgba(181,179,182,0.1) 56%,rgba(247,249,252,0) 92%)"></div>
+        <div data-bg="assets/programs-weave.png" style="position:absolute;inset:0;background-size:100% auto;background-position:center top;background-repeat:repeat-y;mix-blend-mode:multiply;opacity:0.3;-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 26%,rgba(0,0,0,0.2) 48%,rgba(0,0,0,0.42) 70%,rgba(0,0,0,0.6) 88%);mask-image:linear-gradient(90deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 26%,rgba(0,0,0,0.2) 48%,rgba(0,0,0,0.42) 70%,rgba(0,0,0,0.6) 88%)"></div>
+        <div style="position:absolute;inset:0;background:radial-gradient(120% 100% at 50% 40%,rgba(247,249,252,0) 42%,rgba(247,249,252,0.55) 78%,rgba(247,249,252,0.9) 100%)"></div>
+        <div style="position:absolute;left:0;right:0;bottom:0;height:46%;background:linear-gradient(180deg,rgba(247,249,252,0) 0%,rgba(247,249,252,0.75) 58%,#F7F9FC 100%)"></div>
+      </div>
+      <div style="position:relative">
+        <h1 data-rise="1" data-fast style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(34px,3.2vw,42px);font-weight:700;line-height:1.05;letter-spacing:-0.005em">Events</h1>
+        <p data-rise="2" data-fast style="margin:16px 0 0;max-width:52ch;font-size:20px;line-height:1.4;color:#2E4057;text-wrap:pretty">See what we have planned. <a href="{{ icalUrl }}" style="color:#437FD5;font-weight:700" style-hover="color:#0E030B">Subscribe to our calendar</a></p>
+      </div>
+    </section>
+
+    <section data-norev style="padding:0">
+      <div style="display:flex;align-items:center;justify-content:flex-end;gap:12px;padding:0 clamp(24px,5vw,96px) 16px;border-bottom:1px solid rgba(0,0,52,0.18)">
+        <sc-for list="{{ eventTabs }}" as="tab" hint-placeholder-count="2">
+          <a href="#" sc-camel-on-click="{{ tab.go }}" style="display:flex;align-items:center;padding:0 24px;height:40px;border-radius:16px;border:{{ tab.border }};background:{{ tab.bg }};color:{{ tab.color }};font-size:15px;font-weight:400">{{ tab.label }}</a>
+        </sc-for>
+      </div>
+    </section>
+
+    <section data-norev style="display:flex;flex-direction:column;gap:clamp(16px,1.6vw,24px);width:min(100%,1080px);margin:0 auto;padding:clamp(24px,2.5vw,40px) clamp(24px,5vw,96px) clamp(88px,11vw,176px)">
+      <sc-for list="{{ events }}" as="ev" hint-placeholder-count="4">
+        <div style="display:grid;grid-template-columns:180px minmax(0,1fr) 200px;gap:clamp(20px,2.5vw,40px);align-items:stretch;min-height:232px;padding:clamp(8px,1vw,16px) clamp(24px,2.6vw,40px);border-radius:28px;color:#1B151A;background-color:#EFF0F1;border:1.5px solid #DFE1E4">
+          <div style="padding:clamp(28px,3vw,36px) 0">
+            <div style="font-size:15px;color:#2E4057">{{ ev.wd }}</div>
+            <div style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin-top:4px;font-size:32px;font-weight:700;line-height:1;letter-spacing:-0.015em">{{ ev.day }}</div>
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:20px">
+              <div style="display:flex;align-items:center;gap:10px;font-size:15px;color:#2E4057">
+                <svg width="15" height="15" sc-camel-view-box="0 0 16 16" fill="none" stroke="#2E4057" stroke-width="1.4" style="flex:0 0 auto"><circle cx="8" cy="8" r="6.4"></circle><path d="M8 4.6V8l2.4 1.6" stroke-linecap="round"></path></svg>
+                <span>{{ ev.time }}</span>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:10px;font-size:15px;line-height:1.35;color:#2E4057">
+                <svg width="15" height="15" sc-camel-view-box="0 0 16 16" fill="none" stroke="#2E4057" stroke-width="1.4" style="flex:0 0 auto;margin-top:2px"><circle cx="8" cy="6.6" r="4.6"></circle><circle cx="8" cy="6.6" r="1.5" fill="#2E4057" stroke="none"></circle><path d="M8 11.2V14" stroke-linecap="round"></path></svg>
+                <span>{{ ev.place }}</span>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:clamp(24px,2.6vw,40px);padding:clamp(28px,3vw,36px) 0 clamp(28px,3vw,36px) clamp(24px,2.6vw,40px)">
+            <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column;justify-content:center">
+              <div style="display:flex;flex-wrap:wrap;gap:8px">
+                <sc-for list="{{ ev.tagList }}" as="t" hint-placeholder-count="1">
+                  <span style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;display:flex;align-items:center;padding:0 16px;height:26px;border-radius:16px;background:{{ t.bg }};font-size:13px;color:#1f1f1f;white-space:nowrap;letter-spacing:0.01em">{{ t.label }}</span>
+                </sc-for>
+              </div>
+              <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:16px 0 0;font-size:22px;font-weight:700;line-height:1.15;letter-spacing:0em;max-width:30ch;text-wrap:pretty">{{ ev.title }}</h3>
+              <p style="margin:12px 0 0;max-width:52ch;font-size:17px;line-height:1.45;color:#2E4057;text-wrap:pretty">{{ ev.blurb }}</p>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:flex-end">
+            <a href="{{ ev.addUrl }}" target="_blank" rel="noopener" data-hov="{{ ev.hovKey }}" sc-camel-on-mouse-enter="{{ enter }}" sc-camel-on-mouse-leave="{{ leave }}" style="text-align:center;line-height:1;display:flex;align-items:center;justify-content:center;width:max-content;padding:0 24px;height:40px;border-radius:16px;border:1px solid rgba(27,21,26,0.34);background:rgba(255,255,255,0.5);color:#1B151A;font-size:15px;font-weight:400;white-space:nowrap">
+              <span>{{ ev.cta }}</span>
+            </a>
+          </div>
+        </div>
+      </sc-for>
+      <div style="display:flex;align-items:center;justify-content:flex-end;gap:12px;padding:24px clamp(24px,5vw,96px) 0">
+        <span style="font-size:15px;color:#5a5d78">{{ eventPageLabel }}</span>
+        <a href="#" sc-camel-on-click="{{ evPrev }}" style="display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:16px;border:2px solid #1B151A;opacity:{{ evPrevOn }}" style-hover="background:#1B151A;color:#ffffff">
+          <svg width="15" height="15" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 3L5 8l5 5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </a>
+        <a href="#" sc-camel-on-click="{{ evNext }}" style="display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:16px;border:2px solid #1B151A;opacity:{{ evNextOn }}" style-hover="background:#1B151A;color:#ffffff">
+          <svg width="15" height="15" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 3l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </a>
+      </div>
+    </section>
+
+    <section style="padding:0 clamp(24px,5vw,96px) clamp(88px,11vw,176px)">
+      <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.1;letter-spacing:0em">What we organize</h2>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin-top:clamp(32px,3.5vw,48px)">
+        <div>
+          <div style="display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:14px;background:rgba(166,180,180,0.32)">
+            <svg width="24" height="24" sc-camel-view-box="0 0 24 24" fill="none" stroke="#4F6664" stroke-width="1.6"><rect x="9" y="2.5" width="6" height="11" rx="3"></rect><path d="M6 12a6 6 0 0 0 12 0M12 18v3.5" stroke-linecap="round"></path></svg>
+          </div>
+          <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:20px 0 0;font-size:22px;font-weight:700;line-height:1.25;letter-spacing:0.01em">Guest lectures</h3>
+          <p style="margin:10px 0 0;max-width:34ch;font-size:17px;line-height:1.45;color:#2E4057;text-wrap:pretty">Leading AI safety researchers share their insights and latest findings with our community.</p>
+        </div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:14px;background:rgba(166,180,180,0.32)">
+            <svg width="24" height="24" sc-camel-view-box="0 0 24 24" fill="none" stroke="#4F6664" stroke-width="1.6"><rect x="3" y="3" width="8" height="8" rx="2"></rect><rect x="13" y="13" width="8" height="8" rx="2"></rect><path d="M13 7h8M3 17h8" stroke-linecap="round"></path></svg>
+          </div>
+          <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:20px 0 0;font-size:22px;font-weight:700;line-height:1.25;letter-spacing:0.01em">Workshops</h3>
+          <p style="margin:10px 0 0;max-width:34ch;font-size:17px;line-height:1.45;color:#2E4057;text-wrap:pretty">Hands-on sessions covering AI safety techniques, research methodologies, and practical applications.</p>
+        </div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:14px;background:rgba(166,180,180,0.32)">
+            <svg width="24" height="24" sc-camel-view-box="0 0 24 24" fill="none" stroke="#4F6664" stroke-width="1.6"><rect x="2.5" y="4" width="13" height="10" rx="3"></rect><rect x="8.5" y="10" width="13" height="10" rx="3"></rect></svg>
+          </div>
+          <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:20px 0 0;font-size:22px;font-weight:700;line-height:1.25;letter-spacing:0.01em">Discussion groups</h3>
+          <p style="margin:10px 0 0;max-width:34ch;font-size:17px;line-height:1.45;color:#2E4057;text-wrap:pretty">Regular meetups to discuss recent papers, research directions, and emerging topics in AI safety.</p>
+        </div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:14px;background:rgba(166,180,180,0.32)">
+            <svg width="24" height="24" sc-camel-view-box="0 0 24 24" fill="none" stroke="#4F6664" stroke-width="1.6"><circle cx="8" cy="8" r="4"></circle><circle cx="16" cy="16" r="4"></circle><path d="M11 11l2 2" stroke-linecap="round"></path></svg>
+          </div>
+          <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:20px 0 0;font-size:22px;font-weight:700;line-height:1.25;letter-spacing:0.01em">Networking events</h3>
+          <p style="margin:10px 0 0;max-width:34ch;font-size:17px;line-height:1.45;color:#2E4057;text-wrap:pretty">Connect with fellow students, researchers, and faculty interested in AI safety and alignment.</p>
+        </div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:14px;background:rgba(166,180,180,0.32)">
+            <svg width="24" height="24" sc-camel-view-box="0 0 24 24" fill="none" stroke="#4F6664" stroke-width="1.6"><rect x="3.5" y="13" width="4" height="7.5" rx="1"></rect><rect x="10" y="8" width="4" height="12.5" rx="1"></rect><rect x="16.5" y="4" width="4" height="16.5" rx="1"></rect></svg>
+          </div>
+          <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:20px 0 0;font-size:22px;font-weight:700;line-height:1.25;letter-spacing:0.01em">Research presentations</h3>
+          <p style="margin:10px 0 0;max-width:34ch;font-size:17px;line-height:1.45;color:#2E4057;text-wrap:pretty">Students and faculty present their ongoing research in AI safety and related fields.</p>
+        </div>
+        <div>
+          <div style="display:flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:14px;background:rgba(166,180,180,0.32)">
+            <svg width="24" height="24" sc-camel-view-box="0 0 24 24" fill="none" stroke="#4F6664" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"></circle><path d="M3.5 12h17M12 3.5v17" stroke-linecap="round"></path></svg>
+          </div>
+          <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:20px 0 0;font-size:22px;font-weight:700;line-height:1.25;letter-spacing:0.01em">Socials</h3>
+          <p style="margin:10px 0 0;max-width:34ch;font-size:17px;line-height:1.45;color:#2E4057;text-wrap:pretty">Enjoy free food and get to know people you otherwise wouldn't meet on campus.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isBlog }}" hint-placeholder-val="{{ true }}">
+  <main data-screen-label="Blog">
+
+    <section data-norev style="position:relative;overflow:hidden;color:#0E030B;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px)">
+      <div aria-hidden="true" style="position:absolute;left:0;right:0;top:calc(-1 * clamp(64px,7.2vw,102px));height:clamp(440px,54vh,660px);overflow:hidden;pointer-events:none">
+        <div style="position:absolute;inset:0;background-color:#F7F9FC"></div>
+        <div style="position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(180deg,rgba(194,182,205,0.42) 0%,rgba(206,191,210,0.26) 26%,rgba(181,179,182,0.1) 56%,rgba(247,249,252,0) 92%)"></div>
+        <div data-bg="assets/programs-weave.png" style="position:absolute;inset:0;background-size:100% auto;background-position:center top;background-repeat:repeat-y;mix-blend-mode:multiply;opacity:0.3;-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 26%,rgba(0,0,0,0.2) 48%,rgba(0,0,0,0.42) 70%,rgba(0,0,0,0.6) 88%);mask-image:linear-gradient(90deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0) 26%,rgba(0,0,0,0.2) 48%,rgba(0,0,0,0.42) 70%,rgba(0,0,0,0.6) 88%)"></div>
+        <div style="position:absolute;inset:0;background:radial-gradient(120% 100% at 50% 40%,rgba(247,249,252,0) 42%,rgba(247,249,252,0.55) 78%,rgba(247,249,252,0.9) 100%)"></div>
+        <div style="position:absolute;left:0;right:0;bottom:0;height:46%;background:linear-gradient(180deg,rgba(247,249,252,0) 0%,rgba(247,249,252,0.75) 58%,#F7F9FC 100%)"></div>
+      </div>
+      <div style="position:relative">
+      <h1 data-rise="1" data-fast style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(34px,3.2vw,42px);font-weight:700;line-height:1.05;letter-spacing:-0.005em;color:#0E030B">Blog</h1>
+      <p data-rise="2" data-fast style="margin:16px 0 0;max-width:52ch;font-size:20px;line-height:1.4;color:#2E4057;text-wrap:pretty">Read about our members’ work, on <a href="https://carnegieaisafety.substack.com/" target="_blank" rel="noopener" style="color:#437FD5;font-weight:700">our Substack</a>.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:32px">
+        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+          <a href="#" sc-camel-on-click="{{ f.go }}" style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;display:flex;align-items:center;padding:0 24px;height:40px;border-radius:16px;border:2px solid transparent;font-size:15px;font-weight:400;background:{{ f.bg }};color:{{ f.fg }};letter-spacing:0.01em">{{ f.label }}</a>
+        </sc-for>
+        <span style="display:flex;align-items:center;flex:0 0 auto;height:40px;margin-left:8px;font-size:15px;color:#2E4057;white-space:nowrap">{{ postCount }}</span>
+      </div>
+
+      <div data-blog-grid style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:1fr;gap:32px;margin-top:clamp(48px,5vw,64px)">
+        <sc-for list="{{ posts }}" as="post" hint-placeholder-count="6">
+          <a href="{{ post.url }}" target="_blank" rel="noopener" itemscope="" itemtype="https://schema.org/BlogPosting" style="display:flex;flex-direction:column;height:100%;min-height:180px;padding:clamp(18px,2vw,24px) clamp(20px,2.4vw,32px);border-radius:28px;background:#EFF0F1;border:1.5px solid #DFE1E4;color:#1B151A;transition:border-color 160ms ease-out" style-hover="border-color:#BEC3CA">
+            <div style="display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px">
+              <div style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;display:flex;align-items:center;flex:0 1 auto;min-width:0;padding:0 12px;height:24px;border-radius:16px;background:{{ post.catBg }};font-size:13px;color:#1f1f1f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:0.01em">{{ post.cat }}</div>
+              <div style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;font-size:13px;font-weight:700;color:#2E4057;white-space:nowrap;letter-spacing:0.01em" itemprop="datePublished">{{ post.date }}</div>
+            </div>
+            <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:14px 0 0;max-width:30ch;font-size:20px;font-weight:400;line-height:1.22;letter-spacing:0em;color:#1B151A;text-wrap:pretty;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden" itemprop="headline">{{ post.title }}</h3>
+            <div style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin-top:auto;padding-top:18px;text-align:right;font-size:15px;font-weight:700;color:#2E4057;letter-spacing:0.01em" itemprop="author">{{ post.author }}</div>
+          </a>
+        </sc-for>
+      </div>
+      </div>
+    </section>
+
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isDescriptions }}" hint-placeholder-val="{{ false }}">
+  <main data-screen-label="Program Descriptions">
+
+    <section style="display:flex;align-items:center;justify-content:center;min-height:clamp(300px,34vh,420px);padding:clamp(72px,9vw,132px) clamp(24px,5vw,96px);background-color:#C6CCF0;background-image:linear-gradient(180deg,#C6CCF0 0%,#C6CCF0 42%,#C1D0F3 70%,#BBD5F1 100%)">
+      <h1 data-rise="1" style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;text-align:center;font-size:clamp(34px,3.2vw,42px);font-weight:700;line-height:1.05;letter-spacing:-0.005em;color:#0E030B;text-wrap:balance">CASI Program Descriptions</h1>
+    </section>
+
+    <section id="research-fellowship" data-program="research-fellowship" style="background:#F7F9FC;display:grid;grid-template-columns:minmax(320px,0.95fr) minmax(320px,1.05fr);gap:clamp(40px,5vw,88px);align-items:start;padding:clamp(56px,7vw,104px) clamp(24px,5vw,96px) clamp(72px,9vw,128px)">
+      <div style="position:sticky;top:104px">
+        <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(28px,2.8vw,36px);font-weight:700;line-height:1.1;letter-spacing:0em;color:#0E030B">CASI Research Fellowship</h2>
+        <p style="margin:12px 0 0;max-width:34ch;font-size:20px;font-weight:700;line-height:1.4;color:#437FD5">Explore and develop AI safety research projects</p>
+        <p style="margin:28px 0 0;max-width:42ch;font-size:24px;line-height:1.4;color:#0E030B;text-wrap:pretty">Hands-on research experience in AI safety for motivated students who are ready to dive deeper into the field.</p>
+      </div>
+      <div>
+        <p style="margin:0;font-size:17px;line-height:1.55;color:#2E4057;max-width:64ch;text-wrap:pretty">Our Research Fellowship provides hands-on research experience in AI safety for motivated students ready to dive deeper into the field. This program requires an extended application process and is designed for students who have demonstrated commitment to AI safety research.</p>
+        <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:clamp(36px,3.6vw,48px) 0 0;font-size:22px;font-weight:700;letter-spacing:0.01em;color:#0E030B">Prerequisites</h3>
+        <p style="margin:12px 0 0;font-size:17px;line-height:1.55;color:#2E4057;max-width:64ch;text-wrap:pretty">Applicants must have either completed one of our introductory reading groups with good attendance, or demonstrate equivalent experience in AI safety research or related fields.</p>
+        <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:clamp(36px,3.6vw,48px) 0 0;font-size:22px;font-weight:700;letter-spacing:0.01em;color:#0E030B">Mentorship</h3>
+        <p style="margin:12px 0 0;font-size:17px;line-height:1.55;color:#2E4057;max-width:64ch;text-wrap:pretty">Spring 2026 is mentored by PhD students Jennifer Evans and Ida Mattson, with guest mentors brought in by project.</p>
+      </div>
+    </section>
+
+    <div aria-hidden="true" style="height:1px;margin:0 clamp(24px,5vw,96px);background:#C6CCF0"></div>
+
+    <section id="research-scholars" data-program="research-scholars" style="background:#F7F9FC;display:grid;grid-template-columns:minmax(320px,0.95fr) minmax(320px,1.05fr);gap:clamp(40px,5vw,88px);align-items:start;padding:clamp(72px,9vw,128px) clamp(24px,5vw,96px)">
+      <div style="position:sticky;top:104px">
+        <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(28px,2.8vw,36px);font-weight:700;line-height:1.1;letter-spacing:0em;color:#0E030B">CASI Research Scholars</h2>
+        <p style="margin:12px 0 0;max-width:34ch;font-size:20px;font-weight:700;line-height:1.4;color:#437FD5">Structured research opportunities with expert mentorship</p>
+        <p style="margin:28px 0 0;max-width:42ch;font-size:24px;line-height:1.4;color:#0E030B;text-wrap:pretty">Pre-scoped projects that pair undergraduate and masters students with professors, postdocs, and senior PhD students.</p>
+      </div>
+      <div>
+        <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:22px;font-weight:700;letter-spacing:0.01em;color:#0E030B">What is the CASI Research Scholars program?</h3>
+        <p style="margin:12px 0 0;font-size:17px;line-height:1.55;color:#2E4057;max-width:64ch;text-wrap:pretty">The CASI Research Scholars program connects talented undergraduate and masters students with professors, postdoctoral scholars, and senior PhD students to work on cutting-edge AI safety research. This program differs from our Research Fellowship in that research projects are pre-scoped by PhD mentors, allowing you to join a well-defined research initiative with clear direction and support.</p>
+        <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:clamp(36px,3.6vw,48px) 0 0;font-size:22px;font-weight:700;letter-spacing:0.01em;color:#0E030B">How is this different from the Research Fellowship?</h3>
+        <p style="margin:12px 0 0;font-size:17px;line-height:1.55;color:#2E4057;max-width:64ch;text-wrap:pretty">While our Research Fellowship is exploratory, where you help define your own research direction through team matching and scoping, the Research Scholars program provides pre-scoped projects mentored by PhD students. This allows for deeper focus and more immediate research engagement.</p>
+        <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:clamp(36px,3.6vw,48px) 0 0;font-size:22px;font-weight:700;letter-spacing:0.01em;color:#0E030B">Application process</h3>
+        <p style="margin:12px 0 0;font-size:17px;line-height:1.55;color:#2E4057;max-width:64ch;text-wrap:pretty">Each research project has its own application process. Applications typically require around 10 hours to complete, which may include project-specific assignments, essays, or research proposals. This ensures we find mentees who are genuinely excited about the project at hand.</p>
+        <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:clamp(36px,3.6vw,48px) 0 0;font-size:22px;font-weight:700;letter-spacing:0.01em;color:#0E030B">What you will gain</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:clamp(24px,2.6vw,36px);margin-top:20px">
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#437FD5">Expert mentorship</div>
+            <p style="margin:8px 0 0;max-width:32ch;font-size:17px;line-height:1.5;color:#2E4057;text-wrap:pretty">Work directly with PhD students and experienced researchers.</p>
+          </div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#437FD5">Research skills</div>
+            <p style="margin:8px 0 0;max-width:32ch;font-size:17px;line-height:1.5;color:#2E4057;text-wrap:pretty">Develop real research competencies in AI safety.</p>
+          </div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#437FD5">Publications</div>
+            <p style="margin:8px 0 0;max-width:32ch;font-size:17px;line-height:1.5;color:#2E4057;text-wrap:pretty">Contribute to research that is concretely directed towards a publication.</p>
+          </div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#437FD5">Compute and API credits</div>
+            <p style="margin:8px 0 0;max-width:32ch;font-size:17px;line-height:1.5;color:#2E4057;text-wrap:pretty">CASI provides the resources you need to conduct your research.</p>
+          </div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#437FD5">Impact</div>
+            <p style="margin:8px 0 0;max-width:32ch;font-size:17px;line-height:1.5;color:#2E4057;text-wrap:pretty">Contribute meaningfully to the AI safety research community.</p>
+          </div>
+          <div>
+            <div style="font-size:15px;font-weight:700;color:#437FD5">Time commitment</div>
+            <p style="margin:8px 0 0;max-width:32ch;font-size:17px;line-height:1.5;color:#2E4057;text-wrap:pretty">10 to 20 hours per week, varying by project, across collaborative and independent work.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  </sc-if>
+
+
+
+
+
+
+
+  <footer style="background:#F7F9FC;color:#0E030B;border-top:{{ footerBorder }};padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px) 40px">
+    <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:clamp(32px,5vw,64px)">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <svg width="30" height="29" sc-camel-view-box="0 0 45 44" fill="#0E030B" aria-label="CASI logo">
+            <path d="M 22.455 9.957 C 21.257 8.056 19.393 5.743 17.037 5.734 L 7.741 5.699 L 0 5.671 L 0.026 3.474 L 0.073 0 L 22.426 0" transform="translate(0.01 0)"></path>
+            <g transform="translate(0 8.496)">
+              <path d="M 21.018 23.034 L 21.048 35.488 C 17.261 35.659 12.871 34.362 9.488 32.597 C 6.3 30.882 3.426 28.565 1.755 25.288 C 0.726 23.04 0.05 20.692 0.044 18.163 L 0 0 L 11.352 0.019 L 16.779 0.046 C 18.23 0.153 19.426 1.262 20.042 2.522 C 20.475 3.408 20.922 4.33 20.943 5.339 L 20.982 7.182 L 21.019 23.035 L 21.018 23.034 Z M 16.589 9.18 C 16.589 5.862 13.898 3.172 10.579 3.172 C 7.261 3.172 4.569 5.862 4.569 9.18 C 4.569 12.499 7.261 15.189 10.579 15.189 C 13.898 15.189 16.589 12.499 16.589 9.18 Z"></path>
+              <circle cx="10.578" cy="8.789" r="2.942"></circle>
+            </g>
+            <path d="M 0.637 9.957 C 1.834 8.056 3.78 5.743 6.135 5.734 L 15.431 5.699 L 23.172 5.671 L 23.145 3.474 L 23.1 0 L 0 0" transform="translate(21.827 0)"></path>
+            <g transform="translate(23.955 8.495)">
+              <path d="M 0.065 7.182 L 0.104 5.339 C 0.125 4.33 0.572 3.408 1.005 2.522 C 1.621 1.262 2.816 0.153 4.268 0.046 L 9.695 0.019 L 21.047 0 L 21.003 18.163 C 20.997 20.692 20.321 23.04 19.293 25.288 C 17.621 28.565 14.748 30.882 11.56 32.597 C 8.177 34.362 3.786 35.659 0 35.488 L 0.03 23.034 L 0.067 7.182 L 0.065 7.182 Z M 10.467 15.19 C 13.787 15.19 16.477 12.5 16.477 9.181 C 16.477 5.863 13.786 3.172 10.467 3.172 C 7.148 3.172 4.457 5.863 4.457 9.181 C 4.457 12.5 7.148 15.19 10.467 15.19 Z"></path>
+              <circle cx="10.467" cy="8.79" r="2.942"></circle>
+            </g>
+          </svg>
+          <span style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;font-size:20px;font-weight:700;letter-spacing:0.03em">CASI</span>
+        </div>
+        <p style="margin:24px 0 0;max-width:380px;font-size:20px;line-height:1.5;color:#0E030B">Carnegie Mellon AI Safety Initiative, building safer AI for everyone.</p>
+        <p style="margin:16px 0 0;max-width:380px;font-size:17px;line-height:1.5;color:#2E4057">Units 1M and 1E of the Craig-Henry Building, 201 South Craig Street, Pittsburgh, PA 15213</p>
+      </div>
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#2E4057">Our Organization</div>
+        <div style="display:flex;flex-direction:column;gap:16px;margin-top:24px;font-size:15px">
+          <a href="#" sc-camel-on-click="{{ goAbout }}" style="width:max-content" style-hover="color:#2E4057">About Us</a>
+          <a href="#" sc-camel-on-click="{{ goTeam }}" style="width:max-content" style-hover="color:#2E4057">Team Directory</a>
+          <a href="#" sc-camel-on-click="{{ goPrograms }}" style="width:max-content" style-hover="color:#2E4057">Core Membership</a>
+          <a href="https://tartanconnect.cmu.edu/CASI/club_signup" target="_blank" rel="noopener" style="width:max-content" style-hover="color:#2E4057">Join Us</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:15px;font-weight:700;color:#2E4057">Connect</div>
+        <div style="display:flex;flex-direction:column;gap:16px;margin-top:24px;font-size:15px">
+          <a href="#" sc-camel-on-click="{{ goBlog }}" style="width:max-content" style-hover="color:#2E4057">Blog</a>
+          <a href="https://carnegieaisafety.substack.com/" target="_blank" rel="noopener" style="width:max-content" style-hover="color:#2E4057">Substack</a>
+          <a href="#" style="width:max-content" style-hover="color:#2E4057">Discord Server</a>
+          <a href="#" style="width:max-content" style-hover="color:#2E4057">Mailing List</a>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px;margin-top:clamp(64px,7vw,96px);padding-top:32px;border-top:1px solid rgba(46,64,87,0.22);font-size:15px;color:#2E4057">
+      <span>© 2026 Carnegie Mellon AI Safety Initiative</span>
+    </div>
+  </footer>
+
+</div>
+
+
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;gcalApiKey&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;AIzaSyDGfj3imYMjLOqwluYgOCjTbCUfyGYKk9M&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Google Calendar&quot;}}">
+class Component extends DCLogic {
+  state = { page: "home", hov: null, shot: 0, post: 0, filter: "All", faq: 0 };
+
+  substack = "https://carnegieaisafety.substack.com/";
+
+  gcalId = "c_30fd9569f750ccfb1d8fcacd354e814213f016626f94a1848b8dee1a07e06513@group.calendar.google.com";
+  gcalIcal = "https://calendar.google.com/calendar/ical/c_30fd9569f750ccfb1d8fcacd354e814213f016626f94a1848b8dee1a07e06513%40group.calendar.google.com/public/basic.ics";
+
+  gcalTag(summary) {
+    const t = (summary || "").toLowerCase();
+    if (t.includes("seminar")) return ["Seminar"];
+    if (t.includes("hackathon")) return ["Hackathon"];
+    if (t.includes("reading")) return ["Reading group"];
+    if (t.includes("social")) return ["Social", "Open"];
+    if (t.includes("governance") || t.includes("policy")) return ["Governance"];
+    if (t.includes("research") || t.includes("fellow")) return ["Research"];
+    if (t.includes("speaker") || t.includes("talk")) return ["Speaker", "Open"];
+    if (t.includes("workshop")) return ["Workshop"];
+    return ["Programs"];
+  }
+
+  mapGcal(item) {
+    const raw = (item.start && (item.start.dateTime || item.start.date)) || "";
+    const d = new Date(raw);
+    if (isNaN(d)) return null;
+    const pad = (n) => String(n).padStart(2, "0");
+    const allDay = !(item.start && item.start.dateTime);
+    return {
+      day: pad(d.getDate()) + "." + pad(d.getMonth() + 1),
+      weekday: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][d.getDay()],
+      time: allDay ? "All day" : pad(d.getHours()) + ":" + pad(d.getMinutes()),
+      title: item.summary || "CASI event",
+      tags: this.gcalTag(item.summary),
+      blurb: (item.description || "").replace(/<[^>]*>/g, "").slice(0, 200),
+      place: item.location || "The Nest",
+      cta: "+ Add to calendar",
+      gcalUrl: item.htmlLink || "",
+      startISO: d.toISOString()
+    };
+  }
+
+  loadGcal() {
+    const key = this.props.gcalApiKey;
+    if (!key) return;
+    const base = "https://www.googleapis.com/calendar/v3/calendars/" + encodeURIComponent(this.gcalId) + "/events";
+    const common = "&singleEvents=true&orderBy=startTime&maxResults=40&key=" + encodeURIComponent(key);
+    const now = new Date().toISOString();
+    Promise.all([
+      fetch(base + "?timeMin=" + now + common).then((r) => r.json()),
+      fetch(base + "?timeMax=" + now + common).then((r) => r.json())
+    ]).then(([up, past]) => {
+      const mapAll = (j) => ((j && j.items) || []).map((i) => this.mapGcal(i)).filter(Boolean);
+      const upcoming = mapAll(up);
+      const pastList = mapAll(past).reverse();
+      if (!upcoming.length && !pastList.length) return;
+      this.setState({ liveEvents: { Upcoming: upcoming, Past: pastList } });
+    }).catch(() => {});
+  }
+
+
+  allPosts = [
+    { author: "Christina Li, Taeho Lee, and Anishka Jannu", title: "AI and Technofeudalism", cat: "AI Governance Op-Eds", blurb: "AI is a modern technology reinforcing a centuries-old playbook of feudalism, only this time in the digital space, by Christina Li, Taeho Lee, and Anishka Jannu.", date: "7/24/2026", img: "" },
+    { author: "Taeho Lee", url: "https://carnegieaisafety.substack.com/p/llm-powered-drones-could-reverse", title: "LLM-Powered Drones Could Reverse the Democratization of Warfare", cat: "AI Governance Op-Eds", blurb: "How context-dependent, agentic LLM-powered drones could reconcentrate military power, by Taeho Lee.", date: "7/13/2026", img: "" },
+    { author: "Taeho Lee", url: "https://carnegieaisafety.substack.com/p/how-geopolitics-creates-conscripted", title: "How Geopolitics Creates Conscripted Corporate Monsters", cat: "AI Governance Op-Eds", blurb: "Examining how geopolitical competition turns AI companies into conscripted corporate monsters through cycles of state coercion and control, by Taeho Lee.", date: "7/1/2026", img: "" },
+    { author: "Tomas Felipe Rubio Diaz and Hojun Jin", title: "Regional AI Hyperspecialization", cat: "AI Governance Op-Eds", blurb: "How smaller nations can stay strategically relevant by specializing in narrow, high-value AI capabilities, by Tomas Felipe Rubio Diaz and Hojun Jin.", date: "5/6/2026", img: "" },
+    { author: "Dorian Clay and Jessica Wen", url: "https://carnegieaisafety.substack.com/p/three-federal-liability-frameworks", title: "Three Federal Liability Frameworks", cat: "CASI Policy Hackathon Finalists", blurb: "Strict liability, negligence-based duty of care, and an industry-funded compensation model for AI-enabled consumer fraud, by Dorian Clay and Jessica Wen.", date: "5/4/2026", img: "assets/post-liability.png" },
+    { author: "Taeho Lee", title: "AI-Powered FRT and Civil Liberties", cat: "CASI Policy Hackathon Finalists", blurb: "A Fourth Amendment and Rawlsian ethics framework for permissible use of AI-powered facial recognition at the border, by Taeho Lee.", date: "5/6/2026", img: "assets/post-frt.png" },
+    { author: "Mateo Ruiz-Leal", url: "https://carnegieaisafety.substack.com/p/addressing-the-epidemic-of-ai-voice", title: "AI Voice-Cloning Fraud", cat: "CASI Policy Hackathon Finalists", blurb: "Know Your Deployer (KYD), conditional cost-shifting, and a hybrid BSA-TILA model for agentic AI platforms, by Mateo Ruiz-Leal.", date: "5/2/2026", img: "assets/photo-3.jpg" },
+    { author: "Jong Hyun Son and Soomin Seo", url: "https://carnegieaisafety.substack.com/p/the-ai-creator-compensation-and-licensing", title: "AICCLA", cat: "CASI Policy Hackathon Finalists", blurb: "A proposed AI Creator Compensation and Licensing Act: blanket licensing, royalty tiers, a federal registry, and safe harbor, by Jong Hyun Son and Soomin Seo.", date: "5/2/2026", img: "assets/photo-4.jpg" },
+    { url: "https://carnegieaisafety.substack.com/p/aaai-26-recap", author: "Xuning Ying", title: "AAAI-26 Recap", cat: "Member Reflections", blurb: "Presenting AI safety research on jailbreaking and chain-of-thought patterns at AAAI-26.", date: "4/24/2026", img: "assets/post-aaai.png" }
+  ];
+
+  // Which programs have a written description page. A program that is not
+  // listed here gets an inert Learn More rather than a neighbour's anchor.
+  programDesc = { p4: "research-fellowship", p5: "research-scholars" };
+
+  // Where each filled button points. p1 and p2 open the pre-registration
+  // form; p3 subscribes to the seminar mailing list.
+  programUrl = {
+    p1: "https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform",
+    p2: "https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform",
+    p3: "https://lists.andrew.cmu.edu/mailman/listinfo/casi-safety-seminar"
+  };
+
+  programs = [
+    { key: "p1", title: "AI Alignment Fundamentals", timing: "Applications open Sept 15, 2026", desc: "An accessible introduction to technical AI safety: RLHF, jailbreaking, interpretability, AI control, and more. Weekly paper discussions, food provided, and no work outside our sessions.", cta: "Apply", filled: true },
+    { key: "p2", title: "AI Governance Fundamentals", timing: "Applications open Sept 15, 2026", desc: "An accessible introduction to AI governance: regulation frameworks, international cooperation, risk assessment, and governance of advanced systems. Weekly policy papers and case studies, food provided, and no work outside our sessions.", cta: "Apply", filled: true },
+    { key: "p3", title: "CASI AI Safety Seminar", timing: "A Seminar on AI safety and security", desc: "A research-level, technical seminar on AI safety and security. It is geared towards PhD students, postdocs, professors, and others active in ML research. Each session features paper presentations and in-depth discussion of current work. Food is provided.", cta: "Subscribe", filled: true },
+    { key: "p4", title: "CASI Research Fellowship", timing: "Applications open in October", desc: "Hands-on AI safety research for students ready to go deeper. Extended application; requires a completed reading group or equivalent experience. Projects are mentored by PhD students and guest mentors.", cta: "Learn More", filled: false },
+    { key: "p5", title: "CASI Research Scholars", timing: "Applications closed for Fall 2026", desc: "Pre-scoped projects for undergrad and masters students, mentored by professors, postdocs, and senior PhD students. Expect 10 to 20 hours a week, with compute and API credits provided and publication as the goal.", cta: "Learn More", filled: false }
+  ];
+
+  faqData = [
+    { q: "How can I become a core member?", a: "Applications to become a core member open every semester. Keep an eye on our announcements for application links and deadlines, or apply here if applications are currently open." },
+    { q: "What is the bar to becoming a core member?", a: "If you are an active member of any one of our regular programming (such as a reading group), that alone is enough to become a core member. We're looking for dedicated and enthusiastic students who are interested in AI safety. We encourage applications and err on the side of accepting." },
+    { q: "How is core membership renewed?", a: "Core membership is an active title, renewed each semester. If you were active during the current semester, you'll be renewed for the next, but you must still reapply." },
+    { q: "Where is the office?", a: "Units 1M and 1E of the Craig-Henry Building, located at 201 South Craig Street, Pittsburgh, PA 15213." },
+    { q: "How can I gain entry into the office?", a: "Core members gain access to a special Discord channel where they can ping a bot that will open the office door. 24/7 access to the office space is restricted to core members." }
+  ];
+
+  orgData = [
+    // Sizes come from each PNG's measured aspect ratio, so nothing distorts.
+    // Heights are matched optically, not numerically: MATS and SPAR are
+    // lockups (icon + wordmark), so they need a taller box than a bare
+    // wordmark for their cap heights to align.
+    { name: "OpenAI", img: "assets/logo-openai.png", h: "26px", w: "96px", filter: "grayscale(1)" },
+    { name: "Anthropic", img: "assets/logo-anthropic.png", h: "20px", w: "178px", filter: "grayscale(1)" },
+    { name: "Gray Swan", img: "assets/logo-grayswan.png", h: "31px", w: "134px", filter: "grayscale(1)" },
+    { name: "Constellation", img: "assets/logo-constellation.png", h: "24px", w: "126px", filter: "grayscale(1)" },
+    // MATS is a maroon square with the flame knocked out in white. Any
+    // multiplicative filter (opacity, brightness) dims the flame.
+    { name: "MATS", img: "assets/logo-mats.png", h: "34px", w: "132px", filter: "grayscale(1)" },
+    { name: "SPAR", img: "assets/logo-spar.png", h: "40px", w: "97px", filter: "grayscale(1) brightness(0.85)" }
+  ];
+
+  navMenus = {};
+
+  boardGroupLabels = [
+    ["lead", "Leadership"],
+    ["rg", "Reading Groups"],
+    ["res", "Research & Seminars"],
+    ["ev", "Events & Outreach"]
+  ];
+
+  boardData = [
+    { name: "Louis Sloot", role: "President", group: "lead", img: "assets/team/louis-sloot.jpg", pos: "50% 28%" },
+    { name: "Lawrence Feng", role: "Mentorship & strategy", group: "lead", img: "assets/team/lawrence-feng.jpg", pos: "45% 30%" },
+    { name: "Franca Ellerman", role: "Alignment RG, recruitment", group: "rg", img: "assets/team/franca-ellerman.jpg", pos: "48% 38%" },
+    { name: "Edward Friedman", role: "Alignment RG, public outreach", group: "rg", img: "assets/team/edward-friedman.jpg", pos: "50% 28%" },
+    { name: "Shriyan Reyya", role: "Alignment RG, socials", group: "rg", img: "assets/team/shriyan-reyya.jpg", pos: "42% 42%" },
+    { name: "Xuning Ying", role: "Governance RG, policy hackathon", group: "rg", img: "assets/team/xuning-ying.jpg", pos: "52% 30%" },
+    { name: "Dani Roytburg", role: "AI Safety Seminar, grad outreach", group: "res", img: "assets/team/dani-roytburg-v4.jpg", pos: "50% 50%" },
+    { name: "Matan Shtepel", role: "CASI-MATS lead, seminars", group: "res", img: "assets/team/matan-shtepel.jpg", pos: "50% 28%" },
+    { name: "Keira Leal", role: "Hackathons, campus outreach", group: "ev", img: "assets/team/keira-leal.jpg", pos: "55% 25%" },
+    { name: "Samanvita Singhania", role: "Hackathons, GBMs", group: "ev", img: "assets/team/samanvita-singhania.jpg", pos: "38% 62%" },
+    { name: "Dorian Clay", role: "Media & faculty outreach", group: "ev", img: "assets/team/dorian-clay.jpg", pos: "50% 28%" },
+    { name: "Sophia Cano", role: "Design", group: "ev", img: "assets/team/sophia-cano.jpg", pos: "48% 30%" },
+    { name: "Veronica Shao", role: "Organizing & logistics", group: "ev", img: "assets/team/veronica-shao.jpg", pos: "50% 28%" }
+  ].map((p, i) => Object.assign({}, p, { slot: "board-" + (i + 1), hasImg: !!p.img, noImg: !p.img, bg: p.img ? "url(" + p.img + ")" : "none", pos: p.pos || "50% 30%" }));
+
+  teamDataOld = [
+    "Barath Srinivasan Basavaraj", "Dani Roytburg", "Dorian Clay", "Eddie Friedman",
+    "Esther Suh", "Franca Ellerman", "Ida Mattsson", "Keira Leal",
+    "Lawrence Feng", "Louis Sloot", "Matan Shtepel", "Samanvita (Tia) Singhania",
+    "Shriyan Reyya", "Sophia Cano", "Veronica Shao", "Xuning (Ningning) Ying"
+  ].map((name, i) => ({
+    name,
+    role: "Exec Board",
+    slot: "team-" + (i + 1)
+  }));
+
+  eventData = {
+    Upcoming: [
+      { day: "02.09", weekday: "Wednesday", time: "16:30", title: "CASI @ The Fair", tags: ["Social", "Open"], blurb: "Look for the big beige tent with \"Carnegie AI Safety Initiative\" written on it. There will be awesome conversations and yummy drinks.", place: "The Cut, Table #145", cta: "+ Add to calendar", link: "https://calendar.google.com/calendar/u/1/r/eventedit/NHVnZG5qNnYydW9pMGwyN2c2b2Vxdmk4ZzAgY18zMGZkOTU2OWY3NTBjY2ZiMWQ4ZmNhY2QzNTRlODE0MjEzZjAxNjYyNmY5NGExODQ4YjhkZWUxYTA3ZTA2NTEzQGc" },
+      { day: "04.09", weekday: "Friday", time: "17:30", title: "GBM #1", tags: ["Programs", "Open"], blurb: "Our first general body meeting of the semester. Look out for details.", place: "DH 2210", cta: "+ Add to calendar", link: "https://calendar.google.com/calendar/u/1/r/eventedit/M281dG5vMmRlM2E4Mjkzc25nam5uMWM0bGsgc2Nhbm9AYW5kcmV3LmNtdS5lZHU" },
+      { day: "08.09", weekday: "Tuesday", time: "17:00", title: "Technical AI Safety Fundamentals, Session B", tags: ["Reading group"], blurb: "Weekly session of the technical fundamentals reading group, running 12 weeks.", place: "GHC 4211", cta: "+ Add to calendar", link: "https://calendar.google.com/calendar/u/1/r/eventedit/MWJybjJlNmtnODFlbGFkbXRkcWZta2xnOGpfMjAyNjA5MDhUMjEwMDAwWiBjXzMwZmQ5NTY5Zjc1MGNjZmIxZDhmY2FjZDM1NGU4MTQyMTNmMDE2NjI2Zjk0YTE4NDhiOGRlZTFhMDdlMDY1MTNAZw" },
+      { day: "09.09", weekday: "Wednesday", time: "17:00", title: "Technical AI Safety Fundamentals, Session A", tags: ["Reading group"], blurb: "Weekly session of the technical fundamentals reading group.", place: "The Nest", cta: "+ Add to calendar", link: "https://calendar.google.com/calendar/u/1/r/eventedit/NTNpYzNiajBubTZ0NTFrOWUwbWw3OXZjY20gY18zMGZkOTU2OWY3NTBjY2ZiMWQ4ZmNhY2QzNTRlODE0MjEzZjAxNjYyNmY5NGExODQ4YjhkZWUxYTA3ZTA2NTEzQGc" }
+    ],
+    Past: []
+  };
+
+
+  navItems = [
+    { key: "home", label: "Home" },
+    { key: "about", label: "About" },
+    { key: "programs", label: "Get Involved" },
+    { key: "events", label: "Calendar" },
+    { key: "blog", label: "Blog" },
+    { key: "team", label: "Team" }
+  ];
+
+  filterNames = ["All", "Member Reflections", "AI Governance Op-Eds", "CASI Policy Hackathon Finalists"];
+
+  tagColors = {
+    Seminar: "#c6ccf0",
+    "Reading group": "#c6ccf0",
+    Research: "#c6ccf0",
+    Governance: "#c5d2d1",
+    Workshop: "#c5d2d1",
+    Hackathon: "#c5d2d1",
+    Programs: "#c5d2d1",
+    Speaker: "#adcce4",
+    Social: "#adcce4",
+    Open: "#adcce4"
+  };
+
+  catColors = {
+    "Member Reflections": "#c6ccf0",
+    "AI Governance Op-Eds": "#c5d2d1",
+    "CASI Policy Hackathon Finalists": "#adcce4"
+  };
+
+  shotList = [
+    { src: "assets/photo-1.jpg", caption: "reading group, spring 2026" },
+    { src: "assets/photo-2.jpg", caption: "policy hackathon" },
+    { src: "assets/photo-crowd-1.jpg", caption: "policy hackathon results" },
+    { src: "assets/photo-crowd-2.jpg", caption: "speaker event" },
+    { src: "assets/photo-seminar-1.jpg", caption: "AI safety seminar" },
+    { src: "assets/photo-classroom-1.jpg", caption: "reading group session" }
+  ];
+
+  go = (page) => (e) => { if (e) e.preventDefault(); this.setState({ page: page, post: 0 }); window.scrollTo(0, 0); };
+
+  // Switch to the descriptions screen and land on one program's section.
+  // That section only exists once the screen renders, so poll briefly for it.
+  goDesc = (id) => (e) => {
+    if (e) e.preventDefault();
+    this.setState({ page: "descriptions", post: 0 });
+    window.scrollTo(0, 0);
+    if (!id) return;
+    let tries = 0;
+    const t = setInterval(() => {
+      const el = document.getElementById(id);
+      if (el) { el.scrollIntoView({ block: "start" }); clearInterval(t); }
+      if (++tries > 60) clearInterval(t);
+    }, 50);
+  };
+
+  assetUrl(path) {
+    if (!path) return "";
+    if (/^(data:|https?:)/.test(path)) return path;
+    if (!this._assetMap) {
+      this._assetMap = {};
+      document.querySelectorAll('img[data-asset]').forEach((img) => {
+        this._assetMap[img.getAttribute('data-asset')] = img.getAttribute('src') || img.src;
+      });
+    }
+    return this._assetMap[path] || path;
+  }
+
+  applyBgs() {
+    document.querySelectorAll('[data-bg]').forEach((el) => {
+      const v = el.getAttribute('data-bg');
+      if (v) el.style.backgroundImage = 'url("' + this.assetUrl(v) + '")';
+    });
+  }
+
+  startShotTimer() {
+    this.stopShotTimer();
+    if (this.shotList.length < 2) return;
+    this.shotTimer = setInterval(() => {
+      const max = this.shotList.length - 1;
+      this.setState((s) => ({ shot: (s.shot || 0) >= max ? 0 : (s.shot || 0) + 1 }));
+    }, 6000);
+  }
+
+  stopShotTimer() { if (this.shotTimer) { clearInterval(this.shotTimer); this.shotTimer = null; } }
+
+    componentWillUnmount() {
+    this.stopShotTimer();
+    clearTimeout(this._revealTimer);
+    clearTimeout(this._cardsTimer);
+    if (this.revealObs) this.revealObs.disconnect();
+    if (this._onScroll) window.removeEventListener("scroll", this._onScroll);
+  }
+
+  
+  // ---- scroll motion ----------------------------------------------------
+  // Sections fade and rise once as they enter the viewport. Every animated
+  // property is written here at runtime and removed again when the animation
+  // ends, so the markup keeps no motion styles of its own.
+
+  reducedMotion() {
+    return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }
+
+  initMotion() {
+    // Guard before any mutation. The reveal hides an element first, so the one
+    // real failure mode is content that stays hidden. Bail before that can happen.
+    if (this.reducedMotion() || typeof IntersectionObserver === "undefined") return;
+    this._revealPage = this.state.page;
+    this._revealFilter = this.state.filter;
+    this.revealObs = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;          // one way; nothing re-hides
+        this.revealObs.unobserve(en.target);     // never process a node twice
+        this.showUnit(en.target);
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
+    this.queueReveal();
+    this.initParallax();
+  }
+
+  showUnit(el) {
+    el.setAttribute("data-rev", "1");
+  }
+
+  replayReveal(sel) {
+    document.querySelectorAll(sel).forEach((el) => {
+      if (this.revealObs) this.revealObs.unobserve(el);
+      el.removeAttribute("data-rev");
+      el.removeAttribute("data-rd");
+      el.removeAttribute("data-rv");
+    });
+    this.queueReveal();
+  }
+
+  queueReveal() {
+    // Hover state re-renders on every mouse move, so coalesce the scans.
+    clearTimeout(this._revealTimer);
+    this._revealTimer = setTimeout(() => this.scanReveal(), 16);
+  }
+
+  scanReveal() {
+    if (!this.revealObs) return;
+    const fresh = (el) => !el.hasAttribute("data-rev");
+    // Never arm something the reader has already scrolled past. A re-render can
+    // drop the data-rev marker, and re-arming an element that sits above the
+    // viewport would hide it for good, because the observer only fires on entry.
+    // An element still on screen is safe to arm: the observer reports it at once,
+    // which is how a hero animates on arrival rather than on scroll.
+    const notPassed = (el) => el.getBoundingClientRect().bottom > 0;
+    // Decorative layers carry these inline. Animating them would fight the design.
+    const SKIP = ["transform:", "position:fixed", "position:sticky", "position:absolute"];
+    // Outermost sections only. Some screens wrap their sections in a div, so a
+    // plain "main > section" misses them, but walking every nested section would
+    // arm a wrapper and its contents twice and make the reveal flicker.
+    const sections = [].slice.call(document.querySelectorAll("main section"))
+      .filter((sec) => !sec.parentElement || !sec.parentElement.closest("section"));
+    sections.forEach((sec) => {
+      let kids = [];
+      if (!sec.hasAttribute("data-norev")) {
+        // Descend past single-child wrappers to the row that holds real content,
+        // so a section animates as several blocks rather than one slab.
+        let node = sec, guard = 0;
+        while (node.children.length === 1 && guard++ < 4) node = node.children[0];
+        kids = [].slice.call(node.children).filter((el) => {
+          if (!fresh(el) || !notPassed(el)) return false;
+          // Overlapping units flicker: skip anything that holds, or sits inside,
+          // an element that is already animating.
+          if (el.querySelector("[data-rev]")) return false;
+          if (el.parentElement && el.parentElement.closest("[data-rev]")) return false;
+          if (el.getAttribute("aria-hidden") === "true") return false;
+          if (el.offsetHeight <= 8) return false;
+          const inline = el.getAttribute("style") || "";
+          return !SKIP.some((k) => inline.indexOf(k) >= 0);
+        });
+      }
+      // A marked element animates even inside an opted-out section.
+      const rises = [].slice.call(sec.querySelectorAll("[data-rise]")).filter((el) => fresh(el) && notPassed(el));
+      // Blog cards enter the scan only while a filter change is replaying.
+      const cards = this._replayCards
+        ? [].slice.call(sec.querySelectorAll("[data-blog-grid] > *")).filter(fresh)   // a filter replay arms cards wherever they sit
+        : [];
+      const units = [];
+      kids.concat(rises, cards).forEach((el) => { if (units.indexOf(el) < 0) units.push(el); });
+      if (!units.length) return;
+      units.forEach((el, i) => {
+        const rise = el.getAttribute("data-rise");
+        // Cap the stagger so a six-card grid never grows a long tail.
+        const delay = rise ? parseInt(rise, 10) * 160 : Math.min(i, 4) * 70;
+        if (rise) el.setAttribute("data-rv", "rise");
+        if (delay) el.setAttribute("data-rd", String(delay));
+        if (el.getBoundingClientRect().top < window.innerHeight) {
+          // Already on screen: play it now. The animation owns its from-state,
+          // so there is no hidden step that could be left showing.
+          el.setAttribute("data-rev", "1");
+        } else {
+          el.setAttribute("data-rev", "0");
+          this.revealObs.observe(el);
+        }
+      });
+    });
+  }
+
+  initParallax() {
+    // Transform only, so the work stays on the compositor and never lays out.
+    // The drift is downward: both layers are masked to transparent at their top
+    // edge, so moving them down never exposes a seam.
+    this._onScroll = () => {
+      if (this._pxQueued) return;
+      this._pxQueued = true;
+      requestAnimationFrame(() => {
+        this._pxQueued = false;
+        const y = window.scrollY || 0;
+        const hero = Math.min(y * 0.1, 40);
+        const weave = Math.min(y * 0.06, 24);
+        document.querySelectorAll('[data-bg="assets/hero-gradient.png"]').forEach((el) => {
+          el.style.transform = "translate3d(0," + hero + "px,0)";
+        });
+        document.querySelectorAll('[data-bg="assets/programs-weave.png"]').forEach((el) => {
+          el.style.transform = "translate3d(0," + weave + "px,0)";
+        });
+      });
+    };
+    window.addEventListener("scroll", this._onScroll, { passive: true });
+    this._onScroll();   // a page restored mid-scroll starts in the right place
+  }
+
+  componentDidMount() {
+    this.applyBgs();
+    this.startShotTimer();
+    this.loadGcal();
+    this.initMotion();   // last, so heights and background images are real
+  }
+
+    componentDidUpdate() {
+    this.applyBgs();
+    const st = this.state;
+    // Re-arm on nav: React rewrites style="..." on re-render, which wipes the
+    // inline overrides, so each screen has to be armed again after it mounts.
+    if (this._revealPage !== st.page) {
+      this._revealPage = st.page;
+      this.replayReveal("main [data-rev]");
+    }
+    // A blog filter change makes the new cards rise. This runs after the
+    // commit, not in the click handler, or the re-render overwrites the arming.
+    if (this._revealFilter !== undefined && this._revealFilter !== st.filter) {
+      this._replayCards = true;
+      clearTimeout(this._cardsTimer);
+      this._cardsTimer = setTimeout(() => { this._replayCards = false; }, 400);
+      this.replayReveal("[data-blog-grid] > *");
+    }
+    this._revealFilter = st.filter;
+    // No scan here. componentDidUpdate runs on every hover, and re-scanning then
+    // re-arms any node the runtime rebuilt, which reads as a flicker. Only a
+    // mount, a page change and a filter change queue a scan.
+  }
+
+  renderVals() {
+    const st = this.state;
+    const hov = st.hov;
+    // the descriptions screen keeps Programs lit in the nav
+    const navActive = st.page === "descriptions" ? "programs" : st.page;
+    const arrows = new Proxy({}, { get: (_, k) => (hov === String(k) ? 1 : 0) });
+    const visible = this.allPosts.filter((p) => st.filter === "All" || p.cat === st.filter);
+    const maxPost = Math.max(0, visible.length - 2);
+    const post = Math.min(st.post, maxPost);
+    const maxShot = Math.max(0, this.shotList.length - 1);
+    const shot = Math.min(st.shot, maxShot);
+    const evSource = st.liveEvents || this.eventData;
+    const evAll = evSource[st.eventScope || "Upcoming"] || [];
+    const evPages = Math.max(1, Math.ceil(evAll.length / 4));
+    const evPage = Math.min(st.eventPage || 0, evPages - 1);
+    const evStart = evPage * 4;
+
+    return {
+      goAbout: this.go("about"),
+      goTeam: this.go("team"),
+      goBlog: this.go("blog"),
+      isAbout: st.page === "about",
+      isTeam: st.page === "team",
+      board: this.boardData,
+      isHome: st.page === "home",
+      isPrograms: st.page === "programs",
+      isDescriptions: st.page === "descriptions",
+      goDescriptions: this.goDesc(""),
+      goFellowship: this.goDesc("research-fellowship"),
+      goScholars: this.goDesc("research-scholars"),
+      footerBorder: st.page === "descriptions" ? "1px solid #C6CCF0" : "none",
+      isBlog: st.page === "blog",
+      isEvents: st.page === "events",
+      eventScopeLabel: (st.eventScope || "Upcoming") === "Upcoming" ? "Upcoming events" : "Past events",
+      eventRange: (st.eventScope || "Upcoming") === "Upcoming" ? "Sept\u2013Dec 2026" : "Jan\u2013Aug 2026",
+      eventTabs: ["Upcoming", "Past"].map((t) => {
+        const on = (st.eventScope || "Upcoming") === t;
+        return {
+          label: t,
+          bg: on ? "#1B151A" : "transparent",
+          color: on ? "#ffffff" : "#2E4057",
+          border: on ? "2px solid #1B151A" : "2px solid transparent",
+          go: (e) => { e.preventDefault(); this.setState({ eventScope: t, eventPage: 0 }); }
+        };
+      }),
+      icalUrl: this.gcalIcal,
+      eventPageLabel: evPage + 1 + " / " + evPages,
+      evPrevOn: evStart > 0 ? 1 : 0.25,
+      evNextOn: evStart + 4 < evAll.length ? 1 : 0.25,
+      evPrev: (e) => { e.preventDefault(); this.setState({ eventPage: Math.max(0, evPage - 1) }); },
+      evNext: (e) => { e.preventDefault(); this.setState({ eventPage: Math.min(evPages - 1, evPage + 1) }); },
+      events: evAll.slice(evStart, evStart + 4).map((ev, i) => {
+        const k = "ev" + i;
+        const on = hov === k;
+        return Object.assign({}, ev, {
+          hovKey: k,
+          tagList: (ev.tags || []).map((t) => ({ label: t, bg: this.tagColors[t] || "#e4e0da" })),
+          wd: ev.weekday.slice(0, 3),
+          day: (() => {
+            const parts = String(ev.day).split(".");
+            return parts.length === 2 ? parts[1] + "." + parts[0] : ev.day;
+          })(),
+          when: ev.weekday + " " + ev.day + ", " + ev.time + " · " + ev.place,
+          addUrl: (() => {
+            if (ev.gcalUrl) return ev.gcalUrl;
+            if (ev.link) return ev.link;
+            if (!/add to calendar/i.test(ev.cta || "")) return "#";
+            const fmt = (dt) => dt.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+            let start = ev.startISO ? new Date(ev.startISO) : null;
+            if (!start) {
+              const dp = String(ev.day).split(".");
+              const tp = String(ev.time || "18:00").split(":");
+              const yr = new Date().getFullYear();
+              start = new Date(yr, (parseInt(dp[1], 10) || 1) - 1, parseInt(dp[0], 10) || 1, parseInt(tp[0], 10) || 18, parseInt(tp[1], 10) || 0);
+            }
+            const end = new Date(start.getTime() + 90 * 60000);
+            return "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent(ev.title) +
+              "&dates=" + fmt(start) + "/" + fmt(end) +
+              "&details=" + encodeURIComponent(ev.blurb || "") +
+              "&location=" + encodeURIComponent(ev.place || "");
+          })(),
+          ctaBg: on ? "#ffffff" : "transparent",
+          ctaColor: on ? "#ffffff" : "#1B151A"
+        });
+      }),
+      faqs: this.faqData.map((item, i) => ({
+        q: item.q,
+        a: item.a,
+        display: st.faq === i ? "block" : "none",
+        rotate: st.faq === i ? "rotate(135deg)" : "rotate(0deg)",
+        toggle: (e) => { e.preventDefault(); this.setState({ faq: st.faq === i ? -1 : i }); }
+      })),
+      goHome: this.go("home"),
+      coreDisplay: st.coreOpen ? "block" : "none",
+      coreLabel: st.coreOpen ? "See less" : "See more",
+      coreTopRadius: st.coreOpen ? "16px 16px 0 0" : "16px",
+      coreRotate: st.coreOpen ? "rotate(45deg)" : "rotate(0deg)",
+      toggleCore: (e) => { e.preventDefault(); this.setState({ coreOpen: !this.state.coreOpen }); },
+      goPrograms: this.go("programs"),
+      enter: (e) => this.setState({ hov: e.currentTarget.dataset.hov }),
+      leave: () => this.setState({ hov: null }),
+      arrows: arrows,
+
+      nav: this.navItems.map((n) => ({
+        key: n.key,
+        label: n.label,
+        color: navActive === n.key ? "#1B151A" : "#2E4057",
+        weight: navActive === n.key ? 700 : 400,
+        dot: navActive === n.key ? 1 : 0,
+        go: ["home", "programs", "blog", "events", "about", "team"].indexOf(n.key) >= 0 ? this.go(n.key) : (e) => e.preventDefault(),
+        hasMenu: !!this.navMenus[n.key],
+        menuOpen: st.navMenu === n.key,
+        menu: (this.navMenus[n.key] || []).map((m) => ({ label: m.label, go: this.go(m.page) })),
+        enter: () => this.setState({ navMenu: this.navMenus[n.key] ? n.key : null }),
+        leave: () => this.setState({ navMenu: null })
+      })),
+
+      risks: [
+    { num: "01", title: "Misuse", body: "Capable systems lower the cost of causing large-scale harm, from cyber operations to engineered pathogens." },
+    { num: "02", title: "Misalignment", body: "Systems optimized for proxies of what we want can pursue goals that diverge from human intent as they become more capable." },
+    { num: "03", title: "Concentration of power", body: "The economics of frontier AI push control over decisive capabilities toward a very small number of actors." }
+  ],
+  offerings: [
+    { num: "01", title: "Research", body: "Connecting members with faculty, PhD students, and ongoing CMU safety and policy projects." },
+    { num: "02", title: "Learning", body: "Reading groups covering technical research and policy tracks." },
+    { num: "03", title: "Connections", body: "Networking among students sharing AI safety interests." },
+    { num: "04", title: "Career", body: "Research programs, internships, jobs, and more." }
+  ],
+
+      orgs: this.orgData.map((o) => Object.assign({ w: "150px" }, o)),
+
+
+      shots: this.shotList,
+      shotShift: "translateX(" + (-shot * 679) + "px)",
+      shotDots: this.shotList.slice(0, maxShot + 1).map((_, i) => ({
+        color: i === shot ? "#ffffff" : "rgba(255,255,255,0.45)",
+        go: (e) => { e.preventDefault(); this.setState({ shot: i }); }
+      })),
+      shotPrev: (e) => { e.preventDefault(); this.setState({ shot: shot === 0 ? maxShot : shot - 1 }); },
+      shotNext: (e) => {
+        if (e) e.preventDefault();
+        if (this.dragMoved) { this.dragMoved = false; return; }
+        this.stopShotTimer();
+        this.setState({ shot: shot === maxShot ? 0 : shot + 1 });
+        this.startShotTimer();
+      },
+      shotWheel: (e) => {
+        if (Math.abs(e.deltaX) < Math.abs(e.deltaY) || Math.abs(e.deltaX) < 8) return;
+        e.preventDefault();
+        const now = Date.now();
+        if (this._wheelAt && now - this._wheelAt < 420) return;
+        this._wheelAt = now;
+        this.stopShotTimer();
+        const next = e.deltaX > 0 ? (shot === maxShot ? 0 : shot + 1) : (shot === 0 ? maxShot : shot - 1);
+        this.setState({ shot: next });
+        this.startShotTimer();
+      },
+      shotDown: (e) => { this.dragX = (e.touches ? e.touches[0].clientX : e.clientX); this.dragMoved = false; },
+      shotUp: (e) => {
+        if (this.dragX == null) return;
+        const x = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+        const dx = x - this.dragX;
+        this.dragX = null;
+        if (Math.abs(dx) < 40) return;
+        this.dragMoved = true;
+        this.stopShotTimer();
+        const next = dx < 0 ? (shot === maxShot ? 0 : shot + 1) : (shot === 0 ? maxShot : shot - 1);
+        this.setState({ shot: next });
+        this.startShotTimer();
+      },
+
+      programs: this.programs.map((p) => ({
+        url: this.programUrl[p.key] || "#",
+        go: this.programDesc[p.key] ? this.goDesc(this.programDesc[p.key]) : (e) => e.preventDefault(),
+        key: p.key,
+        title: p.title,
+        timing: p.timing,
+        desc: p.desc,
+        cta: p.cta,
+        ctaBorder: p.filled ? "1px solid #ffffff" : "1px solid rgba(255,255,255,0.18)",
+        ctaBg: p.filled ? "#ffffff" : "#3a3438",
+        ctaShadow: "none",
+        ctaFg: p.filled ? "#1B151A" : "#ffffff",
+        filled: !!p.filled,
+        outlined: !p.filled
+      })),
+
+      filters: this.filterNames.map((f) => {
+        const c = this.catColors[f];
+        const on = st.filter === f;
+        return {
+          label: f,
+          bg: on ? (f === "All" ? "#1B151A" : (c || "#c6ccf0")) : "transparent",
+          fg: on ? (f === "All" ? "#ffffff" : "#1f1f1f") : "#2E4057",
+          go: (e) => { e.preventDefault(); this.setState({ filter: f, post: 0 }); }
+        };
+      }),
+
+      posts: visible.map((p) => {
+        return Object.assign({}, p, {
+          catBg: this.catColors[p.cat] || "#d0d0d0",
+          url: p.url || this.substack,
+          author: "By " + (p.author || "CASI members")
+        });
+      }),
+      postCount: visible.length === 1 ? "1 article" : visible.length + " articles"
+    };
+  }
+}
+</script>
+
+
+</body></html>
