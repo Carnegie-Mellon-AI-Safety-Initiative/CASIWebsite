@@ -5,6 +5,46 @@
 <title>CASI - Carnegie Mellon AI Safety Initiative</title>
 <meta name="description" content="Carnegie Mellon AI Safety Initiative: research, programs, and events working towards a safer future in the presence of powerful artificial intelligence.">
 <link rel="icon" href="assets/brand/CASI Logo white circle.ico" type="image/x-icon">
+<style>
+/* Mobile treatment for the sticky header.
+   The desktop header is a 3-column grid: logo, nav, Join Us. Below 860px the
+   six nav links plus the button no longer fit on one line, so the row is
+   allowed to wrap: logo and Join Us keep the top line and the nav drops to a
+   full-width second line. Desktop is untouched, because every rule lives in a
+   media query. The !important flags are needed to beat the inline styles the
+   design tool emits. */
+@media (max-width: 860px) {
+  header {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px 16px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  header > nav {
+    order: 3 !important;
+    width: 100% !important;
+    flex-basis: 100% !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 10px 18px !important;
+  }
+  header > nav a[data-nav] { font-size: 15px !important; }
+  /* keep a hover menu inside the viewport on a narrow screen */
+  header > nav > div > div { max-width: 92vw !important; }
+}
+@media (max-width: 480px) {
+  header > nav { gap: 8px 14px !important; }
+  header > nav a[data-nav] { font-size: 14px !important; }
+  header a[href*="tartanconnect"] {
+    height: 34px !important;
+    padding: 0 14px !important;
+    font-size: 15px !important;
+  }
+}
+</style>
 <script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js": "vendor/react.production.min.js", "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "vendor/react-dom.production.min.js"};</script>
 <script src="support.js"></script>
 
@@ -238,7 +278,7 @@
       </div>
       <div style="display:flex;flex-direction:column">
         <sc-for list="{{ risks }}" as="risk" hint-placeholder-count="4">
-          <div style="padding:clamp(28px,3vw,36px) 0;border-bottom:1px solid rgba(0,0,52,0.14)">
+          <div style="padding:clamp(28px,3vw,36px) 0;border-bottom:1px solid #C6CCF0">
             <div style="font-size:15px;font-weight:700;color:#3a6da8">{{ risk.num }}</div>
             <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:8px 0 0;font-size:22px;font-weight:700;letter-spacing:0.01em">{{ risk.title }}</h3>
             <p style="margin:8px 0 0;max-width:640px;font-size:17px;line-height:1.45;color:#0E030B;text-wrap:pretty">{{ risk.body }}</p>
@@ -249,7 +289,7 @@
 
     <section style="background:#BBD5F1;color:#0E030B;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px)">
       <div style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;font-size:15px;font-weight:700;color:#2E4057;letter-spacing:0.01em">Our Mission</div>
-      <p style="margin:24px 0 0;max-width:1320px;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.14;letter-spacing:-0.01em;color:#0E030B;text-wrap:pretty">Progress on AI safety requires diverse perspectives and interdisciplinary approaches. <span style="color:#2E4057">Our programs meet you wherever you are in your journey.</span></p>
+      <p style="margin:24px 0 0;max-width:1320px;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.14;letter-spacing:-0.01em;color:#0E030B;text-wrap:pretty">Progress on AI safety requires diverse perspectives and interdisciplinary approaches. <a href="#" sc-camel-on-click="{{ goPrograms }}" style="color:#2E4057;text-decoration:none;cursor:pointer">Our programs meet you wherever you are in your journey.</a></p>
     </section>
 
     <section style="background:#BBD5F1;padding:0 0 clamp(72px,9vw,128px)">
@@ -274,7 +314,7 @@
 
     <section style="background:#F7F9FC;color:#0E030B;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px)">
       <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0 0 40px;text-align:center;font-size:22px;font-weight:700;letter-spacing:0.005em">Our members have worked with</h2>
-      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:24px 48px">
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:20px clamp(24px,3vw,44px)">
         <sc-for list="{{ orgs }}" as="org" hint-placeholder-count="6">
           <div style="display:flex;align-items:center;justify-content:center;height:96px">
             <sc-if value="{{ org.img }}" hint-placeholder-val="{{ false }}">
@@ -288,10 +328,11 @@
       </div>
     </section>
 
-    <section style="background:#F7F9FC;color:#0E030B;padding:clamp(72px,9vw,128px) clamp(24px,5vw,96px) clamp(88px,11vw,176px);display:flex;flex-direction:column;align-items:center;text-align:center">
+    <section style="background:#F7F9FC;color:#0E030B;padding:clamp(72px,9vw,128px) clamp(24px,5vw,96px);display:flex;flex-direction:column;align-items:center;text-align:center">
+      <div role="separator" style="align-self:stretch;height:2px;background:#BBD5F1;margin:0 calc(-1 * clamp(24px,5vw,96px)) clamp(40px,5vw,72px)"></div>
       <p style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;max-width:1180px;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.14;letter-spacing:0em;text-wrap:balance">Join us as we work together to build a future where AI systems remain beneficial, controllable, and aligned with human flourishing.</p>
       <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:24px;margin-top:clamp(40px,4vw,56px)">
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform?usp=dialog" target="_blank" rel="noopener" style="text-align:center;line-height:1;display:flex;align-items:center;justify-content:center;padding:0 28px;height:56px;border-radius:16px;background-color:#0E030B;border:none;transition:background-color 180ms ease-out,color 180ms ease-out;color:#ffffff;font-size:17px;font-weight:700;white-space:nowrap" style-hover="background-color:#2E4057;color:#ffffff">
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform?usp=dialog" target="_blank" rel="noopener" style="text-align:center;line-height:1;display:flex;align-items:center;justify-content:center;padding:0 28px;height:56px;border-radius:16px;background-color:rgba(198,204,240,0.72);backdrop-filter:blur(16px) saturate(1.6);-webkit-backdrop-filter:blur(16px) saturate(1.6);border:none;transition:background-color 180ms ease-out,color 180ms ease-out;color:#383547;font-size:17px;font-weight:700;white-space:nowrap" style-hover="background-color:#0E030B;color:#ffffff">
           <span>Join our mailing list</span>
         </a>
       </div>
@@ -325,11 +366,12 @@
     </section>
 
     <section style="background:#F7F9FC;padding:clamp(88px,11vw,160px) clamp(24px,5vw,96px) clamp(112px,13vw,180px)">
+      <div style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0 0 24px;text-align:center;font-size:15px;font-weight:700;color:#3a6da8;letter-spacing:0.01em">Our Approach</div>
       <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0 auto;max-width:44ch;text-align:center;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.2;letter-spacing:0em;color:#0E030B;text-wrap:balance">CASI seeks to spark interest in and facilitate research about AI safety and alignment</h2>
     </section>
 
     <section style="background:#F7F9FC;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:clamp(32px,4vw,56px);padding:0 clamp(24px,5vw,96px) clamp(88px,11vw,176px)">
-      <sc-for list="{{ risks }}" as="risk" hint-placeholder-count="4">
+      <sc-for list="{{ offerings }}" as="risk" hint-placeholder-count="4">
         <div>
           <div style="font-size:15px;font-weight:700;color:#3a6da8">{{ risk.num }}</div>
           <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:8px 0 0;font-size:22px;font-weight:700;color:#0E030B;letter-spacing:0.01em">{{ risk.title }}</h3>
@@ -581,9 +623,9 @@
         <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.1;letter-spacing:0em">Get in touch</h2>
         <p style="margin:16px 0 0;max-width:44ch;font-size:17px;line-height:1.45;color:#A6B4B4;text-wrap:pretty">Reach out about membership, programs, or collaboration.</p>
         <div style="display:flex;align-items:center;gap:16px;margin-top:24px">
-          <a href="#" aria-label="LinkedIn" style="display:block;width:36px;height:36px;background-image:url(&quot;assets/social-linkedin-sq.png&quot;);background-size:cover;background-position:center;background-repeat:no-repeat" style-hover="opacity:0.7"></a>
-          <a href="#" aria-label="Instagram" style="display:block;width:36px;height:36px;background-image:url(&quot;assets/social-instagram-sq.png&quot;);background-size:cover;background-position:center;background-repeat:no-repeat" style-hover="opacity:0.7"></a>
-          <a href="#" aria-label="Discord" style="display:block;width:36px;height:36px;background-image:url(&quot;assets/social-discord-sq.png&quot;);background-size:cover;background-position:center;background-repeat:no-repeat" style-hover="opacity:0.7"></a>
+          <a href="https://www.linkedin.com/company/carnegie-ai-safety/" target="_blank" rel="noopener" aria-label="LinkedIn" style="display:block;width:36px;height:36px;background-image:url(&quot;assets/social-linkedin-sq.png&quot;);background-size:92%;background-position:center;background-repeat:no-repeat" style-hover="opacity:0.7"></a>
+          <a href="https://www.instagram.com/cmu.casi/" target="_blank" rel="noopener" aria-label="Instagram" style="display:block;width:36px;height:36px;background-image:url(&quot;assets/social-instagram-sq.png&quot;);background-size:92%;background-position:center;background-repeat:no-repeat" style-hover="opacity:0.7"></a>
+          <a href="https://discord.gg/gMTJNkzngs" target="_blank" rel="noopener" aria-label="Discord" style="display:block;width:36px;height:36px;background-image:url(&quot;assets/social-discord-sq.png&quot;);background-size:cover;background-position:center;background-repeat:no-repeat" style-hover="opacity:0.7"></a>
         </div>
       </div>
       <div>
@@ -600,7 +642,7 @@
           </div>
           <div>
             <div style="font-size:15px;font-weight:400;color:#A6B4B4">Discord</div>
-            <a href="#" style="display:block;margin-top:8px;font-size:17px;font-weight:700;letter-spacing:-0.01em" style-hover="color:#C6CCF0">Join the server</a>
+            <a href="https://discord.gg/gMTJNkzngs" target="_blank" rel="noopener" style="display:block;margin-top:8px;font-size:17px;font-weight:700;letter-spacing:-0.01em" style-hover="color:#C6CCF0">Join the server</a>
             <p style="margin:12px 0 0;max-width:32ch;font-size:17px;line-height:1.45;color:#A6B4B4;text-wrap:pretty">Real-time discussion, event updates and community.</p>
           </div>
           <div>
@@ -915,7 +957,7 @@ class Component extends DCLogic {
     { key: "p1", title: "AI Alignment Fundamentals", timing: "Applications open Sept 15, 2026", desc: "An accessible introduction to technical AI safety: RLHF, jailbreaking, interpretability, AI control, and more. Weekly paper discussions, food provided, and no work outside our sessions.", cta: "Apply", filled: true },
     { key: "p2", title: "AI Governance Fundamentals", timing: "Applications open Sept 15, 2026", desc: "An accessible introduction to AI governance: regulation frameworks, international cooperation, risk assessment, and governance of advanced systems. Weekly policy papers and case studies, food provided, and no work outside our sessions.", cta: "Apply", filled: true },
     { key: "p3", title: "Advanced Reading Group", timing: "Rolling admission, fundamentals required", desc: "A rigorous weekly seminar for students who have completed one of our fundamentals programs.", cta: "Learn More", filled: false },
-    { key: "p4", title: "CASI Research Fellowship", timing: "Applications open in October", desc: "Hands-on AI safety research for students ready to go deeper. Extended application; requires a completed reading group or equivalent experience. Spring 2026 is mentored by PhD students Jennifer Evans and Ida Mattson, with guest mentors by project.", cta: "Learn More", filled: false },
+    { key: "p4", title: "CASI Research Fellowship", timing: "Applications open in October", desc: "Hands-on AI safety research for students ready to go deeper. Extended application; requires a completed reading group or equivalent experience. Projects are mentored by PhD students and guest mentors.", cta: "Learn More", filled: false },
     { key: "p5", title: "CASI Research Scholars", timing: "Applications closed for Fall 2026", desc: "Pre-scoped projects for undergrad and masters students, mentored by professors, postdocs, and senior PhD students. Expect 10 to 20 hours a week, with compute and API credits provided and publication as the goal.", cta: "Learn More", filled: false }
   ];
 
@@ -928,13 +970,18 @@ class Component extends DCLogic {
   ];
 
   orgData = [
-        // filter: white-out for monochrome marks, none for full-colour ones
-        { name: "OpenAI", img: "assets/logo-openai.png", h: "28px", w: "103px", filter: "brightness(0) saturate(0)" },
-        { name: "Anthropic", img: "assets/logo-anthropic.png", h: "22px", w: "196px", filter: "brightness(0) saturate(0)" },
-        { name: "Gray Swan", img: "assets/logo-grayswan.png", h: "28px", w: "121px", filter: "brightness(0) saturate(0)" },
-        { name: "Constellation", img: "assets/logo-constellation.png", h: "26px", w: "136px", filter: "brightness(0) saturate(0)" },
-        { name: "MATS", img: "assets/logo-mats.png", h: "28px", w: "108px", filter: "grayscale(1) brightness(0.35)" },
-        { name: "SPAR", img: "assets/logo-spar.png", h: "32px", w: "77px", filter: "grayscale(1) brightness(0.3)" }
+    // Sizes come from each PNG's measured aspect ratio, so nothing distorts.
+    // Heights are matched optically, not numerically: MATS and SPAR are
+    // lockups (icon + wordmark), so they need a taller box than a bare
+    // wordmark for their cap heights to align.
+    { name: "OpenAI", img: "assets/logo-openai.png", h: "26px", w: "96px", filter: "grayscale(1)" },
+    { name: "Anthropic", img: "assets/logo-anthropic.png", h: "20px", w: "178px", filter: "grayscale(1)" },
+    { name: "Gray Swan", img: "assets/logo-grayswan.png", h: "31px", w: "134px", filter: "grayscale(1)" },
+    { name: "Constellation", img: "assets/logo-constellation.png", h: "24px", w: "126px", filter: "grayscale(1)" },
+    // MATS is a maroon square with the flame knocked out in white. Any
+    // multiplicative filter (opacity, brightness) dims the flame.
+    { name: "MATS", img: "assets/logo-mats.png", h: "34px", w: "132px", filter: "grayscale(1)" },
+    { name: "SPAR", img: "assets/logo-spar.png", h: "40px", w: "97px", filter: "grayscale(1) brightness(0.85)" }
   ];
 
   navMenus = {};
@@ -1172,11 +1219,16 @@ class Component extends DCLogic {
       })),
 
       risks: [
-        { num: "01", title: "Research", body: "Connecting members with faculty, PhD students, and ongoing CMU safety and policy projects." },
-        { num: "02", title: "Learning", body: "Reading groups covering technical research and policy tracks." },
-        { num: "03", title: "Connections", body: "Networking among students sharing AI safety interests." },
-        { num: "04", title: "Career", body: "Research programs, internships, jobs, and more." }
-      ],
+    { num: "01", title: "Misuse", body: "Capable systems lower the cost of causing large-scale harm, from cyber operations to engineered pathogens." },
+    { num: "02", title: "Misalignment", body: "Systems optimized for proxies of what we want can pursue goals that diverge from human intent as they become more capable." },
+    { num: "03", title: "Concentration of power", body: "The economics of frontier AI push control over decisive capabilities toward a very small number of actors." }
+  ],
+  offerings: [
+    { num: "01", title: "Research", body: "Connecting members with faculty, PhD students, and ongoing CMU safety and policy projects." },
+    { num: "02", title: "Learning", body: "Reading groups covering technical research and policy tracks." },
+    { num: "03", title: "Connections", body: "Networking among students sharing AI safety interests." },
+    { num: "04", title: "Career", body: "Research programs, internships, jobs, and more." }
+  ],
 
       orgs: this.orgData.map((o) => Object.assign({ w: "150px" }, o)),
 
