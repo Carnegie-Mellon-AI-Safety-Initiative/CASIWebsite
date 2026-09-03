@@ -746,7 +746,7 @@
       </div>
       <div style="position:relative">
         <h1 data-rise="1" data-fast style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(34px,3.2vw,42px);font-weight:700;line-height:1.05;letter-spacing:-0.005em">Events</h1>
-        <p data-rise="2" data-fast style="margin:16px 0 0;max-width:52ch;font-size:20px;line-height:1.4;color:#2E4057;text-wrap:pretty">See what we have planned. <a href="{{ icalUrl }}" style="color:#437FD5;font-weight:700" style-hover="color:#0E030B">Subscribe to our calendar</a></p>
+        <p data-rise="2" data-fast style="margin:16px 0 0;max-width:52ch;font-size:20px;line-height:1.4;color:#2E4057;text-wrap:pretty">See what we have planned. <a href="{{ gcalAddUrl }}" target="_blank" rel="noopener" style="color:#437FD5;font-weight:700" style-hover="color:#0E030B">Subscribe to our calendar</a></p>
       </div>
     </section>
 
@@ -1487,6 +1487,8 @@ class Component extends DCLogic {
     const maxPost = Math.max(0, visible.length - 2);
     const post = Math.min(st.post, maxPost);
     const maxShot = Math.max(0, this.shotList.length - 1);
+    const cid = (typeof btoa === "function") ? btoa(this.gcalId).replace(/=+$/g, "") : "";
+    const gcalAddUrl = cid ? ("https://calendar.google.com/calendar/u/1?cid=" + encodeURIComponent(cid)) : this.gcalIcal;
     const shot = Math.min(st.shot, maxShot);
     const evSource = st.liveEvents || this.eventData;
     const evAll = evSource[st.eventScope || "Upcoming"] || [];
@@ -1523,7 +1525,7 @@ class Component extends DCLogic {
           go: (e) => { e.preventDefault(); this.setState({ eventScope: t, eventPage: 0 }); }
         };
       }),
-      icalUrl: this.gcalIcal,
+      gcalAddUrl: gcalAddUrl,
       eventPageLabel: evPage + 1 + " / " + evPages,
       evPrevOn: evStart > 0 ? 1 : 0.25,
       evNextOn: evStart + 4 < evAll.length ? 1 : 0.25,
