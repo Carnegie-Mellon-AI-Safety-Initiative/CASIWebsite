@@ -99,11 +99,11 @@
     position: static !important;
   }
 }
-/* Mobile-only content scaling and layout fixes.
-   Every rule below sits inside the touch/narrow media query, so the desktop
-   design is untouched. The !important flags beat the inline styles that the
-   template runtime writes on every re-render. */
-@media (max-width: 860px) and (pointer: coarse), (max-width: 700px) {
+/* Touch-screen only. Every rule below needs pointer: coarse, so a desktop
+   browser never matches it, however narrow the window gets. The !important
+   flags beat the inline styles that the template runtime writes on every
+   re-render. */
+@media (max-width: 860px) and (pointer: coarse) {
   /* Home > Risks: about 20% smaller type. */
   [data-sec="risks"] h2 { font-size: clamp(19px, 1.9vw, 26px) !important; }
   [data-sec="risks"] h3 { font-size: 18px !important; }
@@ -115,39 +115,39 @@
      the slide step stays in step with the slide width. */
   [data-sec="shots"] { zoom: 0.7; }
 
-}
-/* Home > "Our members have worked with": one row that scrolls right to left,
-   on every screen size. Two identical tracks sit side by side, and each track
-   slides by its own full width, so the loop has no seam. */
-[data-logos] {
-  flex-wrap: nowrap !important;
-  justify-content: flex-start !important;
-  overflow: hidden !important;
-  gap: 0 !important;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
-  mask-image: linear-gradient(90deg, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
-}
-[data-logo-track] {
-  display: flex !important;
-  flex: 0 0 auto !important;
-  align-items: center !important;
-  gap: clamp(40px, 5vw, 72px) !important;
-  padding-right: clamp(40px, 5vw, 72px) !important;
-  animation: casi-logo-marquee 34s linear infinite;
-}
-[data-logo-track] > div { flex: 0 0 auto !important; }
-@keyframes casi-logo-marquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
-@media (prefers-reduced-motion: reduce) {
-  [data-logo-track] { animation: none !important; }
-}
-@media (max-width: 860px) and (pointer: coarse), (max-width: 700px) {
-  [data-logo-track] > div { height: 72px !important; }
-  [data-logo-track] { animation-duration: 24s; }
-}
-@media (max-width: 860px) and (pointer: coarse), (max-width: 700px) {
+  /* Home > "Our members have worked with": one row that scrolls right to
+     left. Two identical tracks sit side by side, and each track slides by its
+     own full width, so the loop has no seam. The second track is display:none
+     in the markup, so desktop keeps the wrapped grid of logos. */
+  [data-logos] {
+    flex-wrap: nowrap !important;
+    justify-content: flex-start !important;
+    overflow: hidden !important;
+    gap: 0 !important;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 32px, #000 calc(100% - 32px), transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 32px, #000 calc(100% - 32px), transparent 100%);
+  }
+  [data-logo-track] {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    gap: 40px !important;
+    padding-right: 40px !important;
+    animation: casi-logo-marquee 24s linear infinite;
+  }
+  [data-logo-track] > div { flex: 0 0 auto !important; height: 72px !important; }
+
   /* About > What We Offer: about 30% smaller, so the screen scrolls less.
-     The cards centre in the row instead of hugging the left edge. */
+     Two cards to a row at most, and the row is centred. */
   [data-sec="offer"] { zoom: 0.7; }
+  [data-offer-grid] {
+    grid-template-columns: repeat(2, minmax(0, 268px)) !important;
+    justify-content: center !important;
+  }
+
+  /* About: the fence picture, 30% wider. aspect-ratio holds the proportion,
+     so the picture grows uniformly. */
+  [data-fence] { width: 91% !important; }
 
   /* About > CASI Core Membership: the "See more" link is absolute on desktop
      and lands on top of the "Applications closed" badge once the card stacks.
@@ -182,6 +182,11 @@
      to label the date, so it drops to the size of the time and the place. */
   [data-ev-meta] > div:nth-child(2) { font-size: 24px !important; margin-top: 2px !important; }
   [data-ev-meta] > div:nth-child(3) { margin-top: 10px !important; }
+}
+/* The keyframes live outside the query; only the rule above uses them. */
+@keyframes casi-logo-marquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+@media (prefers-reduced-motion: reduce) {
+  [data-logo-track] { animation: none !important; }
 }
 @media (max-width: 480px) {
   header > nav { gap: 8px 14px !important; }
@@ -546,7 +551,7 @@
     </section>
 
     <section data-norev style="background:#F7F9FC;padding:0 clamp(24px,5vw,96px) clamp(88px,10vw,140px)">
-      <div data-bg="assets/fence.jpg" role="img" aria-label="CASI fence painting reading Smarter than us. Ready? CMU AI Safety" style="width:91%;margin:0 auto;aspect-ratio:1672 / 731;border-radius:7px;background-color:#0E030B;background-size:cover;background-position:center"></div>
+      <div data-bg="assets/fence.jpg" role="img" data-fence aria-label="CASI fence painting reading Smarter than us. Ready? CMU AI Safety" style="width:70%;margin:0 auto;aspect-ratio:1672 / 731;border-radius:7px;background-color:#0E030B;background-size:cover;background-position:center"></div>
     </section>
 
     <section data-norev data-sec="offer" style="background:#A6B4B4;padding:clamp(40px,5vw,80px) clamp(24px,5vw,96px) clamp(136px,15vw,248px)">
@@ -554,7 +559,7 @@
       <p style="margin:20px 0 0;max-width:68ch;font-size:20px;line-height:1.5;color:#2E4057;text-wrap:pretty">Explore the foundations of AI safety through our <span style="color:#0E030B;font-weight:700">AI Alignment Fellowship</span> program, which covers technical research challenges, or our <span style="color:#0E030B;font-weight:700">AI Governance Fellowship</span> program, which tackles the policy and governance challenges of AI.</p>
 
       <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:clamp(48px,5vw,72px) 0 clamp(20px,2vw,28px);font-size:22px;font-weight:700;color:#0E030B;letter-spacing:0.01em">Reading Groups</h3>
-      <div data-offer-grid style="display:grid;grid-template-columns:repeat(2,minmax(0,268px));justify-content:center;gap:clamp(16px,1.6vw,24px)">
+      <div data-offer-grid style="display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,268px));gap:clamp(16px,1.6vw,24px)">
         <div style="position:relative;overflow:hidden;display:flex;flex-direction:column;aspect-ratio:268 / 320;padding:24px;border-radius:14px;background:#ffffff;color:#2E4057">
           <div style="position:absolute;left:0%;top:-25%;width:208%;height:125%;background:radial-gradient(60% 70% at 30% 26%,rgba(199,200,242,0.95) 0%,rgba(199,200,242,0.4275) 42%,rgba(199,200,242,0) 70%),radial-gradient(64% 80% at 54% 58%,rgba(189,207,193,0.95) 0%,rgba(189,207,193,0.4275) 42%,rgba(189,207,193,0) 70%),radial-gradient(70% 95% at 90% 78%,rgba(161,198,234,1) 0%,rgba(161,198,234,0.45) 42%,rgba(161,198,234,0) 70%),radial-gradient(60% 80% at 2% 92%,rgba(189,207,193,0.9) 0%,rgba(189,207,193,0.405) 42%,rgba(189,207,193,0) 70%);pointer-events:none"></div>
           <div style="position:absolute;inset:0;background:linear-gradient(180deg,#ffffff 0%,#ffffff 15%,rgba(255,255,255,0.88) 23%,rgba(255,255,255,0.1) 38%,rgba(255,255,255,0) 48%);pointer-events:none"></div>
@@ -581,7 +586,7 @@
       </div>
 
       <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:clamp(56px,6vw,88px) 0 clamp(20px,2vw,28px);font-size:22px;font-weight:700;color:#0E030B;letter-spacing:0.01em">Research</h3>
-      <div data-offer-grid style="display:grid;grid-template-columns:repeat(2,minmax(0,268px));justify-content:center;gap:clamp(16px,1.6vw,24px)">
+      <div data-offer-grid style="display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,268px));gap:clamp(16px,1.6vw,24px)">
         <div style="position:relative;overflow:hidden;display:flex;flex-direction:column;aspect-ratio:268 / 320;padding:24px;border-radius:14px;background:#ffffff;color:#2E4057">
           <div style="position:absolute;left:0%;top:-25%;width:312%;height:125%;background:radial-gradient(44% 70% at 14% 38%,rgba(161,198,234,0.95) 0%,rgba(161,198,234,0.4275) 42%,rgba(161,198,234,0) 70%),radial-gradient(52% 80% at 26% 104%,rgba(199,200,242,1) 0%,rgba(199,200,242,0.45) 42%,rgba(199,200,242,0) 70%),radial-gradient(42% 66% at 55% 30%,rgba(189,207,193,0.95) 0%,rgba(189,207,193,0.4275) 42%,rgba(189,207,193,0) 70%),radial-gradient(52% 80% at 52% 108%,rgba(199,200,242,0.9) 0%,rgba(199,200,242,0.405) 42%,rgba(199,200,242,0) 70%),radial-gradient(40% 64% at 79% 34%,rgba(189,207,193,0.9) 0%,rgba(189,207,193,0.405) 42%,rgba(189,207,193,0) 70%),radial-gradient(50% 80% at 95% 84%,rgba(161,198,234,1) 0%,rgba(161,198,234,0.45) 42%,rgba(161,198,234,0) 70%);pointer-events:none"></div>
           <div style="position:absolute;inset:0;background:linear-gradient(180deg,#ffffff 0%,#ffffff 15%,rgba(255,255,255,0.88) 23%,rgba(255,255,255,0.1) 38%,rgba(255,255,255,0) 48%);pointer-events:none"></div>
