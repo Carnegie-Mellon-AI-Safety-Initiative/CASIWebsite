@@ -99,6 +99,90 @@
     position: static !important;
   }
 }
+/* Mobile-only content scaling and layout fixes.
+   Every rule below sits inside the touch/narrow media query, so the desktop
+   design is untouched. The !important flags beat the inline styles that the
+   template runtime writes on every re-render. */
+@media (max-width: 860px) and (pointer: coarse), (max-width: 700px) {
+  /* Home > Risks: about 20% smaller type. */
+  [data-sec="risks"] h2 { font-size: clamp(19px, 1.9vw, 26px) !important; }
+  [data-sec="risks"] h3 { font-size: 18px !important; }
+  [data-sec="risks"] p  { font-size: 14px !important; }
+  [data-sec="risks"] > div > div > div { font-size: 12px !important; }
+
+  /* Home > Past Events: shrink the whole carousel by about 30%. zoom scales
+     the fixed 647px slides and the px transform the state class computes, so
+     the slide step stays in step with the slide width. */
+  [data-sec="shots"] { zoom: 0.7; }
+
+}
+/* Home > "Our members have worked with": one row that scrolls right to left,
+   on every screen size. Two identical tracks sit side by side, and each track
+   slides by its own full width, so the loop has no seam. */
+[data-logos] {
+  flex-wrap: nowrap !important;
+  justify-content: flex-start !important;
+  overflow: hidden !important;
+  gap: 0 !important;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
+}
+[data-logo-track] {
+  display: flex !important;
+  flex: 0 0 auto !important;
+  align-items: center !important;
+  gap: clamp(40px, 5vw, 72px) !important;
+  padding-right: clamp(40px, 5vw, 72px) !important;
+  animation: casi-logo-marquee 34s linear infinite;
+}
+[data-logo-track] > div { flex: 0 0 auto !important; }
+@keyframes casi-logo-marquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+@media (prefers-reduced-motion: reduce) {
+  [data-logo-track] { animation: none !important; }
+}
+@media (max-width: 860px) and (pointer: coarse), (max-width: 700px) {
+  [data-logo-track] > div { height: 72px !important; }
+  [data-logo-track] { animation-duration: 24s; }
+}
+@media (max-width: 860px) and (pointer: coarse), (max-width: 700px) {
+  /* About > What We Offer: about 30% smaller, so the screen scrolls less.
+     The cards centre in the row instead of hugging the left edge. */
+  [data-sec="offer"] { zoom: 0.7; }
+
+  /* About > CASI Core Membership: the "See more" link is absolute on desktop
+     and lands on top of the "Applications closed" badge once the card stacks.
+     Put it back in the flow below the badge. */
+  [data-core-side] {
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    height: auto !important;
+    gap: 20px !important;
+  }
+  [data-core-cta] {
+    position: static !important;
+    right: auto !important;
+    bottom: auto !important;
+  }
+
+  /* Events: read the row as a card. The label and the name sit on top, the
+     text follows the name, and the date and the button share the bottom line,
+     left and right. Named grid areas do the re-order, so the DOM is unchanged
+     and the desktop three-column row stays as it is. */
+  [data-ev-card] {
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-areas: "body body" "meta cta" !important;
+    row-gap: 20px !important;
+    min-height: 0 !important;
+    padding: clamp(20px, 5vw, 28px) !important;
+  }
+  [data-ev-body] { grid-area: body !important; padding: 0 !important; }
+  [data-ev-meta] { grid-area: meta !important; padding: 0 !important; align-self: center !important; }
+  [data-ev-cta]  { grid-area: cta !important; align-self: center !important; }
+  /* The big day number is a heading on desktop. In a card footer it only has
+     to label the date, so it drops to the size of the time and the place. */
+  [data-ev-meta] > div:nth-child(2) { font-size: 24px !important; margin-top: 2px !important; }
+  [data-ev-meta] > div:nth-child(3) { margin-top: 10px !important; }
+}
 @media (max-width: 480px) {
   header > nav { gap: 8px 14px !important; }
   header > nav a[data-nav] { font-size: 14px !important; }
@@ -338,7 +422,7 @@
       <p style="margin:24px auto 0;max-width:820px;text-align:center;font-size:17px;line-height:1.5;color:#2E4057;text-wrap:pretty">CASI brings together researchers, students, and enthusiasts across Carnegie Mellon to advance research, collaboration, and education in AI safety and alignment.</p>
     </section>
 
-    <section data-grid="split" style="display:grid;grid-template-columns:minmax(280px,0.8fr) 1.2fr;gap:clamp(32px,5vw,80px);padding:0 clamp(24px,5vw,96px) clamp(88px,11vw,176px)">
+    <section data-grid="split" data-sec="risks" style="display:grid;grid-template-columns:minmax(280px,0.8fr) 1.2fr;gap:clamp(32px,5vw,80px);padding:0 clamp(24px,5vw,96px) clamp(88px,11vw,176px)">
       <div>
         <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.1;letter-spacing:0em">Risks</h2>
         <p style="margin:16px 0 0;max-width:380px;font-size:17px;line-height:1.45;color:#0E030B;text-wrap:pretty">As artificial intelligence systems become more capable and ubiquitous, ensuring they remain aligned with human values and beneficial to society becomes increasingly important.</p>
@@ -361,7 +445,7 @@
 
     <section style="background:#BBD5F1;padding:0 0 clamp(72px,9vw,128px)">
       <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0 0 clamp(32px,3.5vw,48px);padding:0 clamp(24px,5vw,96px);font-size:15px;font-weight:700;color:#2E4057;letter-spacing:0.01em">Past Events</h2>
-      <div sc-camel-on-pointer-down="{{ shotDown }}" sc-camel-on-pointer-up="{{ shotUp }}" sc-camel-on-touch-start="{{ shotDown }}" sc-camel-on-touch-end="{{ shotUp }}" sc-camel-on-click="{{ shotNext }}" sc-camel-on-wheel="{{ shotWheel }}" style="display:flex;justify-content:flex-start;overflow:hidden;padding:0 clamp(24px,5vw,96px);cursor:pointer;touch-action:pan-y;user-select:none">
+      <div sc-camel-on-pointer-down="{{ shotDown }}" sc-camel-on-pointer-up="{{ shotUp }}" sc-camel-on-touch-start="{{ shotDown }}" sc-camel-on-touch-end="{{ shotUp }}" sc-camel-on-click="{{ shotNext }}" sc-camel-on-wheel="{{ shotWheel }}" data-sec="shots" style="display:flex;justify-content:flex-start;overflow:hidden;padding:0 clamp(24px,5vw,96px);cursor:pointer;touch-action:pan-y;user-select:none">
         <div style="display:flex;flex:0 0 auto;width:max-content;gap:32px;transition:transform 0.55s cubic-bezier(0.4,0,0.2,1);transform:{{ shotShift }}">
           <sc-for list="{{ shots }}" as="shot" hint-placeholder-count="4">
             <div style="flex:0 0 auto;width:647px">
@@ -381,17 +465,31 @@
 
     <section data-norev style="background:#F7F9FC;color:#0E030B;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px)">
       <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0 0 40px;text-align:center;font-size:22px;font-weight:700;letter-spacing:0.005em">Our members have worked with</h2>
-      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:20px clamp(24px,3vw,44px)">
-        <sc-for list="{{ orgs }}" as="org" hint-placeholder-count="6">
-          <div style="display:flex;align-items:center;justify-content:center;height:96px">
-            <sc-if value="{{ org.img }}" hint-placeholder-val="{{ false }}">
-              <div role="img" data-bg="{{ org.img }}" aria-label="{{ org.name }}" style="width:{{ org.w }};height:{{ org.h }};background-size:contain;background-position:center;background-repeat:no-repeat;filter:{{ org.filter }}"></div>
-            </sc-if>
-            <sc-if value="{{ org.isText }}" hint-placeholder-val="{{ false }}">
-              <span style="font-size:22px;font-weight:700;color:#0E030B;white-space:nowrap">{{ org.name }}</span>
-            </sc-if>
-          </div>
-        </sc-for>
+      <div data-logos style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:20px clamp(24px,3vw,44px)">
+        <div data-logo-track style="display:contents">
+          <sc-for list="{{ orgs }}" as="org" hint-placeholder-count="6">
+            <div style="display:flex;align-items:center;justify-content:center;height:96px">
+              <sc-if value="{{ org.img }}" hint-placeholder-val="{{ false }}">
+                <div role="img" data-bg="{{ org.img }}" aria-label="{{ org.name }}" style="width:{{ org.w }};height:{{ org.h }};background-size:contain;background-position:center;background-repeat:no-repeat;filter:{{ org.filter }}"></div>
+              </sc-if>
+              <sc-if value="{{ org.isText }}" hint-placeholder-val="{{ false }}">
+                <span style="font-size:22px;font-weight:700;color:#0E030B;white-space:nowrap">{{ org.name }}</span>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+        <div data-logo-track data-logo-dup aria-hidden="true" style="display:none">
+          <sc-for list="{{ orgs }}" as="org" hint-placeholder-count="6">
+            <div style="display:flex;align-items:center;justify-content:center;height:96px">
+              <sc-if value="{{ org.img }}" hint-placeholder-val="{{ false }}">
+                <div role="img" data-bg="{{ org.img }}" aria-label="{{ org.name }}" style="width:{{ org.w }};height:{{ org.h }};background-size:contain;background-position:center;background-repeat:no-repeat;filter:{{ org.filter }}"></div>
+              </sc-if>
+              <sc-if value="{{ org.isText }}" hint-placeholder-val="{{ false }}">
+                <span style="font-size:22px;font-weight:700;color:#0E030B;white-space:nowrap">{{ org.name }}</span>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
       </div>
     </section>
 
@@ -448,15 +546,15 @@
     </section>
 
     <section data-norev style="background:#F7F9FC;padding:0 clamp(24px,5vw,96px) clamp(88px,10vw,140px)">
-      <div data-bg="assets/fence.jpg" role="img" aria-label="CASI fence painting reading Smarter than us. Ready? CMU AI Safety" style="width:70%;margin:0 auto;aspect-ratio:1672 / 731;border-radius:7px;background-color:#0E030B;background-size:cover;background-position:center"></div>
+      <div data-bg="assets/fence.jpg" role="img" aria-label="CASI fence painting reading Smarter than us. Ready? CMU AI Safety" style="width:91%;margin:0 auto;aspect-ratio:1672 / 731;border-radius:7px;background-color:#0E030B;background-size:cover;background-position:center"></div>
     </section>
 
-    <section data-norev style="background:#A6B4B4;padding:clamp(40px,5vw,80px) clamp(24px,5vw,96px) clamp(136px,15vw,248px)">
+    <section data-norev data-sec="offer" style="background:#A6B4B4;padding:clamp(40px,5vw,80px) clamp(24px,5vw,96px) clamp(136px,15vw,248px)">
       <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.1;letter-spacing:0em;color:#0E030B">What We Offer</h2>
       <p style="margin:20px 0 0;max-width:68ch;font-size:20px;line-height:1.5;color:#2E4057;text-wrap:pretty">Explore the foundations of AI safety through our <span style="color:#0E030B;font-weight:700">AI Alignment Fellowship</span> program, which covers technical research challenges, or our <span style="color:#0E030B;font-weight:700">AI Governance Fellowship</span> program, which tackles the policy and governance challenges of AI.</p>
 
       <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:clamp(48px,5vw,72px) 0 clamp(20px,2vw,28px);font-size:22px;font-weight:700;color:#0E030B;letter-spacing:0.01em">Reading Groups</h3>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,268px));gap:clamp(16px,1.6vw,24px)">
+      <div data-offer-grid style="display:grid;grid-template-columns:repeat(2,minmax(0,268px));justify-content:center;gap:clamp(16px,1.6vw,24px)">
         <div style="position:relative;overflow:hidden;display:flex;flex-direction:column;aspect-ratio:268 / 320;padding:24px;border-radius:14px;background:#ffffff;color:#2E4057">
           <div style="position:absolute;left:0%;top:-25%;width:208%;height:125%;background:radial-gradient(60% 70% at 30% 26%,rgba(199,200,242,0.95) 0%,rgba(199,200,242,0.4275) 42%,rgba(199,200,242,0) 70%),radial-gradient(64% 80% at 54% 58%,rgba(189,207,193,0.95) 0%,rgba(189,207,193,0.4275) 42%,rgba(189,207,193,0) 70%),radial-gradient(70% 95% at 90% 78%,rgba(161,198,234,1) 0%,rgba(161,198,234,0.45) 42%,rgba(161,198,234,0) 70%),radial-gradient(60% 80% at 2% 92%,rgba(189,207,193,0.9) 0%,rgba(189,207,193,0.405) 42%,rgba(189,207,193,0) 70%);pointer-events:none"></div>
           <div style="position:absolute;inset:0;background:linear-gradient(180deg,#ffffff 0%,#ffffff 15%,rgba(255,255,255,0.88) 23%,rgba(255,255,255,0.1) 38%,rgba(255,255,255,0) 48%);pointer-events:none"></div>
@@ -483,7 +581,7 @@
       </div>
 
       <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:clamp(56px,6vw,88px) 0 clamp(20px,2vw,28px);font-size:22px;font-weight:700;color:#0E030B;letter-spacing:0.01em">Research</h3>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,268px));gap:clamp(16px,1.6vw,24px)">
+      <div data-offer-grid style="display:grid;grid-template-columns:repeat(2,minmax(0,268px));justify-content:center;gap:clamp(16px,1.6vw,24px)">
         <div style="position:relative;overflow:hidden;display:flex;flex-direction:column;aspect-ratio:268 / 320;padding:24px;border-radius:14px;background:#ffffff;color:#2E4057">
           <div style="position:absolute;left:0%;top:-25%;width:312%;height:125%;background:radial-gradient(44% 70% at 14% 38%,rgba(161,198,234,0.95) 0%,rgba(161,198,234,0.4275) 42%,rgba(161,198,234,0) 70%),radial-gradient(52% 80% at 26% 104%,rgba(199,200,242,1) 0%,rgba(199,200,242,0.45) 42%,rgba(199,200,242,0) 70%),radial-gradient(42% 66% at 55% 30%,rgba(189,207,193,0.95) 0%,rgba(189,207,193,0.4275) 42%,rgba(189,207,193,0) 70%),radial-gradient(52% 80% at 52% 108%,rgba(199,200,242,0.9) 0%,rgba(199,200,242,0.405) 42%,rgba(199,200,242,0) 70%),radial-gradient(40% 64% at 79% 34%,rgba(189,207,193,0.9) 0%,rgba(189,207,193,0.405) 42%,rgba(189,207,193,0) 70%),radial-gradient(50% 80% at 95% 84%,rgba(161,198,234,1) 0%,rgba(161,198,234,0.45) 42%,rgba(161,198,234,0) 70%);pointer-events:none"></div>
           <div style="position:absolute;inset:0;background:linear-gradient(180deg,#ffffff 0%,#ffffff 15%,rgba(255,255,255,0.88) 23%,rgba(255,255,255,0.1) 38%,rgba(255,255,255,0) 48%);pointer-events:none"></div>
@@ -616,9 +714,9 @@
           <p style="margin:12px 0 0;font-size:20px;line-height:1.4;color:#F7F9FC;text-wrap:pretty">Join our most dedicated community members.</p>
           <p style="margin:24px 0 0;max-width:62ch;font-size:17px;line-height:1.55;color:#F7F9FC;text-wrap:pretty">CASI Core Membership recognizes and supports our most active, enthusiastic members who have demonstrated potential to make an impact on AI safety. As CASI interacts with many people across different programs and events, we created core membership to deepen our connections with those who are most committed to our mission.</p>
         </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;justify-content:center;height:100%;align-self:center">
+        <div data-core-side style="display:flex;flex-direction:column;align-items:flex-end;justify-content:center;height:100%;align-self:center">
           <span style="position:relative;display:flex;align-items:center;justify-content:center;padding:0 24px;height:40px;border-radius:16px;border:1px solid rgba(247,249,252,0.34);background:rgba(247,249,252,0.10);backdrop-filter:blur(14px) saturate(0.95);-webkit-backdrop-filter:blur(14px) saturate(0.95);color:#F7F9FC;font-size:15px;font-weight:400;white-space:nowrap">Applications closed</span>
-          <a href="#" sc-camel-on-click="{{ toggleCore }}" style="position:absolute;right:clamp(24px,2.5vw,32px);bottom:clamp(24px,2.5vw,32px);display:flex;align-items:center;gap:12px;font-size:15px;color:#F7F9FC" style-hover="color:#A6B4B4">
+          <a href="#" sc-camel-on-click="{{ toggleCore }}" data-core-cta style="position:absolute;right:clamp(24px,2.5vw,32px);bottom:clamp(24px,2.5vw,32px);display:flex;align-items:center;gap:12px;font-size:15px;color:#F7F9FC" style-hover="color:#A6B4B4">
             <span>{{ coreLabel }}</span>
             <span style="display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:#6199d0;color:#ffffff;transform:{{ coreRotate }}">
               <svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
@@ -760,8 +858,8 @@
 
     <section data-norev style="display:flex;flex-direction:column;gap:clamp(16px,1.6vw,24px);width:min(100%,1080px);margin:0 auto;padding:clamp(24px,2.5vw,40px) clamp(24px,5vw,96px) clamp(88px,11vw,176px)">
       <sc-for list="{{ events }}" as="ev" hint-placeholder-count="4">
-        <div data-grid="row3" style="display:grid;grid-template-columns:180px minmax(0,1fr) 200px;gap:clamp(20px,2.5vw,40px);align-items:stretch;min-height:232px;padding:clamp(8px,1vw,16px) clamp(24px,2.6vw,40px);border-radius:28px;color:#1B151A;background-color:#EFF0F1;border:1.5px solid #DFE1E4">
-          <div style="padding:clamp(28px,3vw,36px) 0">
+        <div data-grid="row3" data-ev-card style="display:grid;grid-template-columns:180px minmax(0,1fr) 200px;gap:clamp(20px,2.5vw,40px);align-items:stretch;min-height:232px;padding:clamp(8px,1vw,16px) clamp(24px,2.6vw,40px);border-radius:28px;color:#1B151A;background-color:#EFF0F1;border:1.5px solid #DFE1E4">
+          <div data-ev-meta style="padding:clamp(28px,3vw,36px) 0">
             <div style="font-size:15px;color:#2E4057">{{ ev.wd }}</div>
             <div style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin-top:4px;font-size:32px;font-weight:700;line-height:1;letter-spacing:-0.015em">{{ ev.day }}</div>
             <div style="display:flex;flex-direction:column;gap:8px;margin-top:20px">
@@ -775,7 +873,7 @@
               </div>
             </div>
           </div>
-          <div style="display:flex;align-items:center;gap:clamp(24px,2.6vw,40px);padding:clamp(28px,3vw,36px) 0 clamp(28px,3vw,36px) clamp(24px,2.6vw,40px)">
+          <div data-ev-body style="display:flex;align-items:center;gap:clamp(24px,2.6vw,40px);padding:clamp(28px,3vw,36px) 0 clamp(28px,3vw,36px) clamp(24px,2.6vw,40px)">
             <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column;justify-content:center">
               <div style="display:flex;flex-wrap:wrap;gap:8px">
                 <sc-for list="{{ ev.tagList }}" as="t" hint-placeholder-count="1">
@@ -786,7 +884,7 @@
               <p style="margin:12px 0 0;max-width:52ch;font-size:17px;line-height:1.45;color:#2E4057;text-wrap:pretty">{{ ev.blurb }}</p>
             </div>
           </div>
-          <div style="display:flex;align-items:center;justify-content:flex-end">
+          <div data-ev-cta style="display:flex;align-items:center;justify-content:flex-end">
             <a href="{{ ev.addUrl }}" target="_blank" rel="noopener" data-hov="{{ ev.hovKey }}" sc-camel-on-mouse-enter="{{ enter }}" sc-camel-on-mouse-leave="{{ leave }}" style="text-align:center;line-height:1;display:flex;align-items:center;justify-content:center;width:max-content;padding:0 24px;height:40px;border-radius:16px;border:1px solid rgba(27,21,26,0.34);background:rgba(255,255,255,0.5);color:#1B151A;font-size:15px;font-weight:400;white-space:nowrap">
               <span>{{ ev.cta }}</span>
             </a>
