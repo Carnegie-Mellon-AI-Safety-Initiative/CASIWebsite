@@ -1139,12 +1139,25 @@ class Component extends DCLogic {
     const t = (summary || "").toLowerCase();
     if (t.includes("seminar")) return ["Seminar"];
     if (t.includes("hackathon")) return ["Hackathon"];
-    if (t.includes("reading")) return ["Reading group"];
+    if (t.includes("workshop")) return ["Workshop"];
     if (t.includes("social")) return ["Social", "Open"];
-    if (t.includes("governance") || t.includes("policy")) return ["Governance"];
+
+    // Reading groups / fundamentals get a track tag plus "Reading group".
+    const isReading = t.includes("reading") || t.includes("fundamentals");
+    const isTechnical = t.includes("technical") || t.includes("alignment");
+    const isGovernance = t.includes("governance") || t.includes("policy");
+    if (isReading) {
+      const tags = [];
+      if (isTechnical) tags.push("Technical");
+      if (isGovernance) tags.push("Governance");
+      tags.push("Reading group");
+      return tags;
+    }
+
+    if (isGovernance) return ["Governance"];
     if (t.includes("research") || t.includes("fellow")) return ["Research"];
     if (t.includes("speaker") || t.includes("talk")) return ["Speaker", "Open"];
-    if (t.includes("workshop")) return ["Workshop"];
+    if (isTechnical) return ["Technical"];
     return ["Programs"];
   }
 
@@ -1349,8 +1362,8 @@ class Component extends DCLogic {
     Upcoming: [
       { day: "02.09", weekday: "Wednesday", time: "16:30", title: "CASI @ The Fair", tags: ["Social", "Open"], blurb: "Look for the big beige tent with \"Carnegie AI Safety Initiative\" written on it. There will be awesome conversations and yummy drinks.", place: "The Cut, Table #145", cta: "+ Add to calendar", link: "https://calendar.google.com/calendar/u/1/r/eventedit/NHVnZG5qNnYydW9pMGwyN2c2b2Vxdmk4ZzAgY18zMGZkOTU2OWY3NTBjY2ZiMWQ4ZmNhY2QzNTRlODE0MjEzZjAxNjYyNmY5NGExODQ4YjhkZWUxYTA3ZTA2NTEzQGc" },
       { day: "04.09", weekday: "Friday", time: "17:30", title: "GBM #1", tags: ["Programs", "Open"], blurb: "Our first general body meeting of the semester. Look out for details.", place: "DH 2210", cta: "+ Add to calendar", link: "https://calendar.google.com/calendar/u/1/r/eventedit/M281dG5vMmRlM2E4Mjkzc25nam5uMWM0bGsgc2Nhbm9AYW5kcmV3LmNtdS5lZHU" },
-      { day: "08.09", weekday: "Tuesday", time: "17:00", title: "Technical AI Safety Fundamentals, Session B", tags: ["Reading group"], blurb: "Weekly session of the technical fundamentals reading group, running 12 weeks.", place: "GHC 4211", cta: "+ Add to calendar", link: "https://calendar.google.com/calendar/u/1/r/eventedit/MWJybjJlNmtnODFlbGFkbXRkcWZta2xnOGpfMjAyNjA5MDhUMjEwMDAwWiBjXzMwZmQ5NTY5Zjc1MGNjZmIxZDhmY2FjZDM1NGU4MTQyMTNmMDE2NjI2Zjk0YTE4NDhiOGRlZTFhMDdlMDY1MTNAZw" },
-      { day: "09.09", weekday: "Wednesday", time: "17:00", title: "Technical AI Safety Fundamentals, Session A", tags: ["Reading group"], blurb: "Weekly session of the technical fundamentals reading group.", place: "The Nest", cta: "+ Add to calendar", link: "https://calendar.google.com/calendar/u/1/r/eventedit/NTNpYzNiajBubTZ0NTFrOWUwbWw3OXZjY20gY18zMGZkOTU2OWY3NTBjY2ZiMWQ4ZmNhY2QzNTRlODE0MjEzZjAxNjYyNmY5NGExODQ4YjhkZWUxYTA3ZTA2NTEzQGc" }
+      { day: "08.09", weekday: "Tuesday", time: "17:00", title: "Technical AI Safety Fundamentals, Session B", tags: ["Technical", "Reading group"], blurb: "Weekly session of the technical fundamentals reading group, running 12 weeks.", place: "GHC 4211", cta: "+ Add to calendar", link: "https://calendar.google.com/calendar/u/1/r/eventedit/MWJybjJlNmtnODFlbGFkbXRkcWZta2xnOGpfMjAyNjA5MDhUMjEwMDAwWiBjXzMwZmQ5NTY5Zjc1MGNjZmIxZDhmY2FjZDM1NGU4MTQyMTNmMDE2NjI2Zjk0YTE4NDhiOGRlZTFhMDdlMDY1MTNAZw" },
+      { day: "09.09", weekday: "Wednesday", time: "17:00", title: "Technical AI Safety Fundamentals, Session A", tags: ["Technical", "Reading group"], blurb: "Weekly session of the technical fundamentals reading group.", place: "The Nest", cta: "+ Add to calendar", link: "https://calendar.google.com/calendar/u/1/r/eventedit/NTNpYzNiajBubTZ0NTFrOWUwbWw3OXZjY20gY18zMGZkOTU2OWY3NTBjY2ZiMWQ4ZmNhY2QzNTRlODE0MjEzZjAxNjYyNmY5NGExODQ4YjhkZWUxYTA3ZTA2NTEzQGc" }
     ],
     Past: []
   };
@@ -1370,6 +1383,7 @@ class Component extends DCLogic {
   tagColors = {
     Seminar: "#c6ccf0",
     "Reading group": "#c6ccf0",
+    Technical: "#adcce4",
     Research: "#c6ccf0",
     Governance: "#c5d2d1",
     Workshop: "#c5d2d1",
