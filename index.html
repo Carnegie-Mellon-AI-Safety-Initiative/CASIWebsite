@@ -78,6 +78,9 @@
     gap: 12px 16px !important;
     padding-left: 20px !important;
     padding-right: 20px !important;
+    /* Room for the active-page dot under the wrapped nav row (it sits
+       outside the link box, so it does not grow the row height). */
+    padding-bottom: 28px !important;
   }
   header > nav {
     order: 3 !important;
@@ -1292,8 +1295,8 @@ class Component extends DCLogic {
   };
 
   programs = [
-    { key: "p1", title: "AI Alignment Fellowship", timing: "Applications open now and close on September 6th EOD", desc: "An accessible introduction to technical AI safety: RLHF, jailbreaking, interpretability, AI control, and more.", descBold: "Weekly paper discussions, food provided, and no work outside our sessions.", curriculumUrl: "https://docs.google.com/document/d/11hSVDwhiRjqONF5kGo661CZMaCo-zZzmYqql3JbJllg/edit?tab=t.0#heading=h.s6r99nefbblp", cta: "Apply", filled: true },
-    { key: "p2", title: "AI Governance Fellowship", timing: "Applications open now and close on September 6th EOD", desc: "An accessible introduction to AI governance: regulation frameworks, international cooperation, risk assessment, and governance of advanced systems.", descBold: "Weekly paper discussions, food provided, and no work outside our sessions.", cta: "Apply", filled: true },
+    { key: "p1", title: "AI Alignment Fellowship", timing: "In session now", desc: "An accessible introduction to technical AI safety: RLHF, jailbreaking, interpretability, AI control, and more.", descBold: "Weekly paper discussions, food provided, and no work outside our sessions.", curriculumUrl: "https://docs.google.com/document/d/11hSVDwhiRjqONF5kGo661CZMaCo-zZzmYqql3JbJllg/edit?tab=t.0#heading=h.s6r99nefbblp", cta: "Apply", filled: true },
+    { key: "p2", title: "AI Governance Fellowship", timing: "Is starting soon", desc: "An accessible introduction to AI governance: regulation frameworks, international cooperation, risk assessment, and governance of advanced systems.", descBold: "Weekly paper discussions, food provided, and no work outside our sessions.", cta: "Apply", filled: true },
     { key: "p3", title: "CASI AI Safety Seminar", timing: "A Seminar on AI safety and security", desc: "A research-level, technical seminar on AI safety and security. It is geared towards PhD students, postdocs, professors, and others active in ML research. Each session features paper presentations and in-depth discussion of current work. Food is provided.", cta: "Subscribe", filled: true },
     { key: "p4", title: "CASI Research Fellowship", timing: "Applications open in October", desc: "Hands-on AI safety research for students ready to go deeper. Extended application; requires a completed reading group or equivalent experience. Projects are mentored by PhD students and guest mentors.", cta: "Learn More", filled: false },
     { key: "p5", title: "CASI Research Scholars", timing: "Applications closed for Fall 2026", desc: "Pre-scoped projects for undergrad and masters students, mentored by professors, postdocs, and senior PhD students. Expect 10 to 20 hours a week, with compute and API credits provided and publication as the goal.", cta: "Learn More", filled: false }
