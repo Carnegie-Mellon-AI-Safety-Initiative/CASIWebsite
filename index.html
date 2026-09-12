@@ -472,7 +472,7 @@
       <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0 0 40px;text-align:center;font-size:22px;font-weight:700;letter-spacing:0.005em">Our members have worked with</h2>
       <div data-logos style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:20px clamp(24px,3vw,44px)">
         <div data-logo-track style="display:contents">
-          <sc-for list="{{ orgs }}" as="org" hint-placeholder-count="6">
+          <sc-for list="{{ orgs }}" as="org" hint-placeholder-count="7">
             <div style="display:flex;align-items:center;justify-content:center;height:96px">
               <sc-if value="{{ org.img }}" hint-placeholder-val="{{ false }}">
                 <div role="img" data-bg="{{ org.img }}" aria-label="{{ org.name }}" style="width:{{ org.w }};height:{{ org.h }};background-size:contain;background-position:center;background-repeat:no-repeat;filter:{{ org.filter }}"></div>
@@ -484,7 +484,7 @@
           </sc-for>
         </div>
         <div data-logo-track data-logo-dup aria-hidden="true" style="display:none">
-          <sc-for list="{{ orgs }}" as="org" hint-placeholder-count="6">
+          <sc-for list="{{ orgs }}" as="org" hint-placeholder-count="7">
             <div style="display:flex;align-items:center;justify-content:center;height:96px">
               <sc-if value="{{ org.img }}" hint-placeholder-val="{{ false }}">
                 <div role="img" data-bg="{{ org.img }}" aria-label="{{ org.name }}" style="width:{{ org.w }};height:{{ org.h }};background-size:contain;background-position:center;background-repeat:no-repeat;filter:{{ org.filter }}"></div>
@@ -569,7 +569,6 @@
             <span>Fall/Spring</span>
             <span>Weekly</span>
           </div>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform" target="_blank" rel="noopener" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;padding:0 20px;height:34px;border-radius:999px;background:#ffffff;color:#0E030B;font-size:15px" style-hover="background:#0E030B;color:#ffffff">Apply</a>
         </div>
 
         <div style="position:relative;overflow:hidden;display:flex;flex-direction:column;aspect-ratio:268 / 320;padding:24px;border-radius:14px;background:#ffffff;color:#2E4057">
@@ -581,7 +580,6 @@
             <span>Fall/Spring</span>
             <span>Weekly</span>
           </div>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform" target="_blank" rel="noopener" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;padding:0 20px;height:34px;border-radius:999px;background:#ffffff;color:#0E030B;font-size:15px" style-hover="background:#0E030B;color:#ffffff">Apply</a>
         </div>
       </div>
 
@@ -596,7 +594,7 @@
             <span>Spring 2026</span>
             <span>Weekly</span>
           </div>
-          <a href="#" sc-camel-on-click="{{ goFellowship }}" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;padding:0 20px;height:34px;border-radius:999px;background:#ffffff;color:#0E030B;font-size:15px" style-hover="background:#0E030B;color:#ffffff">Apply</a>
+          <a href="#" sc-camel-on-click="{{ goFellowship }}" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;padding:0 20px;height:34px;border-radius:999px;background:#ffffff;color:#0E030B;font-size:15px" style-hover="background:#0E030B;color:#ffffff">Learn More</a>
         </div>
 
         <div style="position:relative;overflow:hidden;display:flex;flex-direction:column;aspect-ratio:268 / 320;padding:24px;border-radius:14px;background:#ffffff;color:#2E4057">
@@ -608,7 +606,7 @@
             <span>Fall/Spring</span>
             <span>Weekly</span>
           </div>
-          <a href="#" sc-camel-on-click="{{ goPrograms }}" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;padding:0 20px;height:34px;border-radius:999px;background:#ffffff;color:#0E030B;font-size:15px" style-hover="background:#0E030B;color:#ffffff">Apply</a>
+          <a href="https://lists.andrew.cmu.edu/mailman/listinfo/casi-safety-seminar" target="_blank" rel="noopener" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;padding:0 20px;height:34px;border-radius:999px;background:#ffffff;color:#0E030B;font-size:15px" style-hover="background:#0E030B;color:#ffffff">Subscribe</a>
         </div>
         <div style="position:relative;overflow:hidden;display:flex;flex-direction:column;aspect-ratio:268 / 320;padding:24px;border-radius:14px;background:#ffffff;color:#2E4057">
           <div style="position:absolute;left:-208%;top:-25%;width:312%;height:125%;background:radial-gradient(44% 70% at 30% 26%,rgba(199,200,242,0.95) 0%,rgba(199,200,242,0.4275) 42%,rgba(199,200,242,0) 70%),radial-gradient(64% 80% at 54% 58%,rgba(189,207,193,0.95) 0%,rgba(189,207,193,0.4275) 42%,rgba(189,207,193,0) 70%),radial-gradient(70% 95% at 90% 78%,rgba(161,198,234,1) 0%,rgba(161,198,234,0.45) 42%,rgba(161,198,234,0) 70%),radial-gradient(60% 80% at 2% 92%,rgba(189,207,193,0.9) 0%,rgba(189,207,193,0.405) 42%,rgba(189,207,193,0) 70%);pointer-events:none"></div>
@@ -619,7 +617,7 @@
             <span>Fall/Spring</span>
             <span>10-20 hrs/week</span>
           </div>
-          <a href="#" sc-camel-on-click="{{ goScholars }}" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;padding:0 20px;height:34px;border-radius:999px;background:#ffffff;color:#0E030B;font-size:15px" style-hover="background:#0E030B;color:#ffffff">Apply</a>
+          <a href="#" sc-camel-on-click="{{ goScholars }}" style="position:relative;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-top:auto;padding:0 20px;height:34px;border-radius:999px;background:#ffffff;color:#0E030B;font-size:15px" style-hover="background:#0E030B;color:#ffffff">Learn More</a>
         </div>
       </div>
     </section>
@@ -782,7 +780,11 @@
                 <svg width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M9 7h8v8"></path></svg>
               </span>
             </a>
-            <p style="margin:0;padding:0 0 24px;max-width:76ch;font-size:17px;line-height:1.5;color:#262a4a;display:{{ item.display }};text-wrap:pretty">{{ item.a }}</p>
+            <div style="display:grid;grid-template-rows:{{ item.rows }};transition:{{ item.slide }}">
+              <div style="min-height:0;overflow:hidden">
+                <p style="margin:0;padding:0 0 24px;max-width:76ch;font-size:17px;line-height:1.5;color:#262a4a;text-wrap:pretty">{{ item.a }}</p>
+              </div>
+            </div>
           </div>
         </sc-for>
       </div>
@@ -1199,17 +1201,15 @@ class Component extends DCLogic {
   // listed here gets an inert Learn More rather than a neighbour's anchor.
   programDesc = { p4: "research-fellowship", p5: "research-scholars" };
 
-  // Where each filled button points. p1 and p2 open the pre-registration
-  // form; p3 subscribes to the seminar mailing list.
+  // Where each filled button points. p3 subscribes to the seminar mailing
+  // list. p1 and p2 use the outlined Learn More, so they carry no form link.
   programUrl = {
-    p1: "https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform",
-    p2: "https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform",
     p3: "https://lists.andrew.cmu.edu/mailman/listinfo/casi-safety-seminar"
   };
 
   programs = [
-    { key: "p1", title: "AI Alignment Fellowship", timing: "Applications open now and close on September 6th EOD", desc: "An accessible introduction to technical AI safety: RLHF, jailbreaking, interpretability, AI control, and more.", descBold: "Weekly paper discussions, food provided, and no work outside our sessions.", curriculumUrl: "https://docs.google.com/document/d/11hSVDwhiRjqONF5kGo661CZMaCo-zZzmYqql3JbJllg/edit?tab=t.0#heading=h.s6r99nefbblp", cta: "Apply", filled: true },
-    { key: "p2", title: "AI Governance Fellowship", timing: "Applications open now and close on September 6th EOD", desc: "An accessible introduction to AI governance: regulation frameworks, international cooperation, risk assessment, and governance of advanced systems.", descBold: "Weekly paper discussions, food provided, and no work outside our sessions.", cta: "Apply", filled: true },
+    { key: "p1", title: "AI Alignment Fellowship", timing: "In session now", desc: "An accessible introduction to technical AI safety: RLHF, jailbreaking, interpretability, AI control, and more.", descBold: "Weekly paper discussions, food provided, and no work outside our sessions.", curriculumUrl: "https://docs.google.com/document/d/11hSVDwhiRjqONF5kGo661CZMaCo-zZzmYqql3JbJllg/edit?tab=t.0#heading=h.s6r99nefbblp", cta: "Learn More", filled: false },
+    { key: "p2", title: "AI Governance Fellowship", timing: "Is starting soon", desc: "An accessible introduction to AI governance: regulation frameworks, international cooperation, risk assessment, and governance of advanced systems.", descBold: "Weekly paper discussions, food provided, and no work outside our sessions.", cta: "Learn More", filled: false },
     { key: "p3", title: "CASI AI Safety Seminar", timing: "A Seminar on AI safety and security", desc: "A research-level, technical seminar on AI safety and security. It is geared towards PhD students, postdocs, professors, and others active in ML research. Each session features paper presentations and in-depth discussion of current work. Food is provided.", cta: "Subscribe", filled: true },
     { key: "p4", title: "CASI Research Fellowship", timing: "Applications open in October", desc: "Hands-on AI safety research for students ready to go deeper. Extended application; requires a completed reading group or equivalent experience. Projects are mentored by PhD students and guest mentors.", cta: "Learn More", filled: false },
     { key: "p5", title: "CASI Research Scholars", timing: "Applications closed for Fall 2026", desc: "Pre-scoped projects for undergrad and masters students, mentored by professors, postdocs, and senior PhD students. Expect 10 to 20 hours a week, with compute and API credits provided and publication as the goal.", cta: "Learn More", filled: false }
@@ -1235,7 +1235,10 @@ class Component extends DCLogic {
     // MATS is a maroon square with the flame knocked out in white. Any
     // multiplicative filter (opacity, brightness) dims the flame.
     { name: "MATS", img: "assets/logo-mats.png", h: "34px", w: "132px", filter: "grayscale(1)" },
-    { name: "SPAR", img: "assets/logo-spar.png", h: "40px", w: "97px", filter: "grayscale(1) brightness(0.85)" }
+    { name: "SPAR", img: "assets/logo-spar.png", h: "40px", w: "97px", filter: "grayscale(1) brightness(0.85)" },
+    // Principles of Intelligence is a lockup with no padding in the PNG
+    // (760x240), so its box is shorter than SPAR's padded one.
+    { name: "Principles of Intelligence", img: "assets/logo-principles-of-intelligence.png", h: "40px", w: "127px", filter: "none" }
   ];
 
   navMenus = {};
@@ -1671,7 +1674,10 @@ class Component extends DCLogic {
       faqs: this.faqData.map((item, i) => ({
         q: item.q,
         a: item.a,
-        display: st.faq === i ? "block" : "none",
+        // The answer slides open: the grid row eases from 0fr to 1fr. Only
+        // the open state carries a transition, so a close is instant.
+        rows: st.faq === i ? "1fr" : "0fr",
+        slide: st.faq === i ? "grid-template-rows 320ms ease-out" : "none",
         rotate: st.faq === i ? "rotate(135deg)" : "rotate(0deg)",
         toggle: (e) => { e.preventDefault(); this.setState({ faq: st.faq === i ? -1 : i }); }
       })),
