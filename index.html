@@ -78,6 +78,9 @@
     gap: 12px 16px !important;
     padding-left: 20px !important;
     padding-right: 20px !important;
+    /* Room for the active-page dot under the wrapped nav row (it sits
+       outside the link box, so it does not grow the row height). */
+    padding-bottom: 28px !important;
   }
   header > nav {
     order: 3 !important;
@@ -197,6 +200,10 @@
     font-size: 15px !important;
   }
 }
+/* Calendar invite HTML: keep bold/links readable inside the blurb. */
+.ev-blurb a { color: #437FD5; font-weight: 700; text-decoration: none; }
+.ev-blurb a:hover { color: #0E030B; }
+.ev-blurb strong, .ev-blurb b { font-weight: 700; color: #1B151A; }
 </style>
 <script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js": "vendor/react.production.min.js", "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "vendor/react-dom.production.min.js"};</script>
 <script src="support.js"></script>
@@ -865,7 +872,7 @@
 
     <section data-norev style="display:flex;flex-direction:column;gap:clamp(16px,1.6vw,24px);width:min(100%,1080px);margin:0 auto;padding:clamp(24px,2.5vw,40px) clamp(24px,5vw,96px) clamp(88px,11vw,176px)">
       <sc-for list="{{ events }}" as="ev" hint-placeholder-count="4">
-        <div data-grid="row3" data-ev-card style="display:grid;grid-template-columns:180px minmax(0,1fr) 200px;gap:clamp(20px,2.5vw,40px);align-items:stretch;min-height:232px;padding:clamp(8px,1vw,16px) clamp(24px,2.6vw,40px);border-radius:28px;color:#1B151A;background-color:#EFF0F1;border:1.5px solid #DFE1E4">
+        <div data-grid="row3" data-ev-card style="display:grid;grid-template-columns:180px minmax(0,1fr) 200px;gap:clamp(20px,2.5vw,40px);align-items:start;min-height:232px;padding:clamp(8px,1vw,16px) clamp(24px,2.6vw,40px);border-radius:28px;color:#1B151A;background-color:#EFF0F1;border:1.5px solid #DFE1E4">
           <div data-ev-meta style="padding:clamp(28px,3vw,36px) 0">
             <div style="font-size:15px;color:#2E4057">{{ ev.wd }}</div>
             <div style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin-top:4px;font-size:32px;font-weight:700;line-height:1;letter-spacing:-0.015em">{{ ev.day }}</div>
@@ -880,18 +887,18 @@
               </div>
             </div>
           </div>
-          <div data-ev-body style="display:flex;align-items:center;gap:clamp(24px,2.6vw,40px);padding:clamp(28px,3vw,36px) 0 clamp(28px,3vw,36px) clamp(24px,2.6vw,40px)">
-            <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column;justify-content:center">
+          <div data-ev-body style="display:flex;align-items:flex-start;gap:clamp(24px,2.6vw,40px);padding:clamp(28px,3vw,36px) 0 clamp(28px,3vw,36px) clamp(24px,2.6vw,40px)">
+            <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column;justify-content:flex-start">
               <div style="display:flex;flex-wrap:wrap;gap:8px">
                 <sc-for list="{{ ev.tagList }}" as="t" hint-placeholder-count="1">
                   <span style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;display:flex;align-items:center;padding:0 16px;height:26px;border-radius:16px;background:{{ t.bg }};font-size:13px;color:#1f1f1f;white-space:nowrap;letter-spacing:0.01em">{{ t.label }}</span>
                 </sc-for>
               </div>
               <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:16px 0 0;font-size:22px;font-weight:700;line-height:1.15;letter-spacing:0em;max-width:30ch;text-wrap:pretty">{{ ev.title }}</h3>
-              <p style="margin:12px 0 0;max-width:52ch;font-size:17px;line-height:1.45;color:#2E4057;text-wrap:pretty">{{ ev.blurb }}</p>
+              <p style="margin:12px 0 0;max-width:52ch;font-size:17px;line-height:1.45;color:#2E4057;text-wrap:pretty">{{ ev.blurbRich }}</p>
             </div>
           </div>
-          <div data-ev-cta style="display:flex;align-items:center;justify-content:flex-end">
+          <div data-ev-cta style="display:flex;align-items:flex-start;justify-content:flex-end;padding-top:clamp(28px,3vw,36px)">
             <a href="{{ ev.addUrl }}" target="_blank" rel="noopener" data-hov="{{ ev.hovKey }}" sc-camel-on-mouse-enter="{{ enter }}" sc-camel-on-mouse-leave="{{ leave }}" style="text-align:center;line-height:1;display:flex;align-items:center;justify-content:center;width:max-content;padding:0 24px;height:40px;border-radius:16px;border:1px solid rgba(27,21,26,0.34);background:rgba(255,255,255,0.5);color:#1B151A;font-size:15px;font-weight:400;white-space:nowrap">
               <span>{{ ev.cta }}</span>
             </a>
@@ -1137,13 +1144,91 @@ class Component extends DCLogic {
     const t = (summary || "").toLowerCase();
     if (t.includes("seminar")) return ["Seminar"];
     if (t.includes("hackathon")) return ["Hackathon"];
-    if (t.includes("reading")) return ["Reading group"];
+    if (t.includes("workshop")) return ["Workshop"];
     if (t.includes("social")) return ["Social", "Open"];
-    if (t.includes("governance") || t.includes("policy")) return ["Governance"];
+
+    // Reading groups / fundamentals get a track tag plus "Reading group".
+    const isReading = t.includes("reading") || t.includes("fundamentals");
+    const isTechnical = t.includes("technical") || t.includes("alignment");
+    const isGovernance = t.includes("governance") || t.includes("policy");
+    if (isReading) {
+      const tags = [];
+      if (isTechnical) tags.push("Technical");
+      if (isGovernance) tags.push("Governance");
+      tags.push("Reading group");
+      return tags;
+    }
+
+    if (isGovernance) return ["Governance"];
     if (t.includes("research") || t.includes("fellow")) return ["Research"];
     if (t.includes("speaker") || t.includes("talk")) return ["Speaker", "Open"];
-    if (t.includes("workshop")) return ["Workshop"];
+    if (isTechnical) return ["Technical"];
     return ["Programs"];
+  }
+
+  escapeHtml(s) {
+    return String(s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  // Google Calendar descriptions are HTML (<br>, <b>, <a>, …). Keep a small
+  // safe subset for display; also return plain text for "Add to calendar".
+  formatGcalDescription(raw) {
+    if (!raw) return { text: "", html: "" };
+    const src = String(raw).replace(/\r\n?/g, "\n").replace(/\n/g, "<br>");
+    const doc = new DOMParser().parseFromString("<div>" + src + "</div>", "text/html");
+    const root = doc.body && doc.body.firstChild;
+    if (!root) return { text: "", html: "" };
+
+    const serialize = (node) => {
+      if (node.nodeType === 3) return this.escapeHtml(node.nodeValue || "");
+      if (node.nodeType !== 1) return "";
+      const tag = node.tagName;
+      if (tag === "SCRIPT" || tag === "STYLE" || tag === "NOSCRIPT" || tag === "IFRAME" || tag === "OBJECT" || tag === "EMBED") return "";
+      const kids = () => Array.from(node.childNodes).map(serialize).join("");
+      if (tag === "BR") return "<br>";
+      if (tag === "B" || tag === "STRONG") return "<strong>" + kids() + "</strong>";
+      if (tag === "I" || tag === "EM") return "<em>" + kids() + "</em>";
+      if (tag === "U") return "<u>" + kids() + "</u>";
+      if (tag === "A") {
+        let href = node.getAttribute("href") || "";
+        if (!/^(https?:|mailto:)/i.test(href)) href = "";
+        const inner = kids();
+        return href
+          ? '<a href="' + this.escapeHtml(href) + '" target="_blank" rel="noopener noreferrer">' + inner + "</a>"
+          : inner;
+      }
+      if (tag === "LI") return "• " + kids() + "<br>";
+      if (tag === "P" || tag === "DIV" || tag === "H1" || tag === "H2" || tag === "H3" || tag === "H4" || tag === "TR") {
+        return kids() + "<br>";
+      }
+      return kids();
+    };
+
+    let html = Array.from(root.childNodes).map(serialize).join("");
+    html = html.replace(/(?:<br>\s*){3,}/gi, "<br><br>");
+    html = html.replace(/^(?:<br>\s*)+/i, "").replace(/(?:<br>\s*)+$/i, "");
+
+    const text = html
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/<[^>]+>/g, "")
+      .replace(/&nbsp;/gi, " ")
+      .replace(/&amp;/gi, "&")
+      .replace(/&lt;/gi, "<")
+      .replace(/&gt;/gi, ">")
+      .replace(/&quot;/gi, '"')
+      .replace(/&#39;|&apos;/gi, "'")
+      .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(parseInt(n, 10)))
+      .split("\n")
+      .map((line) => line.replace(/[ \t]+/g, " ").trim())
+      .join("\n")
+      .replace(/\n{3,}/g, "\n\n")
+      .trim();
+
+    return { text, html };
   }
 
   mapGcal(item) {
@@ -1152,14 +1237,16 @@ class Component extends DCLogic {
     if (isNaN(d)) return null;
     const pad = (n) => String(n).padStart(2, "0");
     const allDay = !(item.start && item.start.dateTime);
+    const desc = this.formatGcalDescription(item.description);
     return {
       day: pad(d.getDate()) + "." + pad(d.getMonth() + 1),
       weekday: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][d.getDay()],
       time: allDay ? "All day" : pad(d.getHours()) + ":" + pad(d.getMinutes()),
       title: item.summary || "CASI event",
       tags: this.gcalTag(item.summary),
-      blurb: (item.description || "").replace(/<[^>]*>/g, "").slice(0, 200),
-      place: item.location || "The Nest",
+      blurb: desc.text,
+      blurbHtml: desc.html,
+      place: item.location || "TBD",
       cta: "+ Add to calendar",
       gcalUrl: item.htmlLink || "",
       startISO: d.toISOString()
@@ -1201,15 +1288,17 @@ class Component extends DCLogic {
   // listed here gets an inert Learn More rather than a neighbour's anchor.
   programDesc = { p4: "research-fellowship", p5: "research-scholars" };
 
-  // Where each filled button points. p3 subscribes to the seminar mailing
-  // list. p1 and p2 use the outlined Learn More, so they carry no form link.
+  // Where each filled button points. p1 and p2 open the pre-registration
+  // form; p3 subscribes to the seminar mailing list.
   programUrl = {
+    p1: "https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform",
+    p2: "https://docs.google.com/forms/d/e/1FAIpQLSf6Yj36f_RygRbCxha0u2yo0nB25Uw6gJcTrb6qb_f4Sd0NqQ/viewform",
     p3: "https://lists.andrew.cmu.edu/mailman/listinfo/casi-safety-seminar"
   };
 
   programs = [
-    { key: "p1", title: "AI Alignment Fellowship", timing: "In session now", desc: "An accessible introduction to technical AI safety: RLHF, jailbreaking, interpretability, AI control, and more.", descBold: "Weekly paper discussions, food provided, and no work outside our sessions.", curriculumUrl: "https://docs.google.com/document/d/11hSVDwhiRjqONF5kGo661CZMaCo-zZzmYqql3JbJllg/edit?tab=t.0#heading=h.s6r99nefbblp", cta: "Learn More", filled: false },
-    { key: "p2", title: "AI Governance Fellowship", timing: "Is starting soon", desc: "An accessible introduction to AI governance: regulation frameworks, international cooperation, risk assessment, and governance of advanced systems.", descBold: "Weekly paper discussions, food provided, and no work outside our sessions.", cta: "Learn More", filled: false },
+    { key: "p1", title: "AI Alignment Fellowship", timing: "In session now", desc: "An accessible introduction to technical AI safety: RLHF, jailbreaking, interpretability, AI control, and more.", descBold: "Weekly paper discussions, food provided, and no work outside our sessions.", curriculumUrl: "https://docs.google.com/document/d/11hSVDwhiRjqONF5kGo661CZMaCo-zZzmYqql3JbJllg/edit?tab=t.0#heading=h.s6r99nefbblp", cta: "Apply", filled: true },
+    { key: "p2", title: "AI Governance Fellowship", timing: "Is starting soon", desc: "An accessible introduction to AI governance: regulation frameworks, international cooperation, risk assessment, and governance of advanced systems.", descBold: "Weekly paper discussions, food provided, and no work outside our sessions.", cta: "Apply", filled: true },
     { key: "p3", title: "CASI AI Safety Seminar", timing: "A Seminar on AI safety and security", desc: "A research-level, technical seminar on AI safety and security. It is geared towards PhD students, postdocs, professors, and others active in ML research. Each session features paper presentations and in-depth discussion of current work. Food is provided.", cta: "Subscribe", filled: true },
     { key: "p4", title: "CASI Research Fellowship", timing: "Applications open in October", desc: "Hands-on AI safety research for students ready to go deeper. Extended application; requires a completed reading group or equivalent experience. Projects are mentored by PhD students and guest mentors.", cta: "Learn More", filled: false },
     { key: "p5", title: "CASI Research Scholars", timing: "Applications closed for Fall 2026", desc: "Pre-scoped projects for undergrad and masters students, mentored by professors, postdocs, and senior PhD students. Expect 10 to 20 hours a week, with compute and API credits provided and publication as the goal.", cta: "Learn More", filled: false }
@@ -1236,8 +1325,7 @@ class Component extends DCLogic {
     // multiplicative filter (opacity, brightness) dims the flame.
     { name: "MATS", img: "assets/logo-mats.png", h: "34px", w: "132px", filter: "grayscale(1)" },
     { name: "SPAR", img: "assets/logo-spar.png", h: "40px", w: "97px", filter: "grayscale(1) brightness(0.85)" },
-    // Principles of Intelligence is a lockup with no padding in the PNG
-    // (760x240), so its box is shorter than SPAR's padded one.
+    // Principles of Intelligence is a lockup; its PNG (760x240) has no padding.
     { name: "Principles of Intelligence", img: "assets/logo-principles-of-intelligence.png", h: "40px", w: "127px", filter: "none" }
   ];
 
@@ -1281,8 +1369,8 @@ class Component extends DCLogic {
     Upcoming: [
       { day: "02.09", weekday: "Wednesday", time: "16:30", title: "CASI @ The Fair", tags: ["Social", "Open"], blurb: "Look for the big beige tent with \"Carnegie AI Safety Initiative\" written on it. There will be awesome conversations and yummy drinks.", place: "The Cut, Table #145", cta: "+ Add to calendar", link: "https://calendar.google.com/calendar/u/1/r/eventedit/NHVnZG5qNnYydW9pMGwyN2c2b2Vxdmk4ZzAgY18zMGZkOTU2OWY3NTBjY2ZiMWQ4ZmNhY2QzNTRlODE0MjEzZjAxNjYyNmY5NGExODQ4YjhkZWUxYTA3ZTA2NTEzQGc" },
       { day: "04.09", weekday: "Friday", time: "17:30", title: "GBM #1", tags: ["Programs", "Open"], blurb: "Our first general body meeting of the semester. Look out for details.", place: "DH 2210", cta: "+ Add to calendar", link: "https://calendar.google.com/calendar/u/1/r/eventedit/M281dG5vMmRlM2E4Mjkzc25nam5uMWM0bGsgc2Nhbm9AYW5kcmV3LmNtdS5lZHU" },
-      { day: "08.09", weekday: "Tuesday", time: "17:00", title: "Technical AI Safety Fundamentals, Session B", tags: ["Reading group"], blurb: "Weekly session of the technical fundamentals reading group, running 12 weeks.", place: "GHC 4211", cta: "+ Add to calendar", link: "https://calendar.google.com/calendar/u/1/r/eventedit/MWJybjJlNmtnODFlbGFkbXRkcWZta2xnOGpfMjAyNjA5MDhUMjEwMDAwWiBjXzMwZmQ5NTY5Zjc1MGNjZmIxZDhmY2FjZDM1NGU4MTQyMTNmMDE2NjI2Zjk0YTE4NDhiOGRlZTFhMDdlMDY1MTNAZw" },
-      { day: "09.09", weekday: "Wednesday", time: "17:00", title: "Technical AI Safety Fundamentals, Session A", tags: ["Reading group"], blurb: "Weekly session of the technical fundamentals reading group.", place: "The Nest", cta: "+ Add to calendar", link: "https://calendar.google.com/calendar/u/1/r/eventedit/NTNpYzNiajBubTZ0NTFrOWUwbWw3OXZjY20gY18zMGZkOTU2OWY3NTBjY2ZiMWQ4ZmNhY2QzNTRlODE0MjEzZjAxNjYyNmY5NGExODQ4YjhkZWUxYTA3ZTA2NTEzQGc" }
+      { day: "08.09", weekday: "Tuesday", time: "17:00", title: "Technical AI Safety Fundamentals, Session B", tags: ["Technical", "Reading group"], blurb: "Weekly session of the technical fundamentals reading group, running 12 weeks.", place: "GHC 4211", cta: "+ Add to calendar", link: "https://calendar.google.com/calendar/u/1/r/eventedit/MWJybjJlNmtnODFlbGFkbXRkcWZta2xnOGpfMjAyNjA5MDhUMjEwMDAwWiBjXzMwZmQ5NTY5Zjc1MGNjZmIxZDhmY2FjZDM1NGU4MTQyMTNmMDE2NjI2Zjk0YTE4NDhiOGRlZTFhMDdlMDY1MTNAZw" },
+      { day: "09.09", weekday: "Wednesday", time: "17:00", title: "Technical AI Safety Fundamentals, Session A", tags: ["Technical", "Reading group"], blurb: "Weekly session of the technical fundamentals reading group.", place: "The Nest", cta: "+ Add to calendar", link: "https://calendar.google.com/calendar/u/1/r/eventedit/NTNpYzNiajBubTZ0NTFrOWUwbWw3OXZjY20gY18zMGZkOTU2OWY3NTBjY2ZiMWQ4ZmNhY2QzNTRlODE0MjEzZjAxNjYyNmY5NGExODQ4YjhkZWUxYTA3ZTA2NTEzQGc" }
     ],
     Past: []
   };
@@ -1302,6 +1390,7 @@ class Component extends DCLogic {
   tagColors = {
     Seminar: "#c6ccf0",
     "Reading group": "#c6ccf0",
+    Technical: "#adcce4",
     Research: "#c6ccf0",
     Governance: "#c5d2d1",
     Workshop: "#c5d2d1",
@@ -1640,6 +1729,9 @@ class Component extends DCLogic {
       events: evAll.slice(evStart, evStart + 4).map((ev, i) => {
         const k = "ev" + i;
         const on = hov === k;
+        const blurbHtml = ev.blurbHtml != null
+          ? ev.blurbHtml
+          : this.escapeHtml(ev.blurb || "").replace(/\n/g, "<br>");
         return Object.assign({}, ev, {
           hovKey: k,
           tagList: (ev.tags || []).map((t) => ({ label: t, bg: this.tagColors[t] || "#e4e0da" })),
@@ -1649,6 +1741,10 @@ class Component extends DCLogic {
             return parts.length === 2 ? parts[1] + "." + parts[0] : ev.day;
           })(),
           when: ev.weekday + " " + ev.day + ", " + ev.time + " · " + ev.place,
+          blurbRich: React.createElement("span", {
+            className: "ev-blurb",
+            dangerouslySetInnerHTML: { __html: blurbHtml }
+          }),
           addUrl: (() => {
             if (ev.gcalUrl) return ev.gcalUrl;
             if (ev.link) return ev.link;
