@@ -378,7 +378,7 @@
     <nav style="display:flex;align-items:center;gap:clamp(16px,2vw,32px)">
       <sc-for list="{{ nav }}" as="item" hint-placeholder-count="5">
         <div style="position:relative;display:flex;align-items:center" sc-camel-on-mouse-enter="{{ item.enter }}" sc-camel-on-mouse-leave="{{ item.leave }}">
-          <a href="#" sc-camel-on-click="{{ item.go }}" data-nav="{{ item.key }}" style="position:relative;display:flex;align-items:center;justify-content:center;gap:6px;font-size:17px;font-weight:{{ item.weight }};line-height:1;color:{{ item.color }}">
+          <a href="{{ item.href }}" target="_blank" rel="noopener" sc-camel-on-click="{{ item.go }}" data-nav="{{ item.key }}" style="position:relative;display:flex;align-items:center;justify-content:center;gap:6px;font-size:17px;font-weight:{{ item.weight }};line-height:1;color:{{ item.color }}">
             <span>{{ item.label }}</span>
             <sc-if value="{{ item.hasMenu }}" hint-placeholder-val="{{ false }}">
               <svg width="9" height="6" sc-camel-view-box="0 0 9 6" fill="none"><path d="M1 1L4.5 4.5L8 1" stroke="currentColor" stroke-width="1.4"></path></svg>
@@ -1382,6 +1382,7 @@ class Component extends DCLogic {
     { key: "programs", label: "Get Involved" },
     { key: "events", label: "Calendar" },
     { key: "blog", label: "Blog" },
+    { key: "youtube", label: "YouTube", href: "https://www.youtube.com/channel/UCSueh9aeI6szPgpqVnFvZVQ" },
     { key: "team", label: "Team" }
   ];
 
@@ -1794,7 +1795,8 @@ class Component extends DCLogic {
         color: navActive === n.key ? "#1B151A" : "#2E4057",
         weight: navActive === n.key ? 700 : 400,
         dot: navActive === n.key ? 1 : 0,
-        go: ["home", "programs", "blog", "events", "about", "team"].indexOf(n.key) >= 0 ? this.go(n.key) : (e) => e.preventDefault(),
+        href: n.href || "#",
+        go: n.href ? (e) => {} : this.go(n.key),
         hasMenu: !!this.navMenus[n.key],
         menuOpen: st.navMenu === n.key,
         menu: (this.navMenus[n.key] || []).map((m) => ({ label: m.label, go: this.go(m.page) })),
