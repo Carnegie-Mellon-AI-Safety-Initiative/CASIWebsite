@@ -204,6 +204,20 @@
 .ev-blurb a { color: #437FD5; font-weight: 700; text-decoration: none; }
 .ev-blurb a:hover { color: #0E030B; }
 .ev-blurb strong, .ev-blurb b { font-weight: 700; color: #1B151A; }
+/* Home > Past Events: hovering a slide shows its caption. Nothing else
+   changes: no blur, no dim, no zoom. The rest state sits inline, because the
+   runtime rewrites style="..." on every re-render, so only the hover state
+   lives here, and it needs !important to win. Hover only, so a touch screen
+   keeps the plain image. */
+@media (hover: hover) and (pointer: fine) {
+  [data-shot-card]:hover [data-shot-text] {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-shot-text] { transition: none !important; }
+}
 </style>
 <script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js": "vendor/react.production.min.js", "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "vendor/react-dom.production.min.js"};</script>
 <script src="support.js"></script>
@@ -317,18 +331,20 @@
 
 
 <script src="image-slot.js"></script>
+<script src="./casi-desktop-scroll.js" defer></script>
 
 </helmet>
   <div aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden;opacity:0;pointer-events:none">
     <img data-asset="assets/hero-gradient.png" src="assets/hero-gradient.png" alt="">
     <img data-asset="assets/programs-weave.png" src="assets/programs-weave.png" alt="">
     <img data-asset="assets/photo-1.jpg" src="assets/photo-1.jpg" alt="">
-    <img data-asset="assets/photo-2.jpg" src="assets/photo-2.jpg" alt="">
+    <img data-asset="assets/photo-audience-1.jpg" src="assets/photo-audience-1.jpg" alt="">
     <img data-asset="assets/photo-3.jpg" src="assets/photo-3.jpg" alt="">
     <img data-asset="assets/photo-4.jpg" src="assets/photo-4.jpg" alt="">
     <img data-asset="assets/photo-crowd-1.jpg" src="assets/photo-crowd-1.jpg" alt="">
-    <img data-asset="assets/photo-crowd-2.jpg" src="assets/photo-crowd-2.jpg" alt="">
+    <img data-asset="assets/photo-speaker-1.jpg" src="assets/photo-speaker-1.jpg" alt="">
     <img data-asset="assets/photo-seminar-1.jpg" src="assets/photo-seminar-1.jpg" alt="">
+    <img data-asset="assets/photo-seminar-2.jpg" src="assets/photo-seminar-2.jpg" alt="">
     <img data-asset="assets/photo-classroom-1.jpg" src="assets/photo-classroom-1.jpg" alt="">
     <img data-asset="assets/post-aaai.png" src="assets/post-aaai.png" alt="">
     <img data-asset="assets/post-frt.png" src="assets/post-frt.png" alt="">
@@ -344,6 +360,7 @@
     <img data-asset="assets/team/louis-sloot.jpg" src="assets/team/louis-sloot.jpg" alt="">
     <img data-asset="assets/team/lawrence-feng.jpg" src="assets/team/lawrence-feng.jpg" alt="">
     <img data-asset="assets/team/edward-friedman.jpg" src="assets/team/edward-friedman.jpg" alt="">
+    <img data-asset="assets/team/nirvik-pande.jpg" src="assets/team/nirvik-pande.jpg" alt="">
     <img data-asset="assets/team/shriyan-reyya.jpg" src="assets/team/shriyan-reyya.jpg" alt="">
     <img data-asset="assets/team/xuning-ying.jpg" src="assets/team/xuning-ying.jpg" alt="">
     <img data-asset="assets/team/dani-roytburg-v4.jpg" src="assets/team/dani-roytburg-v4.jpg" alt="">
@@ -406,6 +423,8 @@
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
   <main data-screen-label="Home">
 
+    <div data-scroll-section="header" aria-label="Introduction">
+
     <section style="position:relative;min-height:calc(100vh - 70px);display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(96px,12vh,160px) clamp(24px,5vw,96px) clamp(96px,12vh,144px);overflow:hidden">
       <div aria-hidden="true" style="position:absolute;inset:0;overflow:hidden;pointer-events:none">
         <div data-bg="assets/hero-gradient.png" style="position:absolute;inset:0;background-size:cover;background-position:center bottom;background-repeat:no-repeat;-webkit-mask-image:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0.45) 18%,rgba(0,0,0,0.85) 36%,#000 56%,#000 100%),linear-gradient(90deg,rgba(0,0,0,0.34) 0%,rgba(0,0,0,0.46) 28%,rgba(0,0,0,0.72) 58%,#000 84%);-webkit-mask-composite:source-in;mask-image:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,0.45) 18%,rgba(0,0,0,0.85) 36%,#000 56%,#000 100%),linear-gradient(90deg,rgba(0,0,0,0.34) 0%,rgba(0,0,0,0.46) 28%,rgba(0,0,0,0.72) 58%,#000 84%);mask-composite:intersect"></div>
@@ -432,8 +451,12 @@
       <p style="margin:24px auto 0;max-width:820px;text-align:center;font-size:17px;line-height:1.5;color:#2E4057;text-wrap:pretty">CASI brings together researchers, students, and enthusiasts across Carnegie Mellon to advance research, collaboration, and education in AI safety and alignment.</p>
     </section>
 
-    <section data-grid="split" data-sec="risks" style="display:grid;grid-template-columns:minmax(280px,0.8fr) 1.2fr;gap:clamp(32px,5vw,80px);padding:0 clamp(24px,5vw,96px) clamp(88px,11vw,176px)">
-      <div>
+    </div>
+
+    <div data-scroll-section="risks" aria-label="Risks">
+
+    <section data-grid="split" data-sec="risks" style="display:grid;grid-template-columns:{{ risksCols }};align-items:start;gap:clamp(32px,5vw,80px);padding:0 clamp(24px,5vw,96px) clamp(88px,11vw,176px)">
+      <div data-sticky-approach style="position:{{ risksPos }};top:112px;align-self:start;z-index:1">
         <h2 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.1;letter-spacing:0em">Risks</h2>
         <p style="margin:16px 0 0;max-width:380px;font-size:17px;line-height:1.45;color:#0E030B;text-wrap:pretty">As artificial intelligence systems become more capable and ubiquitous, ensuring they remain aligned with human values and beneficial to society becomes increasingly important.</p>
       </div>
@@ -448,6 +471,10 @@
       </div>
     </section>
 
+    </div>
+
+    <div data-scroll-section="mission" aria-label="Our mission">
+
     <section style="background:#BBD5F1;color:#0E030B;padding:clamp(88px,11vw,176px) clamp(24px,5vw,96px)">
       <div style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;font-size:15px;font-weight:700;color:#2E4057;letter-spacing:0.01em">Our Mission</div>
       <p style="margin:24px 0 0;max-width:1320px;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.14;letter-spacing:-0.01em;color:#0E030B;text-wrap:pretty">Progress on AI safety requires diverse perspectives and interdisciplinary approaches. <a href="#" sc-camel-on-click="{{ goPrograms }}" style="color:#2E4057;text-decoration:none;cursor:pointer">Our programs meet you wherever you are in your journey.</a></p>
@@ -458,8 +485,12 @@
       <div sc-camel-on-pointer-down="{{ shotDown }}" sc-camel-on-pointer-up="{{ shotUp }}" sc-camel-on-touch-start="{{ shotDown }}" sc-camel-on-touch-end="{{ shotUp }}" sc-camel-on-click="{{ shotNext }}" sc-camel-on-wheel="{{ shotWheel }}" data-sec="shots" style="display:flex;justify-content:flex-start;overflow:hidden;padding:0 clamp(24px,5vw,96px);cursor:pointer;touch-action:pan-y;user-select:none">
         <div style="display:flex;flex:0 0 auto;width:max-content;gap:32px;transition:transform 0.55s cubic-bezier(0.4,0,0.2,1);transform:{{ shotShift }}">
           <sc-for list="{{ shots }}" as="shot" hint-placeholder-count="4">
-            <div style="flex:0 0 auto;width:647px">
-              <div data-bg="{{ shot.src }}" style="width:647px;height:364px;border-radius:7px;overflow:hidden;background-color:#2a2a2a;background-size:cover;background-position:center;background-repeat:no-repeat"></div>
+            <div data-shot-card style="position:relative;isolation:isolate;flex:0 0 auto;width:647px;height:364px;border-radius:7px;overflow:hidden;background-color:#2a2a2a">
+              <div data-shot-img data-bg="{{ shot.src }}" style="position:absolute;inset:0;background-size:cover;background-position:center;background-repeat:no-repeat"></div>
+              <div data-shot-shade aria-hidden="true" style="position:absolute;inset:0;z-index:1;background-color:rgba(0,0,0,0.12)"></div>
+              <div style="position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;gap:20px;padding:clamp(20px,2vw,32px);color:#F7F9FC;pointer-events:none">
+                <p data-shot-text style="margin:0;max-width:520px;font-size:clamp(17px,1.3vw,22px);line-height:1.2;letter-spacing:-0.01em;text-shadow:0 1px 14px rgba(0,0,0,0.55);opacity:0;transform:translateY(5px);transition:opacity 450ms ease,transform 600ms ease">{{ shot.caption }}</p>
+              </div>
             </div>
           </sc-for>
         </div>
@@ -503,6 +534,10 @@
       </div>
     </section>
 
+    </div>
+
+    <div data-scroll-section="cta" aria-label="Join us">
+
     <section style="background:#F7F9FC;color:#0E030B;padding:clamp(72px,9vw,128px) clamp(24px,5vw,96px);display:flex;flex-direction:column;align-items:center;text-align:center">
       <div role="separator" style="align-self:stretch;height:2px;background:#BBD5F1;margin:0 calc(-1 * clamp(24px,5vw,96px)) clamp(40px,5vw,72px)"></div>
       <p style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:0;max-width:1180px;font-size:clamp(24px,2.4vw,32px);font-weight:700;line-height:1.14;letter-spacing:0em;text-wrap:balance">Join us as we work together to build a future where AI systems remain beneficial, controllable, and aligned with human flourishing.</p>
@@ -513,6 +548,7 @@
       </div>
     </section>
 
+    </div>
 
   </main>
   </sc-if>
@@ -1131,7 +1167,12 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script="" data-props="{&quot;gcalApiKey&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;AIzaSyDGfj3imYMjLOqwluYgOCjTbCUfyGYKk9M&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Google Calendar&quot;}}">
 class Component extends DCLogic {
-  state = { page: "home", hov: null, shot: 0, post: 0, filter: "All", faq: 0 };
+  deskQuery = "(min-width: 1024px) and (hover: hover) and (pointer: fine)";
+
+  // Read once up front. Starting at false would show desktop visitors a
+  // one-frame jump from one column to two.
+  state = { page: "home", hov: null, shot: 0, post: 0, filter: "All", faq: 0,
+    desk: !!(window.matchMedia && window.matchMedia("(min-width: 1024px) and (hover: hover) and (pointer: fine)").matches) };
 
   substack = "https://carnegieaisafety.substack.com/";
 
@@ -1340,6 +1381,7 @@ class Component extends DCLogic {
     { name: "Louis Sloot", role: "President", group: "lead", img: "assets/team/louis-sloot.jpg", pos: "50% 28%" },
     { name: "Lawrence Feng", role: "Mentorship & strategy", group: "lead", img: "assets/team/lawrence-feng.jpg", pos: "45% 30%" },
     { name: "Edward Friedman", role: "Alignment RG, public outreach", group: "rg", img: "assets/team/edward-friedman.jpg", pos: "50% 28%" },
+    { name: "Nirvik Pande", role: "Alignment RG", group: "rg", img: "assets/team/nirvik-pande.jpg", pos: "55% 24%" },
     { name: "Shriyan Reyya", role: "Alignment RG, socials", group: "rg", img: "assets/team/shriyan-reyya.jpg", pos: "42% 42%" },
     { name: "Xuning Ying", role: "Governance RG, policy hackathon", group: "rg", img: "assets/team/xuning-ying.jpg", pos: "52% 30%" },
     { name: "Dani Roytburg", role: "AI Safety Seminar, grad outreach", group: "res", img: "assets/team/dani-roytburg-v4.jpg", pos: "50% 50%" },
@@ -1405,10 +1447,11 @@ class Component extends DCLogic {
   };
 
   shotList = [
-    { src: "assets/photo-1.jpg", caption: "reading group, spring 2026" },
-    { src: "assets/photo-2.jpg", caption: "policy hackathon" },
-    { src: "assets/photo-crowd-1.jpg", caption: "policy hackathon results" },
-    { src: "assets/photo-crowd-2.jpg", caption: "speaker event" },
+    { src: "assets/photo-seminar-2.jpg", caption: "seminar series" },
+    { src: "assets/photo-1.jpg", caption: "Gray Swan hackathon" },
+    { src: "assets/photo-audience-1.jpg", caption: "GBM F26 1" },
+    { src: "assets/photo-crowd-1.jpg", caption: "hackathon results" },
+    { src: "assets/photo-speaker-1.jpg", caption: "GBM F26 1" },
     { src: "assets/photo-seminar-1.jpg", caption: "AI safety seminar" },
     { src: "assets/photo-classroom-1.jpg", caption: "reading group session" }
   ];
@@ -1490,6 +1533,7 @@ class Component extends DCLogic {
     if (this.revealObs) this.revealObs.disconnect();
     if (this._onScroll) window.removeEventListener("scroll", this._onScroll);
     if (this._onHash) window.removeEventListener("hashchange", this._onHash);
+    if (this._deskMq && this._onDesk) this._deskMq.removeEventListener("change", this._onDesk);
   }
 
   
@@ -1643,7 +1687,21 @@ class Component extends DCLogic {
       if (p !== this.state.page) this.setState({ page: p, post: 0 });
     };
     window.addEventListener("hashchange", this._onHash);
+    this.initDesk();
     this.initMotion();   // last, so heights and background images are real
+  }
+
+  // The Risks column only sticks on a desktop pointer. Below 1024px, and on
+  // any touch screen, the section is one static column.
+  initDesk() {
+    if (!window.matchMedia) return;
+    this._deskMq = window.matchMedia(this.deskQuery);
+    this._onDesk = () => {
+      const on = this._deskMq.matches;
+      if (on !== this.state.desk) this.setState({ desk: on });
+    };
+    this._deskMq.addEventListener("change", this._onDesk);
+    this._onDesk();
   }
 
     componentDidUpdate() {
@@ -1664,6 +1722,11 @@ class Component extends DCLogic {
       this.replayReveal("[data-blog-grid] > *");
     }
     this._revealFilter = st.filter;
+    // A screen change moves every section, so the scroll script has to measure
+    // the four Home boundaries again. The script may not have run yet.
+    if (window.CASIDesktopScroll) requestAnimationFrame(() => {
+      if (window.CASIDesktopScroll) window.CASIDesktopScroll.refresh();
+    });
     // No scan here. componentDidUpdate runs on every hover, and re-scanning then
     // re-arms any node the runtime rebuilt, which reads as a flicker. Only a
     // mount, a page change and a filter change queue a scan.
@@ -1892,7 +1955,12 @@ class Component extends DCLogic {
           author: "By " + (p.author || "CASI members")
         });
       }),
-      postCount: visible.length === 1 ? "1 article" : visible.length + " articles"
+      postCount: visible.length === 1 ? "1 article" : visible.length + " articles",
+
+      // Risks: two columns with a sticky intro on desktop, one static column
+      // on anything smaller or on a touch screen.
+      risksCols: st.desk ? "minmax(280px,0.8fr) 1.2fr" : "minmax(0,1fr)",
+      risksPos: st.desk ? "sticky" : "static"
     };
   }
 }
