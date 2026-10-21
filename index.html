@@ -53,23 +53,25 @@
    The design uses clamp() for type and spacing, so those already adapt. What
    does not adapt is a grid with a fixed column count or a wide minimum: those
    overflow a phone. Each one carries a data-grid name, and only the column
-   count changes here, so the desktop layout is untouched. */
-@media (max-width: 860px) and (pointer: coarse) {
+   count changes here, so the desktop layout is untouched. Layout rules key on
+   width alone: a narrow desktop window, split screen, or a tablet with a
+   trackpad overflows exactly like a phone does. */
+@media (max-width: 860px) {
   [data-grid="split"],
   [data-grid="wide"],
   [data-grid="row3"] { grid-template-columns: 1fr !important; }
   [data-grid="cols5"] { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
   [data-grid="footer"] { grid-template-columns: 1fr 1fr !important; }
 }
-@media (max-width: 640px) and (pointer: coarse) {
+@media (max-width: 640px) {
   [data-grid="cols5"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
   [data-grid="cols3"],
   [data-grid="cols2"],
   [data-grid="footer"] { grid-template-columns: 1fr !important; }
 }
-/* Touch devices get the mobile header. A narrow desktop window keeps the
-   desktop header until it would actually overflow, at 700px. */
-@media (max-width: 860px) and (pointer: coarse), (max-width: 700px) {
+/* The nav and Join Us overflow one line below 860px, whatever the pointer,
+   so every narrow screen gets the wrapped header. */
+@media (max-width: 860px) {
   header {
     display: flex !important;
     flex-wrap: wrap !important;
@@ -88,9 +90,13 @@
     flex-basis: 100% !important;
     flex-wrap: wrap !important;
     justify-content: center !important;
-    gap: 10px 18px !important;
+    gap: 18px 18px !important;
   }
   header > nav a[data-nav] { font-size: 15px !important; }
+  /* The active-page dot hangs below its link. Once the nav wraps, pull it in
+     close, and keep the row gap wider than the dot, so a first-row dot does
+     not land on a second-row link. */
+  header > nav a[data-nav] > span:last-child { top: calc(100% + 3px) !important; }
   /* keep a hover menu inside the viewport on a narrow screen */
   header > nav > div > div { max-width: 92vw !important; }
   /* the program description sections are two columns on desktop; stack them */
@@ -102,8 +108,10 @@
     position: static !important;
   }
 }
-/* Touch-screen only. Every rule below needs pointer: coarse, so a desktop
-   browser never matches it, however narrow the window gets. The !important
+/* Touch-screen only: phone-feel tweaks to type size, zoom, and motion. Every
+   rule below needs pointer: coarse, so a desktop browser never matches it,
+   however narrow the window gets. Anything that keeps the layout from
+   overflowing belongs in a width-only query instead. The !important
    flags beat the inline styles that the template runtime writes on every
    re-render. */
 @media (max-width: 860px) and (pointer: coarse) {
@@ -151,7 +159,11 @@
   /* About: the fence picture, 30% wider. aspect-ratio holds the proportion,
      so the picture grows uniformly. */
   [data-fence] { width: 91% !important; }
-
+}
+/* Stacked cards. These follow the single-column grids above, so they key on
+   width alone too; a touch-only rule here leaves a narrow desktop window with
+   a squeezed or overflowing card. */
+@media (max-width: 860px) {
   /* About > CASI Core Membership: the "See more" link is absolute on desktop
      and lands on top of the "Applications closed" badge once the card stacks.
      Put it back in the flow below the badge. */
@@ -186,13 +198,13 @@
   [data-ev-meta] > div:nth-child(2) { font-size: 24px !important; margin-top: 2px !important; }
   [data-ev-meta] > div:nth-child(3) { margin-top: 10px !important; }
 }
-/* The keyframes live outside the query; only the rule above uses them. */
+/* The keyframes live outside the query; only the touch block uses them. */
 @keyframes casi-logo-marquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
 @media (prefers-reduced-motion: reduce) {
   [data-logo-track] { animation: none !important; }
 }
 @media (max-width: 480px) {
-  header > nav { gap: 8px 14px !important; }
+  header > nav { gap: 18px 14px !important; }
   header > nav a[data-nav] { font-size: 14px !important; }
   header a[href*="tartanconnect"] {
     height: 34px !important;
