@@ -946,7 +946,13 @@
                 </sc-for>
               </div>
               <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:16px 0 0;font-size:22px;font-weight:700;line-height:1.15;letter-spacing:0em;max-width:30ch;text-wrap:pretty"><a href="{{ ev.href }}" style="color:inherit" style-hover="color:#437FD5">{{ ev.title }}</a></h3>
-              <p style="margin:12px 0 0;max-width:52ch;font-size:17px;line-height:1.45;color:#2E4057;text-wrap:pretty">{{ ev.blurbRich }}</p>
+              <p data-ev-blurb="{{ ev.slug }}" style="margin:12px 0 0;max-width:52ch;font-size:17px;line-height:1.45;color:#2E4057;text-wrap:pretty;overflow-wrap:anywhere;display:{{ ev.blurbDisplay }};-webkit-box-orient:vertical;-webkit-line-clamp:{{ ev.blurbLines }};overflow:hidden">{{ ev.blurbRich }}</p>
+              <sc-if value="{{ ev.hasMore }}" hint-placeholder-val="{{ false }}">
+                <a href="#" sc-camel-on-click="{{ ev.toggleMore }}" aria-expanded="{{ ev.moreExpanded }}" style="display:flex;align-items:center;gap:6px;align-self:flex-start;margin-top:10px;color:#437FD5;font-size:15px;font-weight:700" style-hover="color:#0E030B">
+                  <span>{{ ev.moreLabel }}</span>
+                  <svg width="9" height="6" sc-camel-view-box="0 0 9 6" fill="none" style="transform:{{ ev.moreTurn }}"><path d="M1 1L4.5 4.5L8 1" stroke="currentColor" stroke-width="1.4"></path></svg>
+                </a>
+              </sc-if>
             </div>
           </div>
           <div data-ev-cta style="display:flex;flex-direction:column;align-items:flex-end;gap:12px;padding-top:clamp(28px,3vw,36px)">
@@ -1517,6 +1523,23 @@ class Component extends DCLogic {
     }
   }
 
+  // A long description is clamped to a few lines. Only a blurb that the
+  // clamp actually cuts gets a "Show more", so this measures the rendered
+  // text instead of guessing from its length. An open blurb is unclamped and
+  // cannot be measured, so it keeps the toggle it had when it was opened.
+  measureBlurbs() {
+    if (this.state.page !== "events") return;
+    const open = this.state.evOpen || {};
+    const prev = this.state.evClipped || {};
+    const next = {};
+    document.querySelectorAll("[data-ev-blurb]").forEach((el) => {
+      const slug = el.getAttribute("data-ev-blurb");
+      if (open[slug] ? prev[slug] : el.scrollHeight > el.clientHeight + 1) next[slug] = true;
+    });
+    const same = Object.keys(next).length === Object.keys(prev).length && Object.keys(next).every((k) => prev[k]);
+    if (!same) this.setState({ evClipped: next });
+  }
+
   // Put the event's link on the clipboard and in the address bar.
   copyEventLink(slug) {
     const hash = "#events/" + slug;
@@ -1615,6 +1638,8 @@ class Component extends DCLogic {
     clearInterval(this._evFocusT);
     clearTimeout(this._evCopiedT);
     if (this._deskMq && this._onDesk) this._deskMq.removeEventListener("change", this._onDesk);
+    if (this._onBlurbResize) window.removeEventListener("resize", this._onBlurbResize);
+    cancelAnimationFrame(this._blurbRaf);
   }
 
   
@@ -1771,6 +1796,12 @@ class Component extends DCLogic {
     };
     window.addEventListener("hashchange", this._onHash);
     this.initDesk();
+    // A width change rewraps the descriptions, so measure the clamp again.
+    this._onBlurbResize = () => {
+      cancelAnimationFrame(this._blurbRaf);
+      this._blurbRaf = requestAnimationFrame(() => this.measureBlurbs());
+    };
+    window.addEventListener("resize", this._onBlurbResize);
     this.initHeader();
     this.initMotion();   // last, so heights and background images are real
   }
@@ -1823,6 +1854,7 @@ class Component extends DCLogic {
     if (window.CASIDesktopScroll) requestAnimationFrame(() => {
       if (window.CASIDesktopScroll) window.CASIDesktopScroll.refresh();
     });
+    this.measureBlurbs();
     // No scan here. componentDidUpdate runs on every hover, and re-scanning then
     // re-arms any node the runtime rebuilt, which reads as a flicker. Only a
     // mount, a page change and a filter change queue a scan.
@@ -1897,8 +1929,21 @@ class Component extends DCLogic {
           ? ev.blurbHtml
           : this.escapeHtml(ev.blurb || "").replace(/\n/g, "<br>");
         const slug = this.eventSlug(ev);
+        const open = !!(st.evOpen || {})[slug];
         return Object.assign({}, ev, {
           hovKey: k,
+          slug: slug,
+          blurbDisplay: open ? "block" : "-webkit-box",
+          blurbLines: open ? "none" : "6",
+          hasMore: !!(st.evClipped || {})[slug],
+          moreExpanded: open ? "true" : "false",
+          moreLabel: open ? "Show less" : "Show more",
+          moreTurn: open ? "rotate(180deg)" : "none",
+          toggleMore: (e) => {
+            e.preventDefault();
+            const now = this.state.evOpen || {};
+            this.setState({ evOpen: Object.assign({}, now, { [slug]: !now[slug] }) });
+          },
           anchor: "ev-" + slug,
           href: "#events/" + slug,
           cardBorder: st.evFocus === slug ? "#437FD5" : "#DFE1E4",
