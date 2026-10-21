@@ -53,23 +53,25 @@
    The design uses clamp() for type and spacing, so those already adapt. What
    does not adapt is a grid with a fixed column count or a wide minimum: those
    overflow a phone. Each one carries a data-grid name, and only the column
-   count changes here, so the desktop layout is untouched. */
-@media (max-width: 860px) and (pointer: coarse) {
+   count changes here, so the desktop layout is untouched. Layout rules key on
+   width alone: a narrow desktop window, split screen, or a tablet with a
+   trackpad overflows exactly like a phone does. */
+@media (max-width: 860px) {
   [data-grid="split"],
   [data-grid="wide"],
   [data-grid="row3"] { grid-template-columns: 1fr !important; }
   [data-grid="cols5"] { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
   [data-grid="footer"] { grid-template-columns: 1fr 1fr !important; }
 }
-@media (max-width: 640px) and (pointer: coarse) {
+@media (max-width: 640px) {
   [data-grid="cols5"] { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
   [data-grid="cols3"],
   [data-grid="cols2"],
   [data-grid="footer"] { grid-template-columns: 1fr !important; }
 }
-/* Touch devices get the mobile header. A narrow desktop window keeps the
-   desktop header until it would actually overflow, at 700px. */
-@media (max-width: 860px) and (pointer: coarse), (max-width: 700px) {
+/* The nav and Join Us overflow one line below 860px, whatever the pointer,
+   so every narrow screen gets the wrapped header. */
+@media (max-width: 860px) {
   header {
     display: flex !important;
     flex-wrap: wrap !important;
@@ -88,9 +90,13 @@
     flex-basis: 100% !important;
     flex-wrap: wrap !important;
     justify-content: center !important;
-    gap: 10px 18px !important;
+    gap: 18px 18px !important;
   }
   header > nav a[data-nav] { font-size: 15px !important; }
+  /* The active-page dot hangs below its link. Once the nav wraps, pull it in
+     close, and keep the row gap wider than the dot, so a first-row dot does
+     not land on a second-row link. */
+  header > nav a[data-nav] > span:last-child { top: calc(100% + 3px) !important; }
   /* keep a hover menu inside the viewport on a narrow screen */
   header > nav > div > div { max-width: 92vw !important; }
   /* the program description sections are two columns on desktop; stack them */
@@ -102,8 +108,10 @@
     position: static !important;
   }
 }
-/* Touch-screen only. Every rule below needs pointer: coarse, so a desktop
-   browser never matches it, however narrow the window gets. The !important
+/* Touch-screen only: phone-feel tweaks to type size, zoom, and motion. Every
+   rule below needs pointer: coarse, so a desktop browser never matches it,
+   however narrow the window gets. Anything that keeps the layout from
+   overflowing belongs in a width-only query instead. The !important
    flags beat the inline styles that the template runtime writes on every
    re-render. */
 @media (max-width: 860px) and (pointer: coarse) {
@@ -151,7 +159,11 @@
   /* About: the fence picture, 30% wider. aspect-ratio holds the proportion,
      so the picture grows uniformly. */
   [data-fence] { width: 91% !important; }
-
+}
+/* Stacked cards. These follow the single-column grids above, so they key on
+   width alone too; a touch-only rule here leaves a narrow desktop window with
+   a squeezed or overflowing card. */
+@media (max-width: 860px) {
   /* About > CASI Core Membership: the "See more" link is absolute on desktop
      and lands on top of the "Applications closed" badge once the card stacks.
      Put it back in the flow below the badge. */
@@ -186,13 +198,13 @@
   [data-ev-meta] > div:nth-child(2) { font-size: 24px !important; margin-top: 2px !important; }
   [data-ev-meta] > div:nth-child(3) { margin-top: 10px !important; }
 }
-/* The keyframes live outside the query; only the rule above uses them. */
+/* The keyframes live outside the query; only the touch block uses them. */
 @keyframes casi-logo-marquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }
 @media (prefers-reduced-motion: reduce) {
   [data-logo-track] { animation: none !important; }
 }
 @media (max-width: 480px) {
-  header > nav { gap: 8px 14px !important; }
+  header > nav { gap: 18px 14px !important; }
   header > nav a[data-nav] { font-size: 14px !important; }
   header a[href*="tartanconnect"] {
     height: 34px !important;
@@ -911,7 +923,7 @@
 
     <section data-norev style="display:flex;flex-direction:column;gap:clamp(16px,1.6vw,24px);width:min(100%,1080px);margin:0 auto;padding:clamp(24px,2.5vw,40px) clamp(24px,5vw,96px) clamp(88px,11vw,176px)">
       <sc-for list="{{ events }}" as="ev" hint-placeholder-count="4">
-        <div data-grid="row3" data-ev-card style="display:grid;grid-template-columns:180px minmax(0,1fr) 200px;gap:clamp(20px,2.5vw,40px);align-items:start;min-height:232px;padding:clamp(8px,1vw,16px) clamp(24px,2.6vw,40px);border-radius:28px;color:#1B151A;background-color:#F1F3F7;border:1.5px solid #DFE1E4">
+        <div id="{{ ev.anchor }}" data-grid="row3" data-ev-card style="display:grid;grid-template-columns:180px minmax(0,1fr) 200px;gap:clamp(20px,2.5vw,40px);align-items:start;min-height:232px;padding:clamp(8px,1vw,16px) clamp(24px,2.6vw,40px);border-radius:28px;color:#1B151A;background-color:#F1F3F7;border:1.5px solid {{ ev.cardBorder }};scroll-margin-top:144px">
           <div data-ev-meta style="padding:clamp(28px,3vw,36px) 0">
             <div style="font-size:15px;color:#2E4057">{{ ev.wd }}</div>
             <div style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin-top:4px;font-size:32px;font-weight:700;line-height:1;letter-spacing:-0.015em">{{ ev.day }}</div>
@@ -933,13 +945,23 @@
                   <span style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;display:flex;align-items:center;padding:0 16px;height:26px;border-radius:16px;background:{{ t.bg }};font-size:13px;color:#1f1f1f;white-space:nowrap;letter-spacing:0.01em">{{ t.label }}</span>
                 </sc-for>
               </div>
-              <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:16px 0 0;font-size:22px;font-weight:700;line-height:1.15;letter-spacing:0em;max-width:30ch;text-wrap:pretty">{{ ev.title }}</h3>
-              <p style="margin:12px 0 0;max-width:52ch;font-size:17px;line-height:1.45;color:#2E4057;text-wrap:pretty">{{ ev.blurbRich }}</p>
+              <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:16px 0 0;font-size:22px;font-weight:700;line-height:1.15;letter-spacing:0em;max-width:30ch;text-wrap:pretty"><a href="{{ ev.href }}" style="color:inherit" style-hover="color:#437FD5">{{ ev.title }}</a></h3>
+              <p data-ev-blurb="{{ ev.slug }}" style="margin:12px 0 0;max-width:52ch;font-size:17px;line-height:1.45;color:#2E4057;text-wrap:pretty;overflow-wrap:anywhere;display:{{ ev.blurbDisplay }};-webkit-box-orient:vertical;-webkit-line-clamp:{{ ev.blurbLines }};overflow:hidden">{{ ev.blurbRich }}</p>
+              <sc-if value="{{ ev.hasMore }}" hint-placeholder-val="{{ false }}">
+                <a href="#" sc-camel-on-click="{{ ev.toggleMore }}" aria-expanded="{{ ev.moreExpanded }}" style="display:flex;align-items:center;gap:6px;align-self:flex-start;margin-top:10px;color:#437FD5;font-size:15px;font-weight:700" style-hover="color:#0E030B">
+                  <span>{{ ev.moreLabel }}</span>
+                  <svg width="9" height="6" sc-camel-view-box="0 0 9 6" fill="none" style="transform:{{ ev.moreTurn }}"><path d="M1 1L4.5 4.5L8 1" stroke="currentColor" stroke-width="1.4"></path></svg>
+                </a>
+              </sc-if>
             </div>
           </div>
-          <div data-ev-cta style="display:flex;align-items:flex-start;justify-content:flex-end;padding-top:clamp(28px,3vw,36px)">
+          <div data-ev-cta style="display:flex;flex-direction:column;align-items:flex-end;gap:12px;padding-top:clamp(28px,3vw,36px)">
             <a href="{{ ev.addUrl }}" target="_blank" rel="noopener" data-hov="{{ ev.hovKey }}" sc-camel-on-mouse-enter="{{ enter }}" sc-camel-on-mouse-leave="{{ leave }}" style="text-align:center;line-height:1;display:flex;align-items:center;justify-content:center;width:max-content;padding:0 24px;height:40px;border-radius:16px;border:1px solid rgba(27,21,26,0.34);background:rgba(255,255,255,0.5);color:#1B151A;font-size:15px;font-weight:400;white-space:nowrap">
               <span>{{ ev.cta }}</span>
+            </a>
+            <a href="{{ ev.href }}" sc-camel-on-click="{{ ev.copyLink }}" style="display:flex;align-items:center;gap:8px;padding:0 4px;height:28px;color:#2E4057;font-size:15px;font-weight:400;white-space:nowrap" style-hover="color:#437FD5">
+              <svg width="15" height="15" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" style="flex:0 0 auto"><path d="M6.8 9.2a2.8 2.8 0 0 0 4 0l2.2-2.2a2.8 2.8 0 0 0-4-4L8 4" stroke-linecap="round"></path><path d="M9.2 6.8a2.8 2.8 0 0 0-4 0L3 9a2.8 2.8 0 0 0 4 4l1-1" stroke-linecap="round"></path></svg>
+              <span>{{ ev.copyLabel }}</span>
             </a>
           </div>
         </div>
@@ -1271,6 +1293,7 @@ class Component extends DCLogic {
       blurbHtml: desc.html,
       place: item.location || "TBD",
       cta: "+ Add to calendar",
+      gcalId: item.id || "",
       gcalUrl: item.htmlLink || "",
       startISO: d.toISOString()
     };
@@ -1290,7 +1313,7 @@ class Component extends DCLogic {
       const upcoming = mapAll(up);
       const pastList = mapAll(past).reverse();
       if (!upcoming.length && !pastList.length) return;
-      this.setState({ liveEvents: { Upcoming: upcoming, Past: pastList } });
+      this.setState({ liveEvents: { Upcoming: upcoming, Past: pastList } }, () => this.focusEvent());
     }).catch(() => {});
   }
 
@@ -1457,9 +1480,88 @@ class Component extends DCLogic {
     return this.pageKeys.indexOf(h) >= 0 ? h : null;
   }
 
+  // One event is linkable as #events/<id>. A live event uses its Google
+  // Calendar id, which survives edits to the title, time and description;
+  // each instance of a recurring event has its own. The built-in sample
+  // events have no id, so they fall back to <title>-<yyyy-mm-dd>.
+  eventSlug(ev) {
+    if (ev.gcalId) return ev.gcalId;
+    const pad = (n) => String(n).padStart(2, "0");
+    let date = "";
+    const d = ev.startISO ? new Date(ev.startISO) : null;
+    if (d && !isNaN(d)) {
+      date = d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+    } else {
+      const dp = String(ev.day || "").split(".");
+      if (dp.length === 2) date = new Date().getFullYear() + "-" + dp[1] + "-" + dp[0];
+    }
+    const name = String(ev.title || "event").toLowerCase().normalize("NFKD")
+      .replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    return (name || "event") + (date ? "-" + date : "");
+  }
+
+  eventFromHash() {
+    const parts = (window.location.hash || "").replace(/^#/, "").split("/");
+    if (parts[0] !== "events" || !parts[1]) return null;
+    try { return decodeURIComponent(parts[1]); } catch (err) { return parts[1]; }
+  }
+
+  // Open the tab and page that hold the linked event, then bring it into
+  // view. The card only exists after that render, so poll briefly for it.
+  focusEvent() {
+    const slug = this.eventFromHash();
+    if (!slug) return;
+    const src = this.state.liveEvents || this.eventData;
+    for (const scope of ["Upcoming", "Past"]) {
+      const i = (src[scope] || []).findIndex((ev) => this.eventSlug(ev) === slug);
+      if (i < 0) continue;
+      this.setState({ page: "events", eventScope: scope, eventPage: Math.floor(i / 4), evFocus: slug });
+      clearInterval(this._evFocusT);
+      let tries = 0;
+      this._evFocusT = setInterval(() => {
+        const el = document.getElementById("ev-" + slug);
+        if (el) { el.scrollIntoView({ block: "start" }); clearInterval(this._evFocusT); }
+        if (++tries > 60) clearInterval(this._evFocusT);
+      }, 50);
+      return;
+    }
+  }
+
+  // A long description is clamped to a few lines. Only a blurb that the
+  // clamp actually cuts gets a "Show more", so this measures the rendered
+  // text instead of guessing from its length. An open blurb is unclamped and
+  // cannot be measured, so it keeps the toggle it had when it was opened.
+  measureBlurbs() {
+    if (this.state.page !== "events") return;
+    const open = this.state.evOpen || {};
+    const prev = this.state.evClipped || {};
+    const next = {};
+    document.querySelectorAll("[data-ev-blurb]").forEach((el) => {
+      const slug = el.getAttribute("data-ev-blurb");
+      if (open[slug] ? prev[slug] : el.scrollHeight > el.clientHeight + 1) next[slug] = true;
+    });
+    const same = Object.keys(next).length === Object.keys(prev).length && Object.keys(next).every((k) => prev[k]);
+    if (!same) this.setState({ evClipped: next });
+  }
+
+  // Put the event's link on the clipboard and in the address bar.
+  copyEventLink(slug) {
+    const hash = "#events/" + slug;
+    try { history.replaceState(null, "", hash); } catch (err) {}
+    const url = window.location.origin + window.location.pathname + hash;
+    // Confirm at once: writeText can sit pending behind a permission prompt,
+    // and the link is in the address bar either way.
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).catch(() => {});
+    }
+    this.setState({ evCopied: slug, evFocus: slug });
+    clearTimeout(this._evCopiedT);
+    this._evCopiedT = setTimeout(() => this.setState({ evCopied: null }), 2000);
+  }
+
   go = (page) => (e) => {
     if (e) e.preventDefault();
-    this.setState({ page: page, post: 0 });
+    this.setState({ page: page, post: 0, evFocus: null });
     this.syncHash(page);
     window.scrollTo(0, 0);
   };
@@ -1537,7 +1639,11 @@ class Component extends DCLogic {
     if (this._onScroll) window.removeEventListener("scroll", this._onScroll);
     if (this._onTop) window.removeEventListener("scroll", this._onTop);
     if (this._onHash) window.removeEventListener("hashchange", this._onHash);
+    clearInterval(this._evFocusT);
+    clearTimeout(this._evCopiedT);
     if (this._deskMq && this._onDesk) this._deskMq.removeEventListener("change", this._onDesk);
+    if (this._onBlurbResize) window.removeEventListener("resize", this._onBlurbResize);
+    cancelAnimationFrame(this._blurbRaf);
   }
 
   
@@ -1686,12 +1792,20 @@ class Component extends DCLogic {
     this.loadGcal();
     const fromHash = this.pageFromHash();
     if (fromHash && fromHash !== this.state.page) this.setState({ page: fromHash, post: 0 });
+    this.focusEvent();
     this._onHash = () => {
       const p = this.pageFromHash() || "home";
       if (p !== this.state.page) this.setState({ page: p, post: 0 });
+      this.focusEvent();
     };
     window.addEventListener("hashchange", this._onHash);
     this.initDesk();
+    // A width change rewraps the descriptions, so measure the clamp again.
+    this._onBlurbResize = () => {
+      cancelAnimationFrame(this._blurbRaf);
+      this._blurbRaf = requestAnimationFrame(() => this.measureBlurbs());
+    };
+    window.addEventListener("resize", this._onBlurbResize);
     this.initHeader();
     this.initMotion();   // last, so heights and background images are real
   }
@@ -1744,6 +1858,7 @@ class Component extends DCLogic {
     if (window.CASIDesktopScroll) requestAnimationFrame(() => {
       if (window.CASIDesktopScroll) window.CASIDesktopScroll.refresh();
     });
+    this.measureBlurbs();
     // No scan here. componentDidUpdate runs on every hover, and re-scanning then
     // re-arms any node the runtime rebuilt, which reads as a flicker. Only a
     // mount, a page change and a filter change queue a scan.
@@ -1802,23 +1917,42 @@ class Component extends DCLogic {
           bg: on ? "#1B151A" : "transparent",
           color: on ? "#ffffff" : "#2E4057",
           border: on ? "2px solid #1B151A" : "2px solid transparent",
-          go: (e) => { e.preventDefault(); this.setState({ eventScope: t, eventPage: 0 }); }
+          go: (e) => { e.preventDefault(); this.setState({ eventScope: t, eventPage: 0, evFocus: null }); this.syncHash("events"); }
         };
       }),
       gcalAddUrl: gcalAddUrl,
       eventPageLabel: evPage + 1 + " / " + evPages,
       evPrevOn: evStart > 0 ? 1 : 0.25,
       evNextOn: evStart + 4 < evAll.length ? 1 : 0.25,
-      evPrev: (e) => { e.preventDefault(); this.setState({ eventPage: Math.max(0, evPage - 1) }); },
-      evNext: (e) => { e.preventDefault(); this.setState({ eventPage: Math.min(evPages - 1, evPage + 1) }); },
+      evPrev: (e) => { e.preventDefault(); this.setState({ eventPage: Math.max(0, evPage - 1), evFocus: null }); this.syncHash("events"); },
+      evNext: (e) => { e.preventDefault(); this.setState({ eventPage: Math.min(evPages - 1, evPage + 1), evFocus: null }); this.syncHash("events"); },
       events: evAll.slice(evStart, evStart + 4).map((ev, i) => {
         const k = "ev" + i;
         const on = hov === k;
         const blurbHtml = ev.blurbHtml != null
           ? ev.blurbHtml
           : this.escapeHtml(ev.blurb || "").replace(/\n/g, "<br>");
+        const slug = this.eventSlug(ev);
+        const open = !!(st.evOpen || {})[slug];
         return Object.assign({}, ev, {
           hovKey: k,
+          slug: slug,
+          blurbDisplay: open ? "block" : "-webkit-box",
+          blurbLines: open ? "none" : "6",
+          hasMore: !!(st.evClipped || {})[slug],
+          moreExpanded: open ? "true" : "false",
+          moreLabel: open ? "Show less" : "Show more",
+          moreTurn: open ? "rotate(180deg)" : "none",
+          toggleMore: (e) => {
+            e.preventDefault();
+            const now = this.state.evOpen || {};
+            this.setState({ evOpen: Object.assign({}, now, { [slug]: !now[slug] }) });
+          },
+          anchor: "ev-" + slug,
+          href: "#events/" + slug,
+          cardBorder: st.evFocus === slug ? "#437FD5" : "#DFE1E4",
+          copyLabel: st.evCopied === slug ? "Link copied" : "Copy link",
+          copyLink: (e) => { e.preventDefault(); this.copyEventLink(slug); },
           tagList: (ev.tags || []).map((t) => ({ label: t, bg: this.tagColors[t] || "#e4e0da" })),
           wd: ev.weekday.slice(0, 3),
           day: (() => {
