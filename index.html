@@ -911,7 +911,7 @@
 
     <section data-norev style="display:flex;flex-direction:column;gap:clamp(16px,1.6vw,24px);width:min(100%,1080px);margin:0 auto;padding:clamp(24px,2.5vw,40px) clamp(24px,5vw,96px) clamp(88px,11vw,176px)">
       <sc-for list="{{ events }}" as="ev" hint-placeholder-count="4">
-        <div data-grid="row3" data-ev-card style="display:grid;grid-template-columns:180px minmax(0,1fr) 200px;gap:clamp(20px,2.5vw,40px);align-items:start;min-height:232px;padding:clamp(8px,1vw,16px) clamp(24px,2.6vw,40px);border-radius:28px;color:#1B151A;background-color:#F1F3F7;border:1.5px solid #DFE1E4">
+        <div id="{{ ev.anchor }}" data-grid="row3" data-ev-card style="display:grid;grid-template-columns:180px minmax(0,1fr) 200px;gap:clamp(20px,2.5vw,40px);align-items:start;min-height:232px;padding:clamp(8px,1vw,16px) clamp(24px,2.6vw,40px);border-radius:28px;color:#1B151A;background-color:#F1F3F7;border:1.5px solid {{ ev.cardBorder }};scroll-margin-top:144px">
           <div data-ev-meta style="padding:clamp(28px,3vw,36px) 0">
             <div style="font-size:15px;color:#2E4057">{{ ev.wd }}</div>
             <div style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin-top:4px;font-size:32px;font-weight:700;line-height:1;letter-spacing:-0.015em">{{ ev.day }}</div>
@@ -933,13 +933,17 @@
                   <span style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;display:flex;align-items:center;padding:0 16px;height:26px;border-radius:16px;background:{{ t.bg }};font-size:13px;color:#1f1f1f;white-space:nowrap;letter-spacing:0.01em">{{ t.label }}</span>
                 </sc-for>
               </div>
-              <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:16px 0 0;font-size:22px;font-weight:700;line-height:1.15;letter-spacing:0em;max-width:30ch;text-wrap:pretty">{{ ev.title }}</h3>
+              <h3 style="font-family:'Aileron','DM Sans',Helvetica,Arial,sans-serif;margin:16px 0 0;font-size:22px;font-weight:700;line-height:1.15;letter-spacing:0em;max-width:30ch;text-wrap:pretty"><a href="{{ ev.href }}" style="color:inherit" style-hover="color:#437FD5">{{ ev.title }}</a></h3>
               <p style="margin:12px 0 0;max-width:52ch;font-size:17px;line-height:1.45;color:#2E4057;text-wrap:pretty">{{ ev.blurbRich }}</p>
             </div>
           </div>
-          <div data-ev-cta style="display:flex;align-items:flex-start;justify-content:flex-end;padding-top:clamp(28px,3vw,36px)">
+          <div data-ev-cta style="display:flex;flex-direction:column;align-items:flex-end;gap:12px;padding-top:clamp(28px,3vw,36px)">
             <a href="{{ ev.addUrl }}" target="_blank" rel="noopener" data-hov="{{ ev.hovKey }}" sc-camel-on-mouse-enter="{{ enter }}" sc-camel-on-mouse-leave="{{ leave }}" style="text-align:center;line-height:1;display:flex;align-items:center;justify-content:center;width:max-content;padding:0 24px;height:40px;border-radius:16px;border:1px solid rgba(27,21,26,0.34);background:rgba(255,255,255,0.5);color:#1B151A;font-size:15px;font-weight:400;white-space:nowrap">
               <span>{{ ev.cta }}</span>
+            </a>
+            <a href="{{ ev.href }}" sc-camel-on-click="{{ ev.copyLink }}" style="display:flex;align-items:center;gap:8px;padding:0 4px;height:28px;color:#2E4057;font-size:15px;font-weight:400;white-space:nowrap" style-hover="color:#437FD5">
+              <svg width="15" height="15" sc-camel-view-box="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" style="flex:0 0 auto"><path d="M6.8 9.2a2.8 2.8 0 0 0 4 0l2.2-2.2a2.8 2.8 0 0 0-4-4L8 4" stroke-linecap="round"></path><path d="M9.2 6.8a2.8 2.8 0 0 0-4 0L3 9a2.8 2.8 0 0 0 4 4l1-1" stroke-linecap="round"></path></svg>
+              <span>{{ ev.copyLabel }}</span>
             </a>
           </div>
         </div>
@@ -1290,7 +1294,7 @@ class Component extends DCLogic {
       const upcoming = mapAll(up);
       const pastList = mapAll(past).reverse();
       if (!upcoming.length && !pastList.length) return;
-      this.setState({ liveEvents: { Upcoming: upcoming, Past: pastList } });
+      this.setState({ liveEvents: { Upcoming: upcoming, Past: pastList } }, () => this.focusEvent());
     }).catch(() => {});
   }
 
@@ -1457,9 +1461,68 @@ class Component extends DCLogic {
     return this.pageKeys.indexOf(h) >= 0 ? h : null;
   }
 
+  // One event is linkable as #events/<title>-<yyyy-mm-dd>. The slug comes
+  // from the title and the start date, so it survives a reload of the feed.
+  eventSlug(ev) {
+    const pad = (n) => String(n).padStart(2, "0");
+    let date = "";
+    const d = ev.startISO ? new Date(ev.startISO) : null;
+    if (d && !isNaN(d)) {
+      date = d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+    } else {
+      const dp = String(ev.day || "").split(".");
+      if (dp.length === 2) date = new Date().getFullYear() + "-" + dp[1] + "-" + dp[0];
+    }
+    const name = String(ev.title || "event").toLowerCase().normalize("NFKD")
+      .replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    return (name || "event") + (date ? "-" + date : "");
+  }
+
+  eventFromHash() {
+    const parts = (window.location.hash || "").replace(/^#/, "").split("/");
+    if (parts[0] !== "events" || !parts[1]) return null;
+    try { return decodeURIComponent(parts[1]); } catch (err) { return parts[1]; }
+  }
+
+  // Open the tab and page that hold the linked event, then bring it into
+  // view. The card only exists after that render, so poll briefly for it.
+  focusEvent() {
+    const slug = this.eventFromHash();
+    if (!slug) return;
+    const src = this.state.liveEvents || this.eventData;
+    for (const scope of ["Upcoming", "Past"]) {
+      const i = (src[scope] || []).findIndex((ev) => this.eventSlug(ev) === slug);
+      if (i < 0) continue;
+      this.setState({ page: "events", eventScope: scope, eventPage: Math.floor(i / 4), evFocus: slug });
+      clearInterval(this._evFocusT);
+      let tries = 0;
+      this._evFocusT = setInterval(() => {
+        const el = document.getElementById("ev-" + slug);
+        if (el) { el.scrollIntoView({ block: "start" }); clearInterval(this._evFocusT); }
+        if (++tries > 60) clearInterval(this._evFocusT);
+      }, 50);
+      return;
+    }
+  }
+
+  // Put the event's link on the clipboard and in the address bar.
+  copyEventLink(slug) {
+    const hash = "#events/" + slug;
+    try { history.replaceState(null, "", hash); } catch (err) {}
+    const url = window.location.origin + window.location.pathname + hash;
+    // Confirm at once: writeText can sit pending behind a permission prompt,
+    // and the link is in the address bar either way.
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).catch(() => {});
+    }
+    this.setState({ evCopied: slug, evFocus: slug });
+    clearTimeout(this._evCopiedT);
+    this._evCopiedT = setTimeout(() => this.setState({ evCopied: null }), 2000);
+  }
+
   go = (page) => (e) => {
     if (e) e.preventDefault();
-    this.setState({ page: page, post: 0 });
+    this.setState({ page: page, post: 0, evFocus: null });
     this.syncHash(page);
     window.scrollTo(0, 0);
   };
@@ -1537,6 +1600,8 @@ class Component extends DCLogic {
     if (this._onScroll) window.removeEventListener("scroll", this._onScroll);
     if (this._onTop) window.removeEventListener("scroll", this._onTop);
     if (this._onHash) window.removeEventListener("hashchange", this._onHash);
+    clearInterval(this._evFocusT);
+    clearTimeout(this._evCopiedT);
     if (this._deskMq && this._onDesk) this._deskMq.removeEventListener("change", this._onDesk);
   }
 
@@ -1686,9 +1751,11 @@ class Component extends DCLogic {
     this.loadGcal();
     const fromHash = this.pageFromHash();
     if (fromHash && fromHash !== this.state.page) this.setState({ page: fromHash, post: 0 });
+    this.focusEvent();
     this._onHash = () => {
       const p = this.pageFromHash() || "home";
       if (p !== this.state.page) this.setState({ page: p, post: 0 });
+      this.focusEvent();
     };
     window.addEventListener("hashchange", this._onHash);
     this.initDesk();
@@ -1802,23 +1869,29 @@ class Component extends DCLogic {
           bg: on ? "#1B151A" : "transparent",
           color: on ? "#ffffff" : "#2E4057",
           border: on ? "2px solid #1B151A" : "2px solid transparent",
-          go: (e) => { e.preventDefault(); this.setState({ eventScope: t, eventPage: 0 }); }
+          go: (e) => { e.preventDefault(); this.setState({ eventScope: t, eventPage: 0, evFocus: null }); this.syncHash("events"); }
         };
       }),
       gcalAddUrl: gcalAddUrl,
       eventPageLabel: evPage + 1 + " / " + evPages,
       evPrevOn: evStart > 0 ? 1 : 0.25,
       evNextOn: evStart + 4 < evAll.length ? 1 : 0.25,
-      evPrev: (e) => { e.preventDefault(); this.setState({ eventPage: Math.max(0, evPage - 1) }); },
-      evNext: (e) => { e.preventDefault(); this.setState({ eventPage: Math.min(evPages - 1, evPage + 1) }); },
+      evPrev: (e) => { e.preventDefault(); this.setState({ eventPage: Math.max(0, evPage - 1), evFocus: null }); this.syncHash("events"); },
+      evNext: (e) => { e.preventDefault(); this.setState({ eventPage: Math.min(evPages - 1, evPage + 1), evFocus: null }); this.syncHash("events"); },
       events: evAll.slice(evStart, evStart + 4).map((ev, i) => {
         const k = "ev" + i;
         const on = hov === k;
         const blurbHtml = ev.blurbHtml != null
           ? ev.blurbHtml
           : this.escapeHtml(ev.blurb || "").replace(/\n/g, "<br>");
+        const slug = this.eventSlug(ev);
         return Object.assign({}, ev, {
           hovKey: k,
+          anchor: "ev-" + slug,
+          href: "#events/" + slug,
+          cardBorder: st.evFocus === slug ? "#437FD5" : "#DFE1E4",
+          copyLabel: st.evCopied === slug ? "Link copied" : "Copy link",
+          copyLink: (e) => { e.preventDefault(); this.copyEventLink(slug); },
           tagList: (ev.tags || []).map((t) => ({ label: t, bg: this.tagColors[t] || "#e4e0da" })),
           wd: ev.weekday.slice(0, 3),
           day: (() => {
