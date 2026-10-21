@@ -1293,6 +1293,7 @@ class Component extends DCLogic {
       blurbHtml: desc.html,
       place: item.location || "TBD",
       cta: "+ Add to calendar",
+      gcalId: item.id || "",
       gcalUrl: item.htmlLink || "",
       startISO: d.toISOString()
     };
@@ -1479,9 +1480,12 @@ class Component extends DCLogic {
     return this.pageKeys.indexOf(h) >= 0 ? h : null;
   }
 
-  // One event is linkable as #events/<title>-<yyyy-mm-dd>. The slug comes
-  // from the title and the start date, so it survives a reload of the feed.
+  // One event is linkable as #events/<id>. A live event uses its Google
+  // Calendar id, which survives edits to the title, time and description;
+  // each instance of a recurring event has its own. The built-in sample
+  // events have no id, so they fall back to <title>-<yyyy-mm-dd>.
   eventSlug(ev) {
+    if (ev.gcalId) return ev.gcalId;
     const pad = (n) => String(n).padStart(2, "0");
     let date = "";
     const d = ev.startISO ? new Date(ev.startISO) : null;
