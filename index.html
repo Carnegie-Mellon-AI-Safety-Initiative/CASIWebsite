@@ -1295,7 +1295,12 @@ class Component extends DCLogic {
       cta: "+ Add to calendar",
       gcalId: item.id || "",
       gcalUrl: item.htmlLink || "",
-      startISO: d.toISOString()
+      startISO: d.toISOString(),
+      endISO: (() => {
+        const e = new Date((item.end && (item.end.dateTime || item.end.date)) || "");
+        return isNaN(e) ? "" : e.toISOString();
+      })(),
+      allDay
     };
   }
 
@@ -1878,7 +1883,7 @@ class Component extends DCLogic {
     const post = Math.min(st.post, maxPost);
     const shotCount = Math.max(1, this.shotList.length);
     const cid = (typeof btoa === "function") ? btoa(this.gcalId).replace(/=+$/g, "") : "";
-    const gcalAddUrl = cid ? ("https://calendar.google.com/calendar/u/1?cid=" + encodeURIComponent(cid)) : this.gcalIcal;
+    const gcalAddUrl = cid ? ("https://calendar.google.com/calendar/u/0/r?cid=" + encodeURIComponent(cid)) : this.gcalIcal;
     // shotRaw can sit one card outside 0..count-1 while a slide finishes.
     const shotRaw = st.shot || 0;
     const shot = ((shotRaw % shotCount) + shotCount) % shotCount;
@@ -1965,10 +1970,12 @@ class Component extends DCLogic {
             dangerouslySetInnerHTML: { __html: blurbHtml }
           }),
           addUrl: (() => {
-            if (ev.gcalUrl) return ev.gcalUrl;
-            if (ev.link) return ev.link;
+            // Always build a prefilled "new event" link. The event's htmlLink
+            // only opens a read-only view, and eventedit links work only for
+            // the calendar's owners.
             if (!/add to calendar/i.test(ev.cta || "")) return "#";
             const fmt = (dt) => dt.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+            const fmtDay = (dt) => dt.toISOString().slice(0, 10).replace(/-/g, "");
             let start = ev.startISO ? new Date(ev.startISO) : null;
             if (!start) {
               const dp = String(ev.day).split(".");
@@ -1976,9 +1983,11 @@ class Component extends DCLogic {
               const yr = new Date().getFullYear();
               start = new Date(yr, (parseInt(dp[1], 10) || 1) - 1, parseInt(dp[0], 10) || 1, parseInt(tp[0], 10) || 18, parseInt(tp[1], 10) || 0);
             }
-            const end = new Date(start.getTime() + 90 * 60000);
+            const endParsed = ev.endISO ? new Date(ev.endISO) : null;
+            const end = endParsed && endParsed > start ? endParsed : new Date(start.getTime() + 90 * 60000);
+            const dates = ev.allDay ? fmtDay(start) + "/" + fmtDay(end) : fmt(start) + "/" + fmt(end);
             return "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent(ev.title) +
-              "&dates=" + fmt(start) + "/" + fmt(end) +
+              "&dates=" + dates +
               "&details=" + encodeURIComponent(ev.blurb || "") +
               "&location=" + encodeURIComponent(ev.place || "");
           })(),
