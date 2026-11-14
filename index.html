@@ -241,6 +241,35 @@
   [data-shot-card]:hover [data-zoom],
   [data-zoom-host]:hover [data-zoom] { transform: none !important; }
 }
+/* Blog > latest newsletter card. Based on newsletter-card-compact.html. */
+[data-nl-card] {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: flex; align-items: center;
+  width: 100%;
+  gap: clamp(16px, 2.4vw, 32px);
+  margin-top: clamp(40px, 4.5vw, 56px);
+  padding: clamp(18px, 2vw, 24px) clamp(20px, 2.4vw, 32px);
+  border-radius: 28px;
+  text-decoration: none; color: #0E030B;
+  background: linear-gradient(110deg, #F5F4FA 0%, #F2F4FB 44%, #EFF7F6 100%);
+  transition: background-color .2s ease, transform .2s ease;
+}
+[data-nl-card]::before {
+  content: ""; position: absolute; z-index: -1; inset: -28%; pointer-events: none;
+  background:
+    radial-gradient(ellipse 30% 75% at 18% 55%, rgba(198,204,240,.42), transparent 100%),
+    radial-gradient(ellipse 33% 80% at 54% 35%, rgba(187,213,241,.35), transparent 100%),
+    radial-gradient(ellipse 33% 85% at 96% 70%, rgba(192,226,214,.27), transparent 100%);
+}
+[data-nl-card]:hover { background-color: #F1F2FB; transform: translateY(-2px); }
+[data-nl-card]:focus-visible { outline: 3px solid #437FD5; outline-offset: 4px; }
+[data-nl-icon] { width: clamp(48px, 5vw, 64px); height: auto; max-height: 84px; object-fit: contain; flex: 0 0 auto; opacity: .96; }
+[data-nl-copy] { min-width: 0; }
+[data-nl-kicker] { margin: 0 0 6px; font-family: 'Aileron','DM Sans',Helvetica,Arial,sans-serif; color: #2E4057; font-size: 13px; font-weight: 600; letter-spacing: .01em; }
+[data-nl-title] { margin: 0; font-family: 'Aileron','DM Sans',Helvetica,Arial,sans-serif; font-size: clamp(20px, 2vw, 24px); line-height: 1.2; font-weight: 700; color: #0E030B; }
+[data-nl-subtitle] { margin: 6px 0 0; font-family: 'Aileron','DM Sans',Helvetica,Arial,sans-serif; font-size: 15px; line-height: 1.4; color: #2E4057; }
+@media (max-width: 640px) { [data-nl-icon] { width: 44px; } }
+@media (prefers-reduced-motion: reduce) { [data-nl-card] { transition: none; } }
 </style>
 <script>window.__resources={"https://unpkg.com/react@18.3.1/umd/react.production.min.js": "vendor/react.production.min.js", "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "vendor/react-dom.production.min.js"};</script>
 <script src="support.js"></script>
@@ -1056,6 +1085,18 @@
         </sc-for>
         <span style="display:flex;align-items:center;flex:0 0 auto;height:40px;margin-left:8px;font-size:15px;color:#2E4057;white-space:nowrap">{{ postCount }}</span>
       </div>
+
+      <!-- Latest newsletter (placeholder text). Update the link and the subtitle for each issue. -->
+      <sc-if value="{{ showNewsletter }}" hint-placeholder-val="{{ true }}">
+      <a data-nl-card href="https://carnegieaisafety.substack.com/p/carnegie-ai-safety-review-5-nov-2026" target="_blank" rel="noopener" aria-label="Read the latest Carnegie AI Safety Review newsletter">
+        <img data-nl-icon src="assets/newsletter-logo.png" alt="" aria-hidden="true">
+        <div data-nl-copy>
+          <p data-nl-kicker>Newsletter</p>
+          <h2 data-nl-title>Read the latest newsletter</h2>
+          <p data-nl-subtitle>Carnegie AI Safety Review #5, Nov 2026</p>
+        </div>
+      </a>
+      </sc-if>
 
       <div data-grid="cols2" data-blog-grid style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:1fr;gap:32px;margin-top:clamp(48px,5vw,64px)">
         <sc-for list="{{ posts }}" as="post" hint-placeholder-count="6">
@@ -2135,6 +2176,8 @@ class Component extends DCLogic {
         });
       }),
       postCount: visible.length === 1 ? "1 article" : visible.length + " articles",
+      // the latest newsletter card shows only under the "All" filter
+      showNewsletter: st.filter === "All",
 
       // Risks: two columns with a sticky intro on desktop, one static column
       // on anything smaller or on a touch screen.
